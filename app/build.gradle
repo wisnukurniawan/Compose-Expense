@@ -1,0 +1,194 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.squareup.wire'
+    id 'dagger.hilt.android.plugin'
+}
+
+apply from: "$rootDir/gradle/test-report.gradle"
+
+ext.codeCoverage = [
+        enabled      : true,
+        fileBlackList: [
+        ],
+        fileWhiteList: [
+                // UI
+                '**/ui/*ViewModel*',
+                '**/ui/*State*',
+                // Data
+                // '**/data/*Environment*',
+                '**/foundation/datasource/local/*Read*',
+                '**/foundation/datasource/local/*Write*',
+                // '**/foundation/datasource/preference/PreferenceManager*',
+                // Core
+                '**/foundation/extension/*',
+        ]
+]
+
+android {
+    compileSdkVersion project.ext.compileSdkVersion
+    buildToolsVersion project.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        applicationId project.ext.appId
+        versionCode project.ext.versionCode
+        versionName project.ext.versionName
+
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/room-schemas".toString()]
+            }
+        }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+
+        // Fix compose compile error
+        compose true
+    }
+
+    // Fix compose compile error
+    composeOptions {
+        kotlinCompilerExtensionVersion libs.versions.androidxCompose.get()
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled = true
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+wire {
+    kotlin {
+        android = true
+    }
+}
+
+dependencies {
+
+    ///////////////
+    // UI SUPPORT
+    //////
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.window
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.lifecycle.viewModelCompose
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.navigation.compose
+    implementation libs.androidx.hilt.navigation.compose
+    implementation libs.lottie.compose
+    implementation libs.google.material
+
+    // Use for bottom sheet navigation
+    implementation libs.google.accompanist.navigation
+
+    implementation libs.google.accompanist.systemuicontroller
+
+    // Startup
+    implementation libs.androidx.startup
+    implementation libs.androidx.profileinstaller
+
+    // Compose
+    // For Compose runtime by default coroutine runtime already included from ui, foundation, implicitly
+    // Not able to get rid of material lib due to we still use these component and not available yet in material3
+    // androidx.compose.material.SwipeToDismiss
+    // androidx.compose.material.ModalBottomSheetLayout
+    implementation libs.androidx.compose.material
+    implementation libs.androidx.compose.material3
+    implementation libs.androidx.compose.material.iconsCore
+    implementation libs.androidx.compose.material.iconsExtended
+    implementation libs.androidx.compose.foundation
+    implementation libs.androidx.compose.ui
+    implementation libs.androidx.compose.widget
+
+
+    ///////////////
+    // DATA SUPPORT
+    //////
+
+    // SQL
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.ktx
+    kapt libs.androidx.room.compiler
+
+    // Key-value
+    implementation libs.androidx.dataStore.core
+    implementation libs.google.protobuf
+
+    // Server
+    implementation libs.bundles.networking
+
+
+    ///////////////
+    // CORE
+    //////
+
+    // Concurrent processing
+    implementation libs.jetbrains.coroutines.android
+
+    // DI
+    implementation libs.google.hilt.android
+    kapt libs.google.hilt.compiler
+
+    coreLibraryDesugaring(libs.android.desugarJdkLibs)
+
+    // Logger
+    implementation projects.coreLogger
+
+
+    ///////////////
+    // DEBUGGING SUPPORT
+    //////
+
+    implementation libs.debugging.compose.uiTooling
+
+    debugImplementation projects.testDebug
+//    releaseImplementation projects.testDebug.noOp
+
+
+    ///////////////
+    // UNIT TEST SUPPORT
+    //////
+
+    testImplementation libs.test.androidx.junit
+    testImplementation libs.test.robolectric
+    testImplementation libs.test.junit
+    testImplementation libs.test.coroutines
+    testImplementation libs.test.turbine
+
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
+    }
+}
