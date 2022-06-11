@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package com.wisnu.kurniawan.wallee.foundation.datasource.preference.model;
+
+message LanguagePreference {
+  string code = 1;
+}

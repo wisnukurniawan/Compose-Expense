@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_login">Log in</string>
+    <string name="login_email">Email</string>
+    <string name="login_email_invalid">Email tidak valid</string>
+    <string name="login_password">Kata sandi</string>
+</resources>
