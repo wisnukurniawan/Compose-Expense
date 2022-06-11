@@ -1,3 +1,5 @@
+package com.wisnu.kurniawan.wallee.foundation.datasource.local.model
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
@@ -21,6 +23,7 @@ data class AccountDb(
     val name: String,
     @ColumnInfo(name = "account_type")
     val type: String,
-    @ColumnInfo(name = "transaction_updatedAt")
+    @ColumnInfo(name = "account_updatedAt")
     val updatedAt: LocalDateTime,
 )
+

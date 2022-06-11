@@ -1,6 +1,5 @@
 package com.wisnu.kurniawan.wallee.foundation.datasource.local.model
 
-import AccountDb
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey

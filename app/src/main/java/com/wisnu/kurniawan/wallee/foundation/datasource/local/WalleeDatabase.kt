@@ -1,12 +1,12 @@
 package com.wisnu.kurniawan.wallee.foundation.datasource.local
 
-import AccountDb
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.CategoryDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.CurrencyDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
