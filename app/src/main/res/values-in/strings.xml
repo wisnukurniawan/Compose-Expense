@@ -54,4 +54,7 @@
     <string name="setting_logout">Keluar</string>
     <string name="setting_logout_confirm">Keluar?</string>
     <string name="setting_language">Bahasa</string>
+
+    <string name="dashboard_transaction">Transaksi</string>
+    <string name="dashboard_balance">Saldo</string>
 </resources>

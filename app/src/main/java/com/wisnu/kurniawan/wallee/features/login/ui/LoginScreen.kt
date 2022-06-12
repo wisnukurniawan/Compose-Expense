@@ -44,7 +44,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextField
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffect
 import com.wisnu.kurniawan.wallee.runtime.navigation.AuthFlow
-import com.wisnu.kurniawan.wallee.runtime.navigation.HomeFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeFlow
 
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {

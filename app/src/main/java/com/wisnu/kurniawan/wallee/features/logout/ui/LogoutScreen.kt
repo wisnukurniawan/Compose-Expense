@@ -18,8 +18,8 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalBackHeader
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.Profile
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffect
-import com.wisnu.kurniawan.wallee.runtime.navigation.HomeFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.MainFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeFlow
 
 @Composable
 fun LogoutScreen(

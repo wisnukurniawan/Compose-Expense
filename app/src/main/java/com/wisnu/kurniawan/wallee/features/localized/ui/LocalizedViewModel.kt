@@ -1,8 +1,8 @@
-package com.wisnu.kurniawan.wallee.features.localized.setting.ui
+package com.wisnu.kurniawan.wallee.features.localized.ui
 
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.features.localized.setting.data.ILocalizedSettingEnvironment
+import com.wisnu.kurniawan.wallee.features.localized.data.ILocalizedEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.select
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Language
@@ -11,16 +11,16 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class LocalizedSettingViewModel @Inject constructor(localizedSettingEnvironment: ILocalizedSettingEnvironment) :
-    StatefulViewModel<LocalizedSettingState, LocalizedEffect, LocalizedSettingAction, ILocalizedSettingEnvironment>(LocalizedSettingState(), localizedSettingEnvironment) {
+class LocalizedViewModel @Inject constructor(localizedSettingEnvironment: ILocalizedEnvironment) :
+    StatefulViewModel<LocalizedSettingState, LocalizedEffect, LocalizedAction, ILocalizedEnvironment>(LocalizedSettingState(), localizedSettingEnvironment) {
 
     init {
         initLanguage()
     }
 
-    override fun dispatch(action: LocalizedSettingAction) {
+    override fun dispatch(action: LocalizedAction) {
         when (action) {
-            is LocalizedSettingAction.SelectLanguage -> {
+            is LocalizedAction.SelectLanguage -> {
                 viewModelScope.launch {
                     environment.setLanguage(action.selected.language)
                 }

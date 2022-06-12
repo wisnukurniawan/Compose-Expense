@@ -7,26 +7,26 @@ import com.wisnu.kurniawan.wallee.foundation.theme.LargeRadius
 import com.wisnu.kurniawan.wallee.foundation.theme.SmallRadius
 
 @Immutable
-data class MainBottomSheetConfig(
+data class BottomSheetConfig(
     val sheetShape: Shape,
     val showScrim: Boolean
 )
 
-val DefaultMainBottomSheetConfig = MainBottomSheetConfig(
+val DefaultBottomSheetConfig = BottomSheetConfig(
     RoundedCornerShape(
         topStart = LargeRadius,
         topEnd = LargeRadius
     ),
     true
 )
-val NoScrimMainBottomSheetConfig = MainBottomSheetConfig(
+val NoScrimMainBottomSheetConfig = BottomSheetConfig(
     RoundedCornerShape(
         topStart = LargeRadius,
         topEnd = LargeRadius
     ),
     false
 )
-val NoScrimSmallShapeMainBottomSheetConfig = MainBottomSheetConfig(
+val NoScrimSmallShapeMainBottomSheetConfig = BottomSheetConfig(
     RoundedCornerShape(
         topStart = SmallRadius,
         topEnd = SmallRadius

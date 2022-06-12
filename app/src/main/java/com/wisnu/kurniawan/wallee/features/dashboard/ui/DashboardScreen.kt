@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
-import com.wisnu.kurniawan.wallee.runtime.navigation.SettingFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.SettingFlow
 
 @Composable
 fun DashboardScreen(

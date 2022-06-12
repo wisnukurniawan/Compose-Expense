@@ -59,4 +59,6 @@
     <string name="setting_language_english" translatable="false">English</string>
     <string name="setting_language_indonesia" translatable="false">Bahasa Indonesia</string>
 
+    <string name="dashboard_transaction">Transaction</string>
+    <string name="dashboard_balance">Balance</string>
 </resources>

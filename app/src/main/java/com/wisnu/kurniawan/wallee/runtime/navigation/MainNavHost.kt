@@ -18,14 +18,16 @@ import com.wisnu.kurniawan.wallee.features.splash.ui.SplashScreen
 import com.wisnu.kurniawan.wallee.features.splash.ui.SplashViewModel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
 import com.wisnu.kurniawan.wallee.foundation.window.WindowState
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeNavHost
 
 const val MinLargeScreenWidth = 585
+const val BASE_DEEPLINK = "wallee://com.wisnu.kurniawan"
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 fun MainNavHost(windowState: WindowState) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
-    val bottomSheetConfig = remember { mutableStateOf(DefaultMainBottomSheetConfig) }
+    val bottomSheetConfig = remember { mutableStateOf(DefaultBottomSheetConfig) }
 
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
 
@@ -48,7 +50,7 @@ fun MainNavHost(windowState: WindowState) {
 @Composable
 private fun SmallScreenNavHost(
     bottomSheetNavigator: BottomSheetNavigator,
-    bottomSheetConfig: MutableState<MainBottomSheetConfig>
+    bottomSheetConfig: MutableState<BottomSheetConfig>
 ) {
     val navController = rememberNavController(bottomSheetNavigator)
     NavHost(
@@ -62,8 +64,6 @@ private fun SmallScreenNavHost(
 
         AuthNavHost(navController)
 
-        SettingNavHost(navController, bottomSheetConfig)
-
-        HomeNavHost(navController, bottomSheetConfig)
+        HomeNavHost(navController)
     }
 }

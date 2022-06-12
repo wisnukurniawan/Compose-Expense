@@ -1,4 +1,4 @@
-package com.wisnu.kurniawan.wallee.features.localized.setting.ui
+package com.wisnu.kurniawan.wallee.features.localized.ui
 
 import com.wisnu.kurniawan.wallee.model.Language
 

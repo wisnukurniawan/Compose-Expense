@@ -1,6 +1,6 @@
 package com.wisnu.kurniawan.wallee.foundation.extension
 
-import com.wisnu.kurniawan.wallee.features.localized.setting.ui.LanguageItem
+import com.wisnu.kurniawan.wallee.features.localized.ui.LanguageItem
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.LanguagePreference
 import com.wisnu.kurniawan.wallee.model.Language
 

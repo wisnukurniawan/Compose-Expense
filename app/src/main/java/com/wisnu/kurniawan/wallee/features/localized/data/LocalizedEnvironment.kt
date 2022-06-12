@@ -1,4 +1,4 @@
-package com.wisnu.kurniawan.wallee.features.localized.setting.data
+package com.wisnu.kurniawan.wallee.features.localized.data
 
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.PreferenceManager
 import com.wisnu.kurniawan.wallee.foundation.di.DiName
@@ -8,10 +8,10 @@ import javax.inject.Named
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class LocalizedSettingEnvironment @Inject constructor(
+class LocalizedEnvironment @Inject constructor(
     @Named(DiName.DISPATCHER_MAIN) override val dispatcherMain: CoroutineDispatcher,
     private val preferenceManager: PreferenceManager
-) : ILocalizedSettingEnvironment {
+) : ILocalizedEnvironment {
 
     override fun getLanguage(): Flow<Language> {
         return preferenceManager.getLanguage()

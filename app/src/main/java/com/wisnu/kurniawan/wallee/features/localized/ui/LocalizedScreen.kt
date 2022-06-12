@@ -1,4 +1,4 @@
-package com.wisnu.kurniawan.wallee.features.localized.setting.ui
+package com.wisnu.kurniawan.wallee.features.localized.ui
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +27,7 @@ import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffect
 @Composable
 fun LanguageScreen(
     navController: NavController,
-    viewModel: LocalizedSettingViewModel
+    viewModel: LocalizedViewModel
 ) {
     val state by viewModel.state.collectAsState()
     val effect by viewModel.effect.collectAsEffect()
@@ -46,7 +46,7 @@ fun LanguageScreen(
     LanguageScreen(
         items = state.items,
         clickItem = {
-            viewModel.dispatch(LocalizedSettingAction.SelectLanguage(it))
+            viewModel.dispatch(LocalizedAction.SelectLanguage(it))
         },
         clickBack = {
             navController.navigateUp()
