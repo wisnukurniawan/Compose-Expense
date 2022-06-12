@@ -1,7 +1,7 @@
 package com.wisnu.kurniawan.wallee.foundation.extension
 
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.foundation.data.EmojiData
+import com.wisnu.kurniawan.wallee.foundation.emoji.EmojiData
 import com.wisnu.kurniawan.wallee.model.CategoryType
 
 fun CategoryType.getEmojiAndText(): Pair<String, Int> {

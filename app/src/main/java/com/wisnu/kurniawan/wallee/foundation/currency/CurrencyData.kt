@@ -1,4 +1,4 @@
-package com.wisnu.kurniawan.wallee.foundation.data
+package com.wisnu.kurniawan.wallee.foundation.currency
 
 data class CurrencyData(
     val code: String,

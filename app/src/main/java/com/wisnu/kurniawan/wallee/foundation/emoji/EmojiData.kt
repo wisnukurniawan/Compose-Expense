@@ -1,4 +1,4 @@
-package com.wisnu.kurniawan.wallee.foundation.data
+package com.wisnu.kurniawan.wallee.foundation.emoji
 
 object EmojiData {
     val DATA: Map<String, String> = mapOf(

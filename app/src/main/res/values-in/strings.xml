@@ -42,4 +42,16 @@
     <string name="account_cash">Cash</string>
     <string name="account_investment">Investasi</string>
     <string name="account_others">Lainnya</string>
+
+    <string name="setting_title">Menu utama</string>
+    <string name="setting_theme">Tema</string>
+    <string name="setting_theme_automatic">Otomatis</string>
+    <string name="setting_theme_light">Daylight</string>
+    <string name="setting_theme_twilight">Twilight</string>
+    <string name="setting_theme_night">Midnight</string>
+    <string name="setting_theme_sunrise">Sunrise</string>
+    <string name="setting_theme_aurora">Aurora</string>
+    <string name="setting_logout">Keluar</string>
+    <string name="setting_logout_confirm">Keluar?</string>
+    <string name="setting_language">Bahasa</string>
 </resources>

@@ -43,4 +43,20 @@
     <string name="account_cash">Cash</string>
     <string name="account_investment">Investment</string>
     <string name="account_others">Others</string>
+
+    <string name="setting_title">Main menu</string>
+    <string name="setting_theme">Themes</string>
+    <string name="setting_theme_automatic">Automatic</string>
+    <string name="setting_theme_wallpaper" translatable="false">Wallpaper</string>
+    <string name="setting_theme_light">Daylight</string>
+    <string name="setting_theme_twilight">Twilight</string>
+    <string name="setting_theme_night">Midnight</string>
+    <string name="setting_theme_sunrise">Sunrise</string>
+    <string name="setting_theme_aurora">Aurora</string>
+    <string name="setting_logout">Log out</string>
+    <string name="setting_logout_confirm">Log out?</string>
+    <string name="setting_language">Language</string>
+    <string name="setting_language_english" translatable="false">English</string>
+    <string name="setting_language_indonesia" translatable="false">Bahasa Indonesia</string>
+
 </resources>

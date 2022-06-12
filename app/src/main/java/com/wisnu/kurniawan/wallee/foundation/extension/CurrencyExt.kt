@@ -1,6 +1,6 @@
 package com.wisnu.kurniawan.wallee.foundation.extension
 
-import com.wisnu.kurniawan.wallee.foundation.data.CurrencyData
+import com.wisnu.kurniawan.wallee.foundation.currency.CurrencyData
 import com.wisnu.kurniawan.wallee.model.Currency
 
 fun Currency.getSymbol(): String {
