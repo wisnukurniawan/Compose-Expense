@@ -37,4 +37,10 @@
     <string name="category_public_transportation">Public transportation</string>
     <string name="category_travel">Travel</string>
     <string name="category_uncategorized">Uncategorized</string>
+
+    <string name="account_e_wallet">E-wallet</string>
+    <string name="account_bank">Bank</string>
+    <string name="account_cash">Cash</string>
+    <string name="account_investment">Investment</string>
+    <string name="account_others">Others</string>
 </resources>

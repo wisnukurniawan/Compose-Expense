@@ -23,7 +23,13 @@ data class AccountDb(
     val name: String,
     @ColumnInfo(name = "account_type")
     val type: String,
+    @ColumnInfo(name = "account_createdAt")
+    val createdAt: LocalDateTime,
     @ColumnInfo(name = "account_updatedAt")
-    val updatedAt: LocalDateTime,
-)
+    val updatedAt: LocalDateTime? = null,
+) {
+    companion object {
+        const val DEFAULT_ID = "default"
+    }
+}
 

@@ -8,6 +8,10 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
+import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
+import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
+import com.wisnu.kurniawan.wallee.model.AccountType
+import com.wisnu.kurniawan.wallee.model.Currency
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -51,7 +55,7 @@ abstract class WalleeDatabase : RoomDatabase() {
                             super.onCreate(db)
 
                             GlobalScope.launch(Dispatchers.IO) {
-                                // Populate default account
+                                initPrePopulateDefaultAccount(context)
                             }
                         }
                     }
@@ -59,6 +63,21 @@ abstract class WalleeDatabase : RoomDatabase() {
                 .fallbackToDestructiveMigration()
 
             return db.build()
+        }
+
+        private suspend fun initPrePopulateDefaultAccount(context: Context) {
+            val currentDate = DateTimeProviderImpl().now()
+            val defaultAccount = AccountDb(
+                id = AccountDb.DEFAULT_ID,
+                currencyCode = Currency.CODE_INDONESIA,
+                amount = 0,
+                name = context.getString(AccountType.CASH.getLabel()),
+                type = AccountType.CASH.value,
+                createdAt = currentDate
+            )
+            val writeDao = getInstance(context).walleeWriteDao()
+
+            writeDao.insertAccount(listOf(defaultAccount))
         }
 
     }

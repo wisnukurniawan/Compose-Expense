@@ -30,10 +30,16 @@
     <string name="category_shopping">Belanja</string>
     <string name="category_bills">Tagihan &amp; utilitas</string>
     <string name="category_taxi">Taksi &amp; ojek</string>
-    <string name="category_cash_withdrawal">Tarik tunai</string>
+    <string name="category_cash_withdrawal">Tarik cash</string>
     <string name="category_phone">Pulsa &amp; paket internet</string>
     <string name="category_top_up">Top up e-wallet</string>
     <string name="category_public_transportation">Transportasi publik</string>
     <string name="category_travel">Travel</string>
     <string name="category_uncategorized">Tidak terkategori</string>
+
+    <string name="account_e_wallet">E-wallet</string>
+    <string name="account_bank">Bank</string>
+    <string name="account_cash">Cash</string>
+    <string name="account_investment">Investasi</string>
+    <string name="account_others">Lainnya</string>
 </resources>

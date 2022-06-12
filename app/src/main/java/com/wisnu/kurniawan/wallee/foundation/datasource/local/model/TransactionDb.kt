@@ -36,8 +36,10 @@ data class TransactionDb(
     val type: String,
     @ColumnInfo(name = "transaction_date")
     val date: LocalDateTime,
+    @ColumnInfo(name = "account_createdAt")
+    val createdAt: LocalDateTime,
     @ColumnInfo(name = "transaction_updatedAt")
-    val updatedAt: LocalDateTime,
+    val updatedAt: LocalDateTime? = null,
     @ColumnInfo(name = "transaction_note")
     val note: String = "",
     @ColumnInfo(name = "transaction_transferAccountId")
