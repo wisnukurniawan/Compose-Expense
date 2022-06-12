@@ -1,14 +1,15 @@
 package com.wisnu.kurniawan.wallee.runtime.navigation.home
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ModalBottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,20 +51,20 @@ fun NavGraphBuilder.HomeNavHost(
                     Color.Transparent
                 }
             ) {
-                Scaffold(
-                    bottomBar = {
+                Column {
+                    Box(Modifier.fillMaxSize().weight(1F)) {
+                        SmallScreenNavHost(
+                            homeNavController,
+                            bottomSheetConfig,
+                        )
+
                         val viewModel = hiltViewModel<DashboardHostViewModel>()
                         DashboardBottomBar(
+                            modifier = Modifier.align(Alignment.BottomStart),
                             navController = homeNavController,
                             viewModel = viewModel
                         )
                     }
-                ) { innerPaddingModifier ->
-                    SmallScreenNavHost(
-                        homeNavController,
-                        bottomSheetConfig,
-                        innerPaddingModifier
-                    )
                 }
             }
         }
@@ -74,12 +75,10 @@ fun NavGraphBuilder.HomeNavHost(
 private fun SmallScreenNavHost(
     navController: NavHostController,
     bottomSheetConfig: MutableState<BottomSheetConfig>,
-    paddingValues: PaddingValues
 ) {
     NavHost(
         navController = navController,
         startDestination = HomeFlow.DashboardScreen.route,
-        modifier = Modifier.padding(paddingValues)
     ) {
         composable(HomeFlow.DashboardScreen.route) {
             val viewModel = hiltViewModel<DashboardViewModel>()

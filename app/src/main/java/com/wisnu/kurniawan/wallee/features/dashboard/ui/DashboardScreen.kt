@@ -1,7 +1,9 @@
 package com.wisnu.kurniawan.wallee.features.dashboard.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,6 +20,7 @@ import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
+import com.wisnu.kurniawan.wallee.foundation.uiextension.guide
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.SettingFlow
 
 @Composable
@@ -54,6 +57,10 @@ private fun DashboardScreen(
             PgIconButton(onClick = onClickAddTransaction, color = Color.Transparent) {
                 PgIcon(imageVector = Icons.Rounded.Add)
             }
+        }
+
+        Box(modifier = Modifier.fillMaxSize().weight(1F).guide()) {
+
         }
     }
 }
