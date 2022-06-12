@@ -164,6 +164,9 @@ dependencies {
     // Logger
     implementation projects.coreLogger
 
+    // Money
+    implementation libs.javamoney
+
 
     ///////////////
     // DEBUGGING SUPPORT

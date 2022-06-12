@@ -15,8 +15,8 @@ data class AccountDb(
     @PrimaryKey
     @ColumnInfo(name = "account_id")
     val id: String,
-    @ColumnInfo(name = "account_currencyId")
-    val currencyId: String,
+    @ColumnInfo(name = "account_currencyCode")
+    val currencyCode: String,
     @ColumnInfo(name = "account_amount")
     val amount: Long,
     @ColumnInfo(name = "account_name")

@@ -4,4 +4,36 @@
     <string name="login_email">Email</string>
     <string name="login_email_invalid">Email tidak valid</string>
     <string name="login_password">Kata sandi</string>
+
+    <string name="category_monthly_fee">Belanja bulanan</string>
+    <string name="category_admin_fee">Biaya admin</string>
+    <string name="category_pets">Binatang peliharaan</string>
+    <string name="category_donations">Donasi &amp; sosial</string>
+    <string name="category_education">Edukasi</string>
+    <string name="category_financial">Finansial &amp; keuangan</string>
+    <string name="category_entertainment">Hiburan</string>
+    <string name="category_children_needs">Kebutuhan anak</string>
+    <string name="category_household_needs">Kebutuhan rumah</string>
+    <string name="category_sport">Kesehatan &amp; olahraga</string>
+    <string name="category_others">Lainnya</string>
+    <string name="category_food">Makanan &amp; minuman</string>
+    <string name="category_parking">Parkir</string>
+    <string name="category_fuel">Bahan bakar</string>
+    <string name="category_movie">Nonton bioskop</string>
+    <string name="category_automotive">Otomotif</string>
+    <string name="category_tax">Pajak</string>
+    <string name="category_income">Pemasukan</string>
+    <string name="category_business_expenses">Pengeluaran bisnis</string>
+    <string name="category_self_care">Perawatan diri</string>
+    <string name="category_loan">Pinjaman</string>
+    <string name="category_service">Servis jasa</string>
+    <string name="category_shopping">Belanja</string>
+    <string name="category_bills">Tagihan &amp; utilitas</string>
+    <string name="category_taxi">Taksi &amp; ojek</string>
+    <string name="category_cash_withdrawal">Tarik tunai</string>
+    <string name="category_phone">Pulsa &amp; paket internet</string>
+    <string name="category_top_up">Top up e-wallet</string>
+    <string name="category_public_transportation">Transportasi publik</string>
+    <string name="category_travel">Travel</string>
+    <string name="category_uncategorized">Tidak terkategori</string>
 </resources>

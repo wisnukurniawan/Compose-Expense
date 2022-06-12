@@ -26,10 +26,10 @@ data class TransactionDb(
     val id: String,
     @ColumnInfo(name = "transaction_accountId")
     val accountId: String,
-    @ColumnInfo(name = "transaction_categoryId")
-    val categoryId: String,
-    @ColumnInfo(name = "transaction_currencyId")
-    val currencyId: String,
+    @ColumnInfo(name = "transaction_categoryName")
+    val categoryName: String,
+    @ColumnInfo(name = "transaction_currencyCode")
+    val currencyCode: String,
     @ColumnInfo(name = "transaction_amount")
     val amount: Long,
     @ColumnInfo(name = "transaction_type")
@@ -40,8 +40,6 @@ data class TransactionDb(
     val updatedAt: LocalDateTime,
     @ColumnInfo(name = "transaction_note")
     val note: String = "",
-    @ColumnInfo(name = "transaction_transferId")
-    val transferId: String? = null,
     @ColumnInfo(name = "transaction_transferAccountId")
     val transferAccountId: String? = null,
 )

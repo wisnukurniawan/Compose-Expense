@@ -7,8 +7,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
-import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.CategoryDb
-import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.CurrencyDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +18,6 @@ import kotlinx.coroutines.launch
     entities = [
         AccountDb::class,
         TransactionDb::class,
-        CategoryDb::class,
-        CurrencyDb::class,
     ],
     version = 1,
 )
@@ -55,8 +51,6 @@ abstract class WalleeDatabase : RoomDatabase() {
                             super.onCreate(db)
 
                             GlobalScope.launch(Dispatchers.IO) {
-                                // Populate default currency
-                                // Populate default category
                                 // Populate default account
                             }
                         }

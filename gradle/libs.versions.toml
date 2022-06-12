@@ -20,6 +20,7 @@ androidxWindow = "1.1.0-alpha02"
 composeLottie = "5.2.0"
 composeWidget = "1.0.0-alpha03"
 hilt = "2.42"
+javamoney = "1.1"
 kotlin = "1.6.21"
 kotlinxCoroutines = "1.6.2"
 material = "1.6.1"
@@ -64,6 +65,7 @@ google-hilt-android = { group = "com.google.dagger", name = "hilt-android", vers
 google-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 google-protobuf = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobuf" }
+javamoney = { group = "org.javamoney", name = "moneta", version.ref = "javamoney" }
 jetbrains-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "composeLottie" }
 squareup-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }

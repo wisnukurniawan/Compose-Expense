@@ -5,4 +5,36 @@
     <string name="login_email">Email</string>
     <string name="login_email_invalid">Email invalid</string>
     <string name="login_password">Password</string>
+
+    <string name="category_monthly_fee">Monthly fee</string>
+    <string name="category_admin_fee">Admin fee</string>
+    <string name="category_pets">Pet care</string>
+    <string name="category_donations">Donation &amp; social</string>
+    <string name="category_education">Education</string>
+    <string name="category_financial">Financial &amp; money</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_children_needs">Children needs</string>
+    <string name="category_household_needs">Household needs</string>
+    <string name="category_sport">Health &amp; sport</string>
+    <string name="category_others">Others</string>
+    <string name="category_food">Food &amp; drink</string>
+    <string name="category_parking">Parking</string>
+    <string name="category_fuel">Gas</string>
+    <string name="category_movie">Watch movie</string>
+    <string name="category_automotive">Automotive</string>
+    <string name="category_tax">Tax</string>
+    <string name="category_income">Income</string>
+    <string name="category_business_expenses">Business expenses</string>
+    <string name="category_self_care">Self care</string>
+    <string name="category_loan">Loan</string>
+    <string name="category_service">Service</string>
+    <string name="category_shopping">Shopping</string>
+    <string name="category_bills">Bills &amp; utility</string>
+    <string name="category_taxi">Taxi</string>
+    <string name="category_cash_withdrawal">Cash withdrawal</string>
+    <string name="category_phone">Phone &amp; internet</string>
+    <string name="category_top_up">E-wallet</string>
+    <string name="category_public_transportation">Public transportation</string>
+    <string name="category_travel">Travel</string>
+    <string name="category_uncategorized">Uncategorized</string>
 </resources>
