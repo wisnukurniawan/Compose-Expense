@@ -7,15 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.theme.data.IThemeEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.select
+import com.wisnu.kurniawan.wallee.foundation.theme.AuroraItemBackgroundL2
 import com.wisnu.kurniawan.wallee.foundation.theme.AuroraPrimary
-import com.wisnu.kurniawan.wallee.foundation.theme.AuroraSecondaryVariant
 import com.wisnu.kurniawan.wallee.foundation.theme.LightPrimary
+import com.wisnu.kurniawan.wallee.foundation.theme.NightItemBackgroundL2
 import com.wisnu.kurniawan.wallee.foundation.theme.NightPrimary
-import com.wisnu.kurniawan.wallee.foundation.theme.NightSecondaryVariant
+import com.wisnu.kurniawan.wallee.foundation.theme.SunriseItemBackgroundL2
 import com.wisnu.kurniawan.wallee.foundation.theme.SunrisePrimary
-import com.wisnu.kurniawan.wallee.foundation.theme.SunriseSecondaryVariant
+import com.wisnu.kurniawan.wallee.foundation.theme.TwilightItemBackgroundL1
 import com.wisnu.kurniawan.wallee.foundation.theme.TwilightPrimary
-import com.wisnu.kurniawan.wallee.foundation.theme.TwilightSecondaryVariant
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -65,7 +65,7 @@ class ThemeViewModel @Inject constructor(
                 Brush.linearGradient(
                     colors = listOf(
                         Color.White,
-                        NightSecondaryVariant
+                        NightItemBackgroundL2
                     )
                 ),
                 false
@@ -106,7 +106,7 @@ class ThemeViewModel @Inject constructor(
                 Brush.linearGradient(
                     colors = listOf(
                         TwilightPrimary,
-                        TwilightSecondaryVariant
+                        TwilightItemBackgroundL1
                     )
                 ),
                 false
@@ -120,7 +120,7 @@ class ThemeViewModel @Inject constructor(
                 Brush.linearGradient(
                     colors = listOf(
                         NightPrimary,
-                        NightSecondaryVariant
+                        NightItemBackgroundL2
                     )
                 ),
                 false
@@ -134,7 +134,7 @@ class ThemeViewModel @Inject constructor(
                 Brush.linearGradient(
                     colors = listOf(
                         SunrisePrimary,
-                        SunriseSecondaryVariant
+                        SunriseItemBackgroundL2
                     )
                 ),
                 false
@@ -148,7 +148,7 @@ class ThemeViewModel @Inject constructor(
                 Brush.linearGradient(
                     colors = listOf(
                         AuroraPrimary,
-                        AuroraSecondaryVariant
+                        AuroraItemBackgroundL2
                     )
                 ),
                 false
