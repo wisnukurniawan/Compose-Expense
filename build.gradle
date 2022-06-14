@@ -7,9 +7,11 @@ buildscript {
     dependencies {
         classpath libs.android.gradlePlugin
         classpath libs.jetbrains.kotlin.gradlePlugin
+        classpath libs.google.firebase.crashlytics.gradlePlugin
+        classpath libs.google.firebase.performance.gradlePlugin
         classpath libs.google.hilt.gradlePlugin
-        classpath libs.squareup.wireGradlePlugin
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21'
+        classpath libs.google.servicesPlugin
+        classpath libs.squareup.wire.gradlePlugin
     }
 }
 

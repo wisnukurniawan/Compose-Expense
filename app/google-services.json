@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "200125870343",
+    "project_id": "wallee-f387a",
+    "storage_bucket": "wallee-f387a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200125870343:android:0c66b6ab3adfed4788d5a2",
+        "android_client_info": {
+          "package_name": "com.wisnu.kurniawan.wallee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200125870343-8pbt7cc4t80ml27qkig0d2glo02ug8d7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAVCmkChINQ76uqBB56wRKg4ksSWE0dTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200125870343-8pbt7cc4t80ml27qkig0d2glo02ug8d7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200125870343:android:8e11ebf8e694d20a88d5a2",
+        "android_client_info": {
+          "package_name": "com.wisnu.kurniawan.wallee.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200125870343-8pbt7cc4t80ml27qkig0d2glo02ug8d7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAVCmkChINQ76uqBB56wRKg4ksSWE0dTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200125870343-8pbt7cc4t80ml27qkig0d2glo02ug8d7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
