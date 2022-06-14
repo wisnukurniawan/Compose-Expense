@@ -1,6 +1,6 @@
 ![build](https://github.com/wisnukurniawan/Compose-Wallee/actions/workflows/build.yml/badge.svg)
 
-## Compose playground: Money Tracker
+## Compose playground: Expense Tracker
 
 Compose playground for learning purpose
 
