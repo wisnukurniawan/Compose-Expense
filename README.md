@@ -2,6 +2,8 @@
 
 ## Compose playground: Expense Tracker
 
+<img src="art/playstore_icon.png" width="140">
+
 Compose playground for learning purpose
 
 * UI completely in [Jetpack Compose](https://developer.android.com/jetpack/compose)

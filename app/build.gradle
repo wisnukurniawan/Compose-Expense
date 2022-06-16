@@ -199,7 +199,7 @@ dependencies {
     implementation libs.debugging.compose.uiTooling
 
     debugImplementation projects.testDebug
-//    releaseImplementation projects.testDebug.noOp
+    releaseImplementation projects.testDebug.noOp
 
 
     ///////////////

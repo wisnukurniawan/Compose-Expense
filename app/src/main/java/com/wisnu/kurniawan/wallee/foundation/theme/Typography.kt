@@ -1,10 +1,21 @@
 package com.wisnu.kurniawan.wallee.foundation.theme
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wisnu.kurniawan.wallee.R
 
@@ -38,7 +49,7 @@ val Typography = Typography(
         letterSpacing = 0.sp
     ),
     headlineLarge = TextStyle(
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontFamily = Roboto,
         fontSize = 32.sp,
         lineHeight = 40.sp,
@@ -53,14 +64,14 @@ val Typography = Typography(
     ),
     headlineSmall = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
         lineHeight = 32.sp,
         letterSpacing = 0.sp
     ),
     titleLarge = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 22.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.sp
@@ -81,28 +92,28 @@ val Typography = Typography(
     ),
     bodyLarge = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.15.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.25.sp
     ),
     bodySmall = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.4.sp
     ),
     labelLarge = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp
@@ -122,3 +133,90 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
 )
+
+@Composable
+@Preview
+private fun TextPreview() {
+    MaterialTheme(
+        colorScheme = LightColorPalette,
+        typography = Typography,
+        shapes = Shapes,
+    ) {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
+            Text(
+                style = MaterialTheme.typography.displayLarge,
+                text = "Text displayLarge"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.displayMedium,
+                text = "Text displayMedium"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.displaySmall,
+                text = "Text displaySmall"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.headlineLarge,
+                text = "Summary"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.headlineMedium,
+                text = "Summary"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.headlineSmall,
+                text = "Summary"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.titleLarge,
+                text = "Activity"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.titleMedium,
+                text = "Activity"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.titleSmall,
+                text = "Activity"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.bodyLarge,
+                text = "Text bodyLarge"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.bodyMedium,
+                text = "Text bodyMedium"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.bodySmall,
+                text = "Text bodySmall"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.labelLarge,
+                text = "Text labelLarge"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.labelMedium,
+                text = "Text labelMedium"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.labelSmall,
+                text = "Text labelSmall"
+            )
+        }
+    }
+}

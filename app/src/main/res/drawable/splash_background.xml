@@ -9,7 +9,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/ic_logo" />
     </item>
 
 </layer-list>

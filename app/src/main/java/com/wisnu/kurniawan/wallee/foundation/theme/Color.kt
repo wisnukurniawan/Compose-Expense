@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 // secondaryContainer mapped to item background L2
 // surfaceVariant mapped to background L2
 
-val LightPrimary = Color(0xFF51A4E1)
+val LightPrimary = Color(0xFF7F3DFF)
 val LightBackgroundL1 = Color(0xFFFFFFFF)
 val LightItemBackgroundL1 = Color(0xFFF7F7F7)
 val LightBackgroundL2 = Color(0xFFFFFFFF)
