@@ -20,11 +20,12 @@ import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
-import com.wisnu.kurniawan.wallee.foundation.uiextension.guide
+import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.SettingFlow
 
 @Composable
 fun DashboardScreen(
+    mainNavController: NavController,
     navController: NavController,
     viewModel: DashboardViewModel,
 ) {
@@ -32,7 +33,7 @@ fun DashboardScreen(
 
     DashboardScreen(
         onSettingClick = { navController.navigate(SettingFlow.Root.route) },
-        onClickAddTransaction = {}
+        onClickAddTransaction = { mainNavController.navigate(TransactionDetailFlow.Root.route()) }
     )
 }
 
@@ -59,7 +60,7 @@ private fun DashboardScreen(
             }
         }
 
-        Box(modifier = Modifier.fillMaxSize().weight(1F).guide()) {
+        Box(modifier = Modifier.fillMaxSize().weight(1F)) {
 
         }
     }

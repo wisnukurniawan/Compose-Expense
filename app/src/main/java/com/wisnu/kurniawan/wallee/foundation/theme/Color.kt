@@ -2,10 +2,10 @@ package com.wisnu.kurniawan.wallee.foundation.theme
 
 import androidx.compose.ui.graphics.Color
 
-// surface mapped to background L1
-// secondary mapped as item background L1
-// secondaryContainer mapped to item background L2
-// surfaceVariant mapped to background L2
+// surface -> surface : background L1
+// secondary -> secondary : item background L1
+// surfaceVariant -> background : background L2
+// secondaryContainer -> surfaceVariant : item background L2
 
 val LightPrimary = Color(0xFF7F3DFF)
 val LightBackgroundL1 = Color(0xFFFFFFFF)

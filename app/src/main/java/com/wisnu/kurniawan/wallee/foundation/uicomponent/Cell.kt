@@ -29,7 +29,7 @@ import com.wisnu.kurniawan.wallee.foundation.theme.Shapes
 fun PgModalCell(
     onClick: () -> Unit,
     text: String,
-    color: Color = MaterialTheme.colorScheme.secondaryContainer,
+    color: Color = MaterialTheme.colorScheme.surfaceVariant,
     textColor: Color = Color.Unspecified,
     enabled: Boolean = true,
     leftIcon: @Composable (() -> Unit)? = null,

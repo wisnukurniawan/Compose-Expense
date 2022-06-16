@@ -1,13 +1,13 @@
 package com.wisnu.kurniawan.wallee.foundation.uicomponent
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -55,14 +55,15 @@ fun PgModalBackHeader(
 // delete transaction
 @Composable
 fun PgHeaderEditMode(
-    titleText: String,
     isAllowToSave: Boolean,
     onCancelClick: () -> Unit,
     onSaveClick: () -> Unit,
+    title: @Composable BoxScope.() -> Unit
 ) {
     Box(
         modifier = Modifier
             .height(56.dp)
+            .padding(horizontal = 4.dp)
             .fillMaxWidth()
     ) {
         TextButton(
@@ -73,12 +74,12 @@ fun PgHeaderEditMode(
             Text(text = "Cancel")
         }
 
-        Text(
-            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
+        Box(
             modifier = Modifier
-                .align(Alignment.Center),
-            text = titleText
-        )
+                .align(Alignment.Center)
+        ) {
+            title()
+        }
 
         TextButton(
             onClick = onSaveClick,

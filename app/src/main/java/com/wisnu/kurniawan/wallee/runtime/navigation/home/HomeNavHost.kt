@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ModalBottomSheetDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -30,8 +30,7 @@ import com.wisnu.kurniawan.wallee.runtime.navigation.BottomSheetConfig
 import com.wisnu.kurniawan.wallee.runtime.navigation.DefaultBottomSheetConfig
 
 @OptIn(
-    ExperimentalMaterialNavigationApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterialNavigationApi::class
 )
 fun NavGraphBuilder.HomeNavHost(
     navController: NavHostController
@@ -54,6 +53,7 @@ fun NavGraphBuilder.HomeNavHost(
                 Column {
                     Box(Modifier.fillMaxSize().weight(1F)) {
                         SmallScreenNavHost(
+                            navController,
                             homeNavController,
                             bottomSheetConfig,
                         )
@@ -73,6 +73,7 @@ fun NavGraphBuilder.HomeNavHost(
 
 @Composable
 private fun SmallScreenNavHost(
+    mainNavController: NavController,
     navController: NavHostController,
     bottomSheetConfig: MutableState<BottomSheetConfig>,
 ) {
@@ -83,6 +84,7 @@ private fun SmallScreenNavHost(
         composable(HomeFlow.DashboardScreen.route) {
             val viewModel = hiltViewModel<DashboardViewModel>()
             DashboardScreen(
+                mainNavController = mainNavController,
                 navController = navController,
                 viewModel = viewModel,
             )

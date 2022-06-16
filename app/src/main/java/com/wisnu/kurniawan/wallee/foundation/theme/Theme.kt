@@ -17,29 +17,29 @@ val LightColorPalette = lightColorScheme(
     primary = LightPrimary,
     primaryContainer = LightPrimary,
     secondary = LightItemBackgroundL1,
-    secondaryContainer = LightItemBackgroundL2,
-    background = LightBackgroundL1,
+    secondaryContainer = LightItemBackgroundL1,
+    background = LightBackgroundL2,
     surface = LightBackgroundL1,
-    surfaceVariant = LightBackgroundL2,
+    surfaceVariant = LightItemBackgroundL2,
     error = LightError,
-    onPrimary = LightOn,
-    onPrimaryContainer = LightOn,
+    onPrimary = Color.White,
+    onPrimaryContainer = Color.White,
     onSecondary = LightOn,
     onSecondaryContainer = LightOn,
     onBackground = LightOn,
     onSurface = LightOn,
     onSurfaceVariant = LightOn,
-    onError = LightOn
+    onError = Color.White
 )
 
 val TwilightColorPalette = lightColorScheme(
     primary = TwilightPrimary,
     primaryContainer = TwilightPrimary,
     secondary = TwilightItemBackgroundL1,
-    secondaryContainer = TwilightItemBackgroundL2,
-    background = TwilightBackgroundL1,
+    secondaryContainer = TwilightItemBackgroundL1,
+    background = TwilightBackgroundL2,
     surface = TwilightBackgroundL1,
-    surfaceVariant = TwilightBackgroundL2,
+    surfaceVariant = TwilightItemBackgroundL2,
     error = Error,
     onPrimary = TwilightOn,
     onPrimaryContainer = TwilightOn,
@@ -48,17 +48,17 @@ val TwilightColorPalette = lightColorScheme(
     onBackground = TwilightOn,
     onSurface = TwilightOn,
     onSurfaceVariant = TwilightOn,
-    onError = TwilightOn
+    onError = Color.White
 )
 
 val NightColorPalette = darkColorScheme(
     primary = NightPrimary,
     primaryContainer = NightPrimary,
     secondary = NightItemBackgroundL1,
-    secondaryContainer = NightItemBackgroundL2,
-    background = NightBackgroundL1,
+    secondaryContainer = NightItemBackgroundL1,
+    background = NightBackgroundL2,
     surface = NightBackgroundL1,
-    surfaceVariant = NightBackgroundL2,
+    surfaceVariant = NightItemBackgroundL2,
     error = Error,
     onPrimary = NightOn,
     onPrimaryContainer = NightOn,
@@ -67,17 +67,17 @@ val NightColorPalette = darkColorScheme(
     onBackground = NightOn,
     onSurface = NightOn,
     onSurfaceVariant = NightOn,
-    onError = NightOn
+    onError = Color.White
 )
 
 val SunriseColorPalette = darkColorScheme(
     primary = SunrisePrimary,
     primaryContainer = SunrisePrimary,
     secondary = SunriseItemBackgroundL1,
-    secondaryContainer = SunriseItemBackgroundL2,
-    background = SunriseBackgroundL1,
+    secondaryContainer = SunriseItemBackgroundL1,
+    background = SunriseBackgroundL2,
     surface = SunriseBackgroundL1,
-    surfaceVariant = SunriseBackgroundL2,
+    surfaceVariant = SunriseItemBackgroundL2,
     error = SunriseError,
     onPrimary = SunriseOn,
     onPrimaryContainer = SunriseOn,
@@ -86,17 +86,17 @@ val SunriseColorPalette = darkColorScheme(
     onBackground = SunriseOn,
     onSurface = SunriseOn,
     onSurfaceVariant = SunriseOn,
-    onError = SunriseOn
+    onError = Color.White
 )
 
 val AuroraColorPalette = darkColorScheme(
     primary = AuroraPrimary,
     primaryContainer = AuroraPrimary,
     secondary = AuroraItemBackgroundL1,
-    secondaryContainer = AuroraItemBackgroundL2,
-    background = AuroraBackgroundL1,
+    secondaryContainer = AuroraItemBackgroundL1,
+    background = AuroraBackgroundL2,
     surface = AuroraBackgroundL1,
-    surfaceVariant = AuroraBackgroundL2,
+    surfaceVariant = AuroraItemBackgroundL2,
     error = Error,
     onPrimary = AuroraOn,
     onPrimaryContainer = AuroraOn,
@@ -105,7 +105,7 @@ val AuroraColorPalette = darkColorScheme(
     onBackground = AuroraOn,
     onSurface = AuroraOn,
     onSurfaceVariant = AuroraOn,
-    onError = AuroraOn
+    onError = Color.White
 )
 
 @Composable
