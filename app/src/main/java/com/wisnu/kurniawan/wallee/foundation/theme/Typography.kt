@@ -26,30 +26,43 @@ private val Roboto = FontFamily(
     Font(R.font.roboto_bold, FontWeight.SemiBold)
 )
 
+// H1
+//  displaySmall 36 Medium
+// H2
+//  headlineSmall 24 Medium
+// Inside tab:
+//  title small 14, normal to medium
+// Date:
+//  title small 14 medium
+// Body1:
+//  title medium 16 normal
+// Body2:
+//  headline medium 28 normal
+//  headline small 24 normal
 val Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.Light,
+        fontWeight = FontWeight.Normal,
         fontSize = 57.sp,
         lineHeight = 64.sp,
         letterSpacing = 0.sp
     ),
     displayMedium = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.Light,
+        fontWeight = FontWeight.Normal,
         fontSize = 45.sp,
         lineHeight = 52.sp,
         letterSpacing = 0.sp
     ),
     displaySmall = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontSize = 36.sp,
         lineHeight = 44.sp,
         letterSpacing = 0.sp
     ),
     headlineLarge = TextStyle(
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
         fontFamily = Roboto,
         fontSize = 32.sp,
         lineHeight = 40.sp,
@@ -57,14 +70,14 @@ val Typography = Typography(
     ),
     headlineMedium = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Normal,
         fontSize = 28.sp,
         lineHeight = 36.sp,
         letterSpacing = 0.sp
     ),
     headlineSmall = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 24.sp,
         lineHeight = 32.sp,
         letterSpacing = 0.sp
@@ -160,32 +173,32 @@ private fun TextPreview() {
             Spacer(Modifier.height(8.dp))
             Text(
                 style = MaterialTheme.typography.headlineLarge,
-                text = "Summary"
+                text = "Text headlineLarge"
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 style = MaterialTheme.typography.headlineMedium,
-                text = "Summary"
+                text = "Text headlineMedium"
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 style = MaterialTheme.typography.headlineSmall,
-                text = "Summary"
+                text = "Text headlineSmall"
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 style = MaterialTheme.typography.titleLarge,
-                text = "Activity"
+                text = "Text titleLarge"
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 style = MaterialTheme.typography.titleMedium,
-                text = "Activity"
+                text = "Text titleMedium"
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 style = MaterialTheme.typography.titleSmall,
-                text = "Activity"
+                text = "Text titleSmall"
             )
             Spacer(Modifier.height(8.dp))
             Text(
@@ -216,6 +229,34 @@ private fun TextPreview() {
             Text(
                 style = MaterialTheme.typography.labelSmall,
                 text = "Text labelSmall"
+            )
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun TextPreview2() {
+    MaterialTheme(
+        colorScheme = LightColorPalette,
+        typography = Typography,
+        shapes = Shapes,
+    ) {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Normal),
+                text = "Text displaySmall"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium),
+                text = "Text displaySmall"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold),
+                text = "Text displaySmall"
             )
         }
     }

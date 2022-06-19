@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Tab
-import androidx.compose.material.TabPosition
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabPosition
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wisnu.kurniawan.wallee.foundation.theme.Shapes
@@ -42,16 +43,17 @@ fun FancyIndicatorTabs() {
         ) {
             titles.forEachIndexed { index, title ->
                 Tab(
-                    text = { Text(title) },
+                    text = { Text(title, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)) },
                     selected = state == index,
-                    onClick = { state = index }
-                )
+                    onClick = { state = index },
+
+                    )
             }
         }
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = "Fancy indicator tab ${state + 1} selected",
-            style = MaterialTheme.typography.body1
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

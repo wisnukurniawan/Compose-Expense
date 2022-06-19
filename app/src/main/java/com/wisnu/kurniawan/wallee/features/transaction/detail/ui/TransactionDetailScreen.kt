@@ -6,7 +6,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeaderEditMode
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
@@ -27,7 +26,7 @@ fun TransactionDetailScreen(
             onSaveClick = {},
             title = {
                 Text(
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
+                    style = MaterialTheme.typography.titleMedium,
                     text = "Add transaction"
                 )
             }
