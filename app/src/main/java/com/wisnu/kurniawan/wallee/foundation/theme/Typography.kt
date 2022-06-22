@@ -26,6 +26,30 @@ private val Roboto = FontFamily(
     Font(R.font.roboto_bold, FontWeight.SemiBold)
 )
 
+
+//Title
+//Featured
+//title small/body medium
+//
+//Summary
+//display small
+//
+//Activity
+//headline small
+//
+//Thursday
+//title small
+//
+//Move
+//title medium
+//
+//2,12Km
+//headline medium
+//
+//Add alarm
+//body large
+
+
 // H1
 //  displaySmall 36 Medium
 // H2
