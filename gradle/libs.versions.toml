@@ -6,7 +6,7 @@ accompanist = "0.24.9-beta"
 androidDesugarJdkLibs = "1.1.5"
 androidxActivity = "1.6.0-alpha05"
 androidxAppCompat = "1.6.0-alpha05"
-androidxCompose = "1.2.0-rc01"
+androidxCompose = "1.2.0-rc02"
 androidxComposeMaterial3 = "1.0.0-alpha13"
 androidxCore = "1.9.0-alpha05"
 androidxDataStore = "1.0.0"
@@ -23,7 +23,7 @@ firebase = "30.1.0"
 hilt = "2.42"
 javamoney = "1.1"
 kotlin = "1.6.21"
-kotlinxCoroutines = "1.6.2"
+kotlinxCoroutines = "1.6.3"
 material = "1.6.1"
 okhttp = "4.10.0"
 protobuf = "4.0.0-rc-2"
@@ -33,11 +33,11 @@ room = "2.5.0-alpha02"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-google-firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version = "2.9.0" }
+google-firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version = "2.9.1" }
 google-firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "perf-plugin", version = "1.4.1" }
 google-hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 google-kspPlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version = "1.7.0-1.0.6" }
-google-servicesPlugin = { group = "com.google.gms", name = "google-services", version = "4.3.10" }
+google-servicesPlugin = { group = "com.google.gms", name = "google-services", version = "4.3.12" }
 jetbrains-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 squareup-wire-gradlePlugin = { group = "com.squareup.wire", name = "wire-gradle-plugin", version.ref = "protoWirePlugin" }
 
