@@ -1,8 +1,8 @@
 package com.wisnu.kurniawan.wallee.features.dashboard.ui
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.ReceiptLong
+import androidx.compose.material.icons.rounded.Wallet
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.select
@@ -40,8 +40,8 @@ class DashboardHostViewModel @Inject constructor() : StatefulViewModel<Dashboard
 
     private fun initial(): List<DashboardSection> {
         return listOf(
-            DashboardSection(SectionType.TRANSACTION, R.string.dashboard_transaction, Icons.Rounded.Home, true),
-            DashboardSection(SectionType.BALANCE, R.string.dashboard_balance, Icons.Rounded.Search, false),
+            DashboardSection(SectionType.TRANSACTION, R.string.dashboard_transaction, Icons.Rounded.ReceiptLong, true),
+            DashboardSection(SectionType.BALANCE, R.string.dashboard_balance, Icons.Rounded.Wallet, false),
         )
     }
 

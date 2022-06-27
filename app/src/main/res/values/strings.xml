@@ -62,7 +62,7 @@
     <string name="dashboard_transaction">Transaction</string>
     <string name="dashboard_balance">Balance</string>
 
-    <string name="transaction_outcome">Outcome</string>
+    <string name="transaction_expense">Expense</string>
     <string name="transaction_income">Income</string>
     <string name="transaction_transfer">Transfer</string>
     <string name="transaction_edit_save">Save</string>
@@ -70,6 +70,13 @@
     <string name="transaction_edit_add">Add Transaction</string>
     <string name="transaction_edit_edit">Edit Transaction</string>
     <string name="transaction_edit_total">Total</string>
+    <string name="transaction_edit_total_hint" translatable="false">0.00</string>
     <string name="transaction_edit_general">General</string>
+    <string name="transaction_edit_account">Account</string>
+    <string name="transaction_edit_account_from">Account from</string>
+    <string name="transaction_edit_account_to">Account to</string>
+    <string name="transaction_edit_category">Category</string>
+    <string name="transaction_edit_date_transaction">Transaction date</string>
     <string name="transaction_edit_note">Note</string>
+    <string name="transaction_edit_note_hint">Write note here…</string>
 </resources>

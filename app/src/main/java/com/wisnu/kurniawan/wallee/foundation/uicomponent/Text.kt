@@ -141,9 +141,10 @@ fun PgHeadlineLabel(
 fun PgContentTitle(
     text: String,
     modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onBackground,
 ) {
     Text(
-        style = MaterialTheme.typography.titleSmall,
+        style = MaterialTheme.typography.titleSmall.copy(color = color),
         text = text,
         modifier = modifier
     )
@@ -156,6 +157,19 @@ fun PgTabLabel(
 ) {
     Text(
         style = MaterialTheme.typography.labelMedium,
+        text = text,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PgAmountLabel(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color = MaterialTheme.colorScheme.onBackground,
+) {
+    Text(
+        style = MaterialTheme.typography.headlineMedium.copy(color = color),
         text = text,
         modifier = modifier
     )

@@ -58,15 +58,21 @@
     <string name="dashboard_transaction">Transaksi</string>
     <string name="dashboard_balance">Saldo</string>
 
-    <string name="transaction_outcome">Pengeluaran</string>
+    <string name="transaction_expense">Pengeluaran</string>
     <string name="transaction_income">Pemasukan</string>
     <string name="transaction_transfer">Transfer</string>
     <string name="transaction_edit_save">Simpan</string>
     <string name="transaction_edit_cancel">Batal</string>
     <string name="transaction_edit_add">Tambah Transaksi</string>
     <string name="transaction_edit_edit">Edit Transaksi</string>
-    <string name="transaction_edit_total">Total</string>
+    <string name="transaction_edit_total">Jumlah</string>
     <string name="transaction_edit_general">Rincian tambahan</string>
+    <string name="transaction_edit_account">Akun</string>
+    <string name="transaction_edit_account_from">Akun asal</string>
+    <string name="transaction_edit_account_to">Akun tujuan</string>
+    <string name="transaction_edit_category">Kategori</string>
+    <string name="transaction_edit_date_transaction">Tanggal transaksi</string>
     <string name="transaction_edit_note">Catatan</string>
+    <string name="transaction_edit_note_hint">Tulis catatan di sini…</string>
 
 </resources>

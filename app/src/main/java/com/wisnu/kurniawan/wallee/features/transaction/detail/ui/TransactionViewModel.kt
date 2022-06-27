@@ -5,6 +5,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.select
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
+import com.wisnu.kurniawan.wallee.model.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -27,15 +28,28 @@ class TransactionViewModel @Inject constructor(
                     setState { copy(transactionTypes = transactionTypes.select(action.selectedTransactionItem)) }
                 }
             }
+            is TransactionAction.ChangeTotal -> {
+                viewModelScope.launch {
+                    setState { copy(totalAmount = action.totalAmount) }
+                }
+            }
+            is TransactionAction.ChangeNote -> {
+                viewModelScope.launch {
+                    setState { copy(note = action.note) }
+                }
+            }
         }
     }
 
     private fun initialTransactionTypes(): List<TransactionTypeItem> {
         return listOf(
-            TransactionTypeItem(R.string.transaction_outcome, true),
-            TransactionTypeItem(R.string.transaction_income, false),
-            TransactionTypeItem(R.string.transaction_transfer, false)
+            TransactionTypeItem(R.string.transaction_expense, true, TransactionType.EXPENSE),
+            TransactionTypeItem(R.string.transaction_income, false, TransactionType.INCOME),
+            TransactionTypeItem(R.string.transaction_transfer, false, TransactionType.TRANSFER)
         )
     }
 
+    companion object {
+        private const val MAX_TOTAL_AMOUNT_DIGIT = 12
+    }
 }
