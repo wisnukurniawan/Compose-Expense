@@ -1,6 +1,5 @@
 package com.wisnu.kurniawan.wallee.foundation.uicomponent
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
+import com.wisnu.kurniawan.wallee.foundation.theme.AlphaMedium
 
 @Composable
 fun PgModalTitle(
@@ -54,8 +54,7 @@ fun PgTitleBar(
 fun PgTitleBarPrimary(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    text: String,
-    onClick: () -> Unit = {},
+    text: String
 ) {
     PgTitleBarBase(
         modifier = modifier,
@@ -64,8 +63,7 @@ fun PgTitleBarPrimary(
         style = MaterialTheme.typography.titleSmall.copy(
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Medium
-        ),
-        onClick = onClick
+        )
     )
 }
 
@@ -74,7 +72,6 @@ fun PgTitleBarSecondary(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     text: String,
-    onClick: () -> Unit,
 ) {
     PgTitleBarBase(
         modifier = modifier,
@@ -82,8 +79,7 @@ fun PgTitleBarSecondary(
         text = text,
         style = MaterialTheme.typography.titleSmall.copy(
             color = MaterialTheme.colorScheme.onBackground
-        ),
-        onClick = onClick
+        )
     )
 }
 
@@ -93,14 +89,8 @@ private fun PgTitleBarBase(
     enabled: Boolean = true,
     text: String,
     style: TextStyle,
-    onClick: (() -> Unit)? = null,
 ) {
     val textAlpha = if (enabled) AlphaHigh else AlphaDisabled
-    if (enabled && onClick != null) {
-        modifier.clickable {
-            onClick.invoke()
-        }
-    }
 
     Text(
         modifier = modifier,
@@ -108,5 +98,65 @@ private fun PgTitleBarBase(
             color = style.color.copy(alpha = textAlpha)
         ),
         text = text
+    )
+}
+
+@Composable
+fun PgHeadline1(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        style = MaterialTheme.typography.titleLarge,
+        text = text,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PgHeadline2(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        style = MaterialTheme.typography.titleMedium,
+        text = text,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PgHeadlineLabel(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaMedium)),
+        text = text.uppercase(),
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PgContentTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        style = MaterialTheme.typography.titleSmall,
+        text = text,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PgTabLabel(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        style = MaterialTheme.typography.labelMedium,
+        text = text,
+        modifier = modifier
     )
 }

@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.sp
 import com.wisnu.kurniawan.wallee.R
 
 private val Roboto = FontFamily(
-    Font(R.font.roboto_light, FontWeight.Light),
-    Font(R.font.roboto_regular, FontWeight.Normal),
-    Font(R.font.roboto_medium, FontWeight.Medium),
-    Font(R.font.roboto_bold, FontWeight.SemiBold)
+    Font(R.font.sans_light, FontWeight.Light),
+    Font(R.font.sans_regular, FontWeight.Normal),
+    Font(R.font.sans_medium, FontWeight.Medium),
+    Font(R.font.sans_bold, FontWeight.SemiBold)
 )
 
 private val Lato = FontFamily(

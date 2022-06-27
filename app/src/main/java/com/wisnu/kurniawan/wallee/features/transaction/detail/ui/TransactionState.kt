@@ -4,13 +4,10 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class TransactionState(
-    val tabs: List<TabItem>
-) {
-    val selectedTabIndex = tabs.indexOfFirst { it.selected }
-}
+    val transactionTypes: List<TransactionTypeItem> = listOf()
+)
 
-@Immutable
-data class TabItem(
+data class TransactionTypeItem(
     val title: Int,
     val selected: Boolean
 )

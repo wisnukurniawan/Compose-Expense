@@ -65,4 +65,8 @@
     <string name="transaction_edit_cancel">Batal</string>
     <string name="transaction_edit_add">Tambah Transaksi</string>
     <string name="transaction_edit_edit">Edit Transaksi</string>
+    <string name="transaction_edit_total">Total</string>
+    <string name="transaction_edit_general">Rincian tambahan</string>
+    <string name="transaction_edit_note">Catatan</string>
+
 </resources>

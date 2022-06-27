@@ -1,11 +1,13 @@
 package com.wisnu.kurniawan.wallee.runtime.navigation
 
 import androidx.compose.runtime.MutableState
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetailScreen
+import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionViewModel
 
 fun NavGraphBuilder.TransactionDetailNavHost(
     navController: NavHostController,
@@ -19,7 +21,8 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             route = TransactionDetailFlow.TransactionDetail.route,
             arguments = TransactionDetailFlow.TransactionDetail.arguments
         ) {
-            TransactionDetailScreen(navController)
+            val viewModel = hiltViewModel<TransactionViewModel>()
+            TransactionDetailScreen(navController, viewModel)
         }
     }
 }

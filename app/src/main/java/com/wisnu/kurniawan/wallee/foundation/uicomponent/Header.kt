@@ -1,5 +1,7 @@
 package com.wisnu.kurniawan.wallee.foundation.uicomponent
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronLeft
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -78,7 +81,7 @@ fun PgBackHeader(
 }
 
 @Composable
-private fun PgHeaderEditMode(
+fun PgHeaderEditMode(
     isAllowToSave: Boolean,
     onCancelClick: () -> Unit,
     onSaveClick: () -> Unit,
@@ -91,9 +94,14 @@ private fun PgHeaderEditMode(
             .fillMaxWidth()
     ) {
         PgTitleBarSecondary(
-            modifier = Modifier.align(Alignment.CenterStart),
+            modifier = Modifier.align(Alignment.CenterStart)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onCancelClick
+                )
+                .padding(start = 16.dp),
             text = stringResource(R.string.transaction_edit_cancel),
-            onClick = onCancelClick
         )
 
         PgTitleBarPrimary(
@@ -101,11 +109,19 @@ private fun PgHeaderEditMode(
             text = title,
         )
 
+        val saveModifier = Modifier.align(Alignment.CenterEnd)
+        if (isAllowToSave) {
+            saveModifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onSaveClick
+            )
+        }
+
         PgTitleBarPrimary(
-            modifier = Modifier.align(Alignment.CenterEnd),
+            modifier = saveModifier.padding(end = 16.dp),
             text = stringResource(R.string.transaction_edit_save),
             enabled = isAllowToSave,
-            onClick = onSaveClick
         )
     }
 }
