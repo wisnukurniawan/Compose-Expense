@@ -34,7 +34,7 @@ fun Profile(email: String, modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = email.firstOrEmpty(),
-                style = MaterialTheme.typography.headlineLarge,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.surface,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
@@ -44,7 +44,7 @@ fun Profile(email: String, modifier: Modifier = Modifier) {
 
         Text(
             text = email,
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.titleSmall
         )
     }
 }

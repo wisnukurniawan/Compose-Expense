@@ -79,7 +79,7 @@ fun PgModalCell(
 
             Text(
                 text = text,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleSmall,
                 color = textColor
             )
 

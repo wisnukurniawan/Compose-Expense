@@ -57,4 +57,12 @@
 
     <string name="dashboard_transaction">Transaksi</string>
     <string name="dashboard_balance">Saldo</string>
+
+    <string name="transaction_outcome">Pengeluaran</string>
+    <string name="transaction_income">Pemasukan</string>
+    <string name="transaction_transfer">Transfer</string>
+    <string name="transaction_edit_save">Simpan</string>
+    <string name="transaction_edit_cancel">Batal</string>
+    <string name="transaction_edit_add">Tambah Transaksi</string>
+    <string name="transaction_edit_edit">Edit Transaksi</string>
 </resources>

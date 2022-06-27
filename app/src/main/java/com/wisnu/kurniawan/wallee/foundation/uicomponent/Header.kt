@@ -1,20 +1,21 @@
 package com.wisnu.kurniawan.wallee.foundation.uicomponent
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ChevronLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.wisnu.kurniawan.wallee.R
 
 @Composable
 fun PgModalBackHeader(
@@ -46,19 +47,42 @@ fun PgModalBackHeader(
     }
 }
 
-// State
-// Add
-// cancel tab save/can not save
-
-// Edit
-// cancel title save/can not save
-// delete transaction
 @Composable
-fun PgHeaderEditMode(
+fun PgBackHeader(
+    text: String,
+    onClickBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .height(56.dp)
+            .fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .align(Alignment.CenterStart)
+        ) {
+            PgIconButton(
+                onClick = onClickBack,
+                color = Color.Transparent
+            ) {
+                PgIcon(imageVector = Icons.Rounded.ChevronLeft)
+            }
+        }
+        PgTitleBar(
+            modifier = Modifier.align(Alignment.Center),
+            text = text,
+        )
+    }
+}
+
+@Composable
+private fun PgHeaderEditMode(
     isAllowToSave: Boolean,
     onCancelClick: () -> Unit,
     onSaveClick: () -> Unit,
-    title: @Composable BoxScope.() -> Unit
+    title: String
 ) {
     Box(
         modifier = Modifier
@@ -66,31 +90,22 @@ fun PgHeaderEditMode(
             .padding(horizontal = 4.dp)
             .fillMaxWidth()
     ) {
-        TextButton(
-            onClick = onCancelClick,
-            modifier = Modifier
-                .align(Alignment.CenterStart),
-        ) {
-            Text(text = "Cancel")
-        }
+        PgTitleBarSecondary(
+            modifier = Modifier.align(Alignment.CenterStart),
+            text = stringResource(R.string.transaction_edit_cancel),
+            onClick = onCancelClick
+        )
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.Center)
-        ) {
-            title()
-        }
+        PgTitleBarPrimary(
+            modifier = Modifier.align(Alignment.Center),
+            text = title,
+        )
 
-        TextButton(
-            onClick = onSaveClick,
-            modifier = Modifier
-                .align(Alignment.CenterEnd),
+        PgTitleBarPrimary(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            text = stringResource(R.string.transaction_edit_save),
             enabled = isAllowToSave,
-        ) {
-            Text(
-                text = "Save",
-                fontWeight = FontWeight.SemiBold
-            )
-        }
+            onClick = onSaveClick
+        )
     }
 }

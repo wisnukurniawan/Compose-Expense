@@ -26,148 +26,85 @@ private val Roboto = FontFamily(
     Font(R.font.roboto_bold, FontWeight.SemiBold)
 )
 
+private val Lato = FontFamily(
+    Font(R.font.lato_regular, FontWeight.Normal),
+)
 
-//Title
-//Featured
-//title small/body medium
-//
-//Summary
-//display small
-//
-//Activity
-//headline small
-//
-//Thursday
-//title small
-//
-//Move
-//title medium
-//
-//2,12Km
-//headline medium
-//
-//Add alarm
-//body large
-
-
-// H1
-//  displaySmall 36 Medium
-// H2
-//  headlineSmall 24 Medium
-// Inside tab:
-//  title small 14, normal to medium
-// Date:
-//  title small 14 medium
-// Body1:
-//  title medium 16 normal
-// Body2:
-//  headline medium 28 normal
-//  headline small 24 normal
 val Typography = Typography(
     displayLarge = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Lato,
         fontWeight = FontWeight.Normal,
         fontSize = 57.sp,
-        lineHeight = 64.sp,
-        letterSpacing = 0.sp
     ),
     displayMedium = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Lato,
         fontWeight = FontWeight.Normal,
         fontSize = 45.sp,
-        lineHeight = 52.sp,
-        letterSpacing = 0.sp
     ),
     displaySmall = TextStyle(
-        fontFamily = Roboto,
-        fontWeight = FontWeight.Medium,
+        fontFamily = Lato,
+        fontWeight = FontWeight.Normal,
         fontSize = 36.sp,
-        lineHeight = 44.sp,
-        letterSpacing = 0.sp
     ),
     headlineLarge = TextStyle(
+        fontFamily = Lato,
         fontWeight = FontWeight.Normal,
-        fontFamily = Roboto,
         fontSize = 32.sp,
-        lineHeight = 40.sp,
-        letterSpacing = 0.sp
     ),
     headlineMedium = TextStyle(
-        fontFamily = Roboto,
-        fontWeight = FontWeight.Normal,
-        fontSize = 28.sp,
-        lineHeight = 36.sp,
-        letterSpacing = 0.sp
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Lato,
         fontWeight = FontWeight.Normal,
         fontSize = 24.sp,
-        lineHeight = 32.sp,
-        letterSpacing = 0.sp
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.Normal,
+        fontSize = 21.sp,
     ),
     titleLarge = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.Bold,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 32.sp,
     ),
     titleMedium = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
+        fontWeight = FontWeight.Medium,
+        fontSize = 21.sp,
     ),
     titleSmall = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
     ),
     bodyLarge = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
+        fontSize = 14.sp,
     ),
     bodyMedium = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.25.sp
+        fontSize = 13.sp,
     ),
     bodySmall = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.4.sp
     ),
     labelLarge = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp
     ),
     labelMedium = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
     ),
     labelSmall = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 10.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        fontSize = 9.sp,
     )
 )
 
@@ -180,20 +117,6 @@ private fun TextPreview() {
         shapes = Shapes,
     ) {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            Text(
-                style = MaterialTheme.typography.displayLarge,
-                text = "Text displayLarge"
-            )
-            Spacer(Modifier.height(8.dp))
-            Text(
-                style = MaterialTheme.typography.displayMedium,
-                text = "Text displayMedium"
-            )
-            Spacer(Modifier.height(8.dp))
-            Text(
-                style = MaterialTheme.typography.displaySmall,
-                text = "Text displaySmall"
-            )
             Spacer(Modifier.height(8.dp))
             Text(
                 style = MaterialTheme.typography.headlineLarge,
@@ -269,18 +192,77 @@ private fun TextPreview2() {
         Column(Modifier.verticalScroll(rememberScrollState())) {
             Spacer(Modifier.height(8.dp))
             Text(
-                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Normal),
-                text = "Text displaySmall"
+                style = MaterialTheme.typography.titleLarge,
+                text = "Summary"
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Medium),
-                text = "Text displaySmall"
+                style = MaterialTheme.typography.titleMedium,
+                text = "Activity"
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold),
-                text = "Text displaySmall"
+                style = MaterialTheme.typography.titleSmall,
+                text = "Indoor run"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.titleSmall,
+                text = "Show more"
+            )
+
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.titleSmall,
+                text = "Cancel"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Medium),
+                text = "Title"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Medium),
+                text = "Save"
+            )
+
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                text = "Featured"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.labelMedium,
+                text = "Charts"
+            )
+
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.headlineMedium,
+                text = "2,12km"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.headlineMedium,
+                text = "Rp 2.873.991"
+            )
+            Spacer(Modifier.height(8.dp))
+
+            Text(
+                style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.typography.bodyMedium.color.copy(alpha = AlphaMedium)),
+                text = "THURSDAY, 26 JUN"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.typography.bodyMedium.color.copy(alpha = AlphaMedium)),
+                text = "07/06/22"
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                style = MaterialTheme.typography.labelSmall,
+                text = "Summary"
             )
         }
     }

@@ -47,7 +47,7 @@ fun PgTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     shape: Shape = Shapes.small,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
-    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     errorLabel: @Composable (() -> Unit)? = null,
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
@@ -91,7 +91,7 @@ fun PgTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     shape: Shape = Shapes.small,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
-    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     errorLabel: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(

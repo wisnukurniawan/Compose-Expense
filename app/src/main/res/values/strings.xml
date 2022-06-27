@@ -61,4 +61,13 @@
 
     <string name="dashboard_transaction">Transaction</string>
     <string name="dashboard_balance">Balance</string>
+
+    <string name="transaction_outcome">Outcome</string>
+    <string name="transaction_income">Income</string>
+    <string name="transaction_transfer">Transfer</string>
+
+    <string name="transaction_edit_save">Save</string>
+    <string name="transaction_edit_cancel">Cancel</string>
+    <string name="transaction_edit_add">Add Transaction</string>
+    <string name="transaction_edit_edit">Edit Transaction</string>
 </resources>
