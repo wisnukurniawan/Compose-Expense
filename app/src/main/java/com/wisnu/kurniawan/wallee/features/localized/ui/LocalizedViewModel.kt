@@ -3,7 +3,6 @@ package com.wisnu.kurniawan.wallee.features.localized.ui
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.localized.data.ILocalizedEnvironment
-import com.wisnu.kurniawan.wallee.foundation.extension.select
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Language
 import dagger.hilt.android.lifecycle.HiltViewModel

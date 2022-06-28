@@ -2,8 +2,6 @@ package com.wisnu.kurniawan.wallee.features.login.ui
 
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.features.login.data.ILoginEnvironment
-import com.wisnu.kurniawan.wallee.foundation.extension.canLogin
-import com.wisnu.kurniawan.wallee.foundation.extension.isValidEmail
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

@@ -3,7 +3,6 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionEnvironment
-import com.wisnu.kurniawan.wallee.foundation.extension.select
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel

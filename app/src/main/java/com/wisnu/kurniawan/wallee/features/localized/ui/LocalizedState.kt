@@ -11,3 +11,9 @@ data class LanguageItem(
     val language: Language,
     val applied: Boolean
 )
+
+fun List<LanguageItem>.select(language: Language): List<LanguageItem> {
+    return map {
+        it.copy(applied = it.language == language)
+    }
+}

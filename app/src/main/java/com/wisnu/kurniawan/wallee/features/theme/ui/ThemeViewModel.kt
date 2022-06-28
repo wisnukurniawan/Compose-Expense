@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.theme.data.IThemeEnvironment
-import com.wisnu.kurniawan.wallee.foundation.extension.select
 import com.wisnu.kurniawan.wallee.foundation.theme.AuroraItemBackgroundL2
 import com.wisnu.kurniawan.wallee.foundation.theme.AuroraPrimary
 import com.wisnu.kurniawan.wallee.foundation.theme.LightPrimary

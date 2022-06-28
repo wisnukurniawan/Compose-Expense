@@ -181,7 +181,7 @@ private fun TransactionTypeSection(
                     }
                 }
 
-                if (it.title != R.string.transaction_transfer) {
+                if (it.transactionType != TransactionType.TRANSFER) {
                     Spacer(Modifier.width(8.dp))
                 }
             }

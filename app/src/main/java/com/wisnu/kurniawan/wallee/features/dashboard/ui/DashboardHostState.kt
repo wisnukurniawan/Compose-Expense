@@ -18,6 +18,12 @@ data class DashboardSection(
     val selected: Boolean
 )
 
+fun List<DashboardSection>.select(section: SectionType): List<DashboardSection> {
+    return map {
+        it.copy(selected = it.sectionType == section)
+    }
+}
+
 enum class SectionType {
     TRANSACTION,
     BALANCE

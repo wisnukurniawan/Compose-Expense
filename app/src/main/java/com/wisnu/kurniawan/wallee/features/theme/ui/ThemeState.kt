@@ -15,3 +15,9 @@ data class ThemeItem(
     val brush: Brush,
     val applied: Boolean
 )
+
+fun List<ThemeItem>.select(theme: Theme): List<ThemeItem> {
+    return map {
+        it.copy(applied = it.theme == theme)
+    }
+}

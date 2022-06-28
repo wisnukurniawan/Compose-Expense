@@ -38,7 +38,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.foundation.extension.canLogin
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextField
