@@ -47,7 +47,6 @@ import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
-import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel
@@ -208,12 +207,9 @@ private fun AmountSection(
             .fillMaxWidth()
             .padding(all = 16.dp)
     ) {
-        val isTotalAmountEmpty = totalAmount.text.isBlank()
-        val symbolAlpha = if (isTotalAmountEmpty) AlphaDisabled else AlphaHigh
-
         PgAmountLabel(
             text = currency.getSymbol() + " ",
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = symbolAlpha)
+            color = MaterialTheme.colorScheme.onBackground
         )
         Box {
             BasicTextField(
@@ -224,13 +220,6 @@ private fun AmountSection(
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
                 singleLine = true
             )
-
-            if (isTotalAmountEmpty) {
-                PgAmountLabel(
-                    text = stringResource(R.string.transaction_edit_total_hint),
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
-                )
-            }
         }
     }
 }

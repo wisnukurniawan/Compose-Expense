@@ -3,6 +3,8 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionEnvironment
+import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
+import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +31,19 @@ class TransactionViewModel @Inject constructor(
             }
             is TransactionAction.ChangeTotal -> {
                 viewModelScope.launch {
-                    setState { copy(totalAmount = action.totalAmount) }
+                    runCatching {
+                        action.totalAmount.formatAsDecimal().apply {
+                            if (this.isDecimalNotExceed()) {
+                                setState { copy(totalAmount = this@apply) }
+                            }
+                        }
+
+//                        Currency.INDONESIA.formatAsDecimal2(action.totalAmount).apply {
+//                            if (this.isDecimalNotExceed()) {
+//                                setState { copy(totalAmount = this@apply) }
+//                            }
+//                        }
+                    }
                 }
             }
             is TransactionAction.ChangeNote -> {
@@ -46,9 +60,5 @@ class TransactionViewModel @Inject constructor(
             TransactionTypeItem(R.string.transaction_income, false, TransactionType.INCOME),
             TransactionTypeItem(R.string.transaction_transfer, false, TransactionType.TRANSFER)
         )
-    }
-
-    companion object {
-        private const val MAX_TOTAL_AMOUNT_DIGIT = 12
     }
 }
