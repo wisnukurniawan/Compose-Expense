@@ -54,36 +54,8 @@ fun TextFieldValue.isDecimalNotExceed(): Boolean {
     return amountOnly != null && amountOnly.length <= MAX_TOTAL_AMOUNT_DIGIT
 }
 
-fun Currency.formatAsDecimal2(tf: TextFieldValue): TextFieldValue {
-    val digits = tf.text.replace("\\D".toRegex(), "")
-    return tf.copy(text = formatAsDisplay2(digits, ""))
-}
-
-fun Currency.formatAsDisplay2(
-    amount: String,
-    currencySymbol: String
-): String {
-    val currencyFormat = NumberFormat.getCurrencyInstance(getLocale())
-    val amountCurrency = JavaCurrency.getInstance(code)
-    runCatching {
-        val amountSplits = amount.split(FRACTION_SEPARATOR)
-        val fraction = if (amountSplits.size > 1) {
-            amountSplits[1].length
-        } else {
-            0
-        }
-        val decimalFormatSymbols = (currencyFormat as DecimalFormat).decimalFormatSymbols
-        decimalFormatSymbols.currency = amountCurrency
-        decimalFormatSymbols.currencySymbol = currencySymbol
-        currencyFormat.minimumFractionDigits = fraction
-        currencyFormat.decimalFormatSymbols = decimalFormatSymbols
-    }
-    return currencyFormat.format(amount)
-}
-
 fun Currency.formatAsDisplay(
     amount: BigDecimal,
-    minimumFractionDigits: Int,
     currencySymbol: String
 ): String {
     val currencyFormat = NumberFormat.getCurrencyInstance(getLocale())
@@ -92,7 +64,7 @@ fun Currency.formatAsDisplay(
         val decimalFormatSymbols = (currencyFormat as DecimalFormat).decimalFormatSymbols
         decimalFormatSymbols.currency = amountCurrency
         decimalFormatSymbols.currencySymbol = currencySymbol
-        currencyFormat.minimumFractionDigits = minimumFractionDigits
+        currencyFormat.minimumFractionDigits = amount.scale()
         currencyFormat.decimalFormatSymbols = decimalFormatSymbols
     }
     return currencyFormat.format(amount)

@@ -37,12 +37,6 @@ class TransactionViewModel @Inject constructor(
                                 setState { copy(totalAmount = this@apply) }
                             }
                         }
-
-//                        Currency.INDONESIA.formatAsDecimal2(action.totalAmount).apply {
-//                            if (this.isDecimalNotExceed()) {
-//                                setState { copy(totalAmount = this@apply) }
-//                            }
-//                        }
                     }
                 }
             }
