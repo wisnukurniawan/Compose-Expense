@@ -11,6 +11,7 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.AccountSelectionScreen
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetailScreen
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetailViewModel
+import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransferAccountSelectionScreen
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.TransactionDetailNavHost(
@@ -40,6 +41,22 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             bottomSheetConfig.value = DefaultBottomSheetConfig
 
             AccountSelectionScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+
+        bottomSheet(TransactionDetailFlow.SelectTransferAccount.route) {
+            val viewModel = if (navController.previousBackStackEntry != null) {
+                hiltViewModel<TransactionDetailViewModel>(
+                    navController.previousBackStackEntry!!
+                )
+            } else {
+                hiltViewModel()
+            }
+            bottomSheetConfig.value = DefaultBottomSheetConfig
+
+            TransferAccountSelectionScreen(
                 navController = navController,
                 viewModel = viewModel
             )

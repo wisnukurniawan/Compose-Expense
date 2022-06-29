@@ -19,6 +19,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
+import com.wisnu.kurniawan.wallee.model.TransactionType
 
 @Composable
 fun AccountSelectionScreen(
@@ -27,6 +28,43 @@ fun AccountSelectionScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    AccountSelectionScreen(
+        accountItems = state.accountItems,
+        disabledAccount = if (state.selectedTransactionType() == TransactionType.TRANSFER) {
+            state.transferAccountItems.selected()
+        } else {
+            null
+        },
+        onClick = {
+            viewModel.dispatch(TransactionAction.SelectAccount(it.account))
+            navController.navigateUp()
+        }
+    )
+}
+
+@Composable
+fun TransferAccountSelectionScreen(
+    navController: NavController,
+    viewModel: TransactionDetailViewModel,
+) {
+    val state by viewModel.state.collectAsState()
+
+    AccountSelectionScreen(
+        accountItems = state.transferAccountItems,
+        disabledAccount = state.accountItems.selected(),
+        onClick = {
+            viewModel.dispatch(TransactionAction.SelectTransferAccount(it.account))
+            navController.navigateUp()
+        }
+    )
+}
+
+@Composable
+private fun AccountSelectionScreen(
+    accountItems: List<AccountItem>,
+    disabledAccount: AccountItem?,
+    onClick: (AccountItem) -> Unit,
+) {
     PgModalLayout(
         title = {
             PgModalTitle(
@@ -34,13 +72,13 @@ fun AccountSelectionScreen(
             )
         },
         content = {
-            items(state.accountItems) { item ->
-                RepeatItem(
+            items(accountItems) { item ->
+                AccountItem(
                     onClick = {
-                        viewModel.dispatch(TransactionAction.SelectAccount(item.account))
-                        navController.navigateUp()
+                        onClick(item)
                     },
-                    item = item
+                    item = item,
+                    enabled = disabledAccount?.account != item.account
                 )
                 Spacer(Modifier.height(8.dp))
             }
@@ -49,9 +87,10 @@ fun AccountSelectionScreen(
 }
 
 @Composable
-private fun RepeatItem(
+private fun AccountItem(
     onClick: () -> Unit,
     item: AccountItem,
+    enabled: Boolean
 ) {
     PgModalCell(
         onClick = onClick,
@@ -61,6 +100,7 @@ private fun RepeatItem(
         } else {
             MaterialTheme.colorScheme.surfaceVariant
         },
+        enabled = enabled,
         rightIcon = if (item.selected) {
             @Composable {
                 Icon(

@@ -27,8 +27,18 @@ class TransactionDetailViewModel @Inject constructor(
                     setState {
                         copy(
                             accountItems = it.mapIndexed { index, account ->
-                                val defaultSelectedAccount = defaultSelectedAccount(selectedAccount, account, index)
-                                AccountItem(account = account, selected = defaultSelectedAccount)
+                                val defaultSelectedAccount = defaultSelectedAccount(selectedAccount, account, index, FIRST_INDEX)
+                                AccountItem(
+                                    account = account,
+                                    selected = defaultSelectedAccount
+                                )
+                            },
+                            transferAccountItems = it.mapIndexed { index, account ->
+                                val defaultSelectedAccount = defaultSelectedAccount(selectedAccount, account, index, SECOND_INDEX)
+                                AccountItem(
+                                    account = account,
+                                    selected = defaultSelectedAccount
+                                )
                             }
                         )
                     }
@@ -39,11 +49,12 @@ class TransactionDetailViewModel @Inject constructor(
     private fun defaultSelectedAccount(
         selectedAccount: AccountItem?,
         account: Account,
+        itemIndex: Int,
         index: Int
     ) = if (selectedAccount != null) {
         account.id == selectedAccount.account.id
     } else {
-        index == FIRST_INDEX
+        itemIndex == index
     }
 
     override fun dispatch(action: TransactionAction) {
@@ -79,6 +90,11 @@ class TransactionDetailViewModel @Inject constructor(
             is TransactionAction.SelectAccount -> {
                 viewModelScope.launch {
                     setState { copy(accountItems = state.value.accountItems.select(action.selectedAccount)) }
+                }
+            }
+            is TransactionAction.SelectTransferAccount -> {
+                viewModelScope.launch {
+                    setState { copy(transferAccountItems = state.value.transferAccountItems.select(action.selectedAccount)) }
                 }
             }
         }

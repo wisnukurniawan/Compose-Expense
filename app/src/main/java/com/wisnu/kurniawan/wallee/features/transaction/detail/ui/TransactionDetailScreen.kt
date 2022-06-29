@@ -86,6 +86,10 @@ fun TransactionDetailScreen(
             localFocusManager.clearFocus()
             navController.navigate(TransactionDetailFlow.SelectAccount.route)
         },
+        onTransferAccountSectionClick = {
+            localFocusManager.clearFocus()
+            navController.navigate(TransactionDetailFlow.SelectTransferAccount.route)
+        },
         onTransactionTypeSelected = {
             localFocusManager.clearFocus()
             viewModel.dispatch(TransactionAction.SelectTransactionType(it))
@@ -101,6 +105,7 @@ private fun TransactionDetailScreen(
     state: TransactionState,
     onCancelClick: () -> Unit,
     onAccountSectionClick: () -> Unit,
+    onTransferAccountSectionClick: () -> Unit,
     onTransactionTypeSelected: (TransactionTypeItem) -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
@@ -155,7 +160,9 @@ private fun TransactionDetailScreen(
                 GeneralSection(
                     transactionType = state.selectedTransactionType(),
                     selectedAccount = state.selectedAccountName() ?: stringResource(AccountType.CASH.getLabel()),
-                    onAccountSectionClick = onAccountSectionClick
+                    selectedTransferAccount = state.selectedAccountTransferName(),
+                    onAccountSectionClick = onAccountSectionClick,
+                    onTransferAccountSectionClick = onTransferAccountSectionClick
                 )
             }
 
@@ -270,7 +277,9 @@ private fun AmountSection(
 private fun GeneralSection(
     transactionType: TransactionType,
     selectedAccount: String,
+    selectedTransferAccount: String,
     onAccountSectionClick: () -> Unit,
+    onTransferAccountSectionClick: () -> Unit,
 ) {
     PgHeadlineLabel(
         text = stringResource(R.string.transaction_edit_general),
@@ -309,12 +318,19 @@ private fun GeneralSection(
             title = stringResource(R.string.transaction_edit_account_to),
             showDivider = true,
             shape = Shapes.None,
-            onClick = {},
+            onClick = onTransferAccountSectionClick,
             trailing = {
-                PgIcon(
-                    imageVector = Icons.Rounded.ChevronRight,
-                    tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
-                )
+                Row {
+                    PgContentTitle(
+                        text = selectedTransferAccount,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    PgIcon(
+                        imageVector = Icons.Rounded.ChevronRight,
+                        tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                    )
+                }
             }
         )
     }

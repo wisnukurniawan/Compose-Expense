@@ -11,4 +11,5 @@ sealed interface TransactionAction {
     }
     data class ChangeNote(val note: TextFieldValue) : TransactionAction
     data class SelectAccount(val selectedAccount: Account): TransactionAction
+    data class SelectTransferAccount(val selectedAccount: Account): TransactionAction
 }

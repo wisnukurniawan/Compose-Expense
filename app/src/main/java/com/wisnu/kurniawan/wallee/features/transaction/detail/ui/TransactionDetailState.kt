@@ -11,6 +11,7 @@ import com.wisnu.kurniawan.wallee.model.TransactionType
 data class TransactionState(
     val transactionTypeItems: List<TransactionTypeItem> = listOf(),
     val accountItems: List<AccountItem> = listOf(),
+    val transferAccountItems: List<AccountItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val note: TextFieldValue = TextFieldValue(),
     val currency: Currency = Currency.INDONESIA
@@ -32,6 +33,8 @@ data class TransactionTypeItem(
 fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.selected }?.transactionType ?: TransactionType.INCOME
 
 fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.name
+
+fun TransactionState.selectedAccountTransferName() = transferAccountItems.selected()?.account?.name.orEmpty()
 
 fun List<TransactionTypeItem>.select(selectedTransactionTypeItem: TransactionTypeItem): List<TransactionTypeItem> {
     return map {

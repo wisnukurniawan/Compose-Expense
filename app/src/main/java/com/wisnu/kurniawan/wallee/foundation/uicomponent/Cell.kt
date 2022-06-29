@@ -30,7 +30,7 @@ fun PgModalCell(
     onClick: () -> Unit,
     text: String,
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
-    textColor: Color = Color.Unspecified,
+    textColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     enabled: Boolean = true,
     leftIcon: @Composable (() -> Unit)? = null,
     rightIcon: @Composable (() -> Unit)? = null
@@ -80,7 +80,7 @@ fun PgModalCell(
             Text(
                 text = text,
                 style = MaterialTheme.typography.titleSmall,
-                color = textColor
+                color = textColor.copy(alpha = colorAlpha)
             )
 
             if (rightIcon != null) {
