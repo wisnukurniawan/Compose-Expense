@@ -2,6 +2,7 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -41,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -73,6 +75,7 @@ fun TransactionDetailScreen(
     viewModel: TransactionDetailViewModel
 ) {
     val state by viewModel.state.collectAsState()
+    val localFocusManager = LocalFocusManager.current
 
     TransactionDetailScreen(
         state = state,
@@ -80,9 +83,11 @@ fun TransactionDetailScreen(
             navController.navigateUp()
         },
         onAccountSectionClick = {
+            localFocusManager.clearFocus()
             navController.navigate(TransactionDetailFlow.SelectAccount.route)
         },
         onTransactionTypeSelected = {
+            localFocusManager.clearFocus()
             viewModel.dispatch(TransactionAction.SelectTransactionType(it))
         },
         onTotalAmountChange = { viewModel.dispatch(TransactionAction.TotalAmountAction.Change(it)) },
@@ -101,8 +106,16 @@ private fun TransactionDetailScreen(
     onTotalAmountFocusChange: (Boolean) -> Unit,
     onNoteChange: (TextFieldValue) -> Unit,
 ) {
+    val localFocusManager = LocalFocusManager.current
     PgPageLayout(
         Modifier.fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        localFocusManager.clearFocus()
+                    }
+                )
+            }
     ) {
         PgHeaderEditMode(
             isAllowToSave = true,
