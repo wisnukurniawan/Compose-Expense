@@ -1,5 +1,4 @@
-// TODO 2: Akun selector screen, akun applied UI 
-// TODO 3: Kategori selector screen, selector applied 
-// TODO 4: Date selector, date applied 
-// TODO 5: Save button disable enable 
-// TODO 6: Save collect ui state
+// TODO 1: Kategori selector screen, selector applied 
+// TODO 2: Save button disable enable 
+// TODO 3: Save collect ui state
+// TODO 4: Create new akun button in account selection

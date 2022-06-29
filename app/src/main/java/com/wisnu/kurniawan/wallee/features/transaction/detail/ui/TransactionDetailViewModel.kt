@@ -64,6 +64,12 @@ class TransactionDetailViewModel @Inject constructor(
             is TransactionAction.SelectTransactionType -> {
                 viewModelScope.launch {
                     setState { copy(transactionTypeItems = transactionTypeItems.select(action.selectedTransactionItem)) }
+
+                    if (action.selectedTransactionItem.transactionType == TransactionType.TRANSFER) {
+                        state.value.accountItems.find { !it.selected }?.let {
+                            setState { copy(transferAccountItems = state.value.transferAccountItems.select(it.account)) }
+                        }
+                    }
                 }
             }
             is TransactionAction.TotalAmountAction.Change -> {
