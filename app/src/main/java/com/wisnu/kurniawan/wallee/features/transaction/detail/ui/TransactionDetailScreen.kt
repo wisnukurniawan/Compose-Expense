@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -49,6 +50,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
+import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
@@ -60,13 +62,15 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
+import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.model.TransactionType
+import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
 
 @Composable
 fun TransactionDetailScreen(
     navController: NavController,
-    viewModel: TransactionViewModel
+    viewModel: TransactionDetailViewModel
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -75,11 +79,14 @@ fun TransactionDetailScreen(
         onCancelClick = {
             navController.navigateUp()
         },
+        onAccountSectionClick = {
+            navController.navigate(TransactionDetailFlow.SelectAccount.route)
+        },
         onTransactionTypeSelected = {
             viewModel.dispatch(TransactionAction.SelectTransactionType(it))
         },
-        onTotalAmountChange = { viewModel.dispatch(TransactionAction.ChangeTotal(it)) },
-        onTotalAmountFocusChange = { viewModel.dispatch(TransactionAction.FocusChangeTotal(it)) },
+        onTotalAmountChange = { viewModel.dispatch(TransactionAction.TotalAmountAction.Change(it)) },
+        onTotalAmountFocusChange = { viewModel.dispatch(TransactionAction.TotalAmountAction.FocusChange(it)) },
         onNoteChange = { viewModel.dispatch(TransactionAction.ChangeNote(it)) },
     )
 }
@@ -88,6 +95,7 @@ fun TransactionDetailScreen(
 private fun TransactionDetailScreen(
     state: TransactionState,
     onCancelClick: () -> Unit,
+    onAccountSectionClick: () -> Unit,
     onTransactionTypeSelected: (TransactionTypeItem) -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
@@ -104,7 +112,7 @@ private fun TransactionDetailScreen(
         )
 
         TransactionTypeSection(
-            transactionTypes = state.transactionTypes,
+            transactionTypes = state.transactionTypeItems,
             onSelected = onTransactionTypeSelected
         )
 
@@ -131,7 +139,11 @@ private fun TransactionDetailScreen(
             }
 
             item {
-                GeneralSection(state.selectedTransactionType())
+                GeneralSection(
+                    transactionType = state.selectedTransactionType(),
+                    selectedAccount = state.selectedAccountName() ?: stringResource(AccountType.CASH.getLabel()),
+                    onAccountSectionClick = onAccountSectionClick
+                )
             }
 
             item {
@@ -242,7 +254,11 @@ private fun AmountSection(
 }
 
 @Composable
-private fun GeneralSection(transactionType: TransactionType) {
+private fun GeneralSection(
+    transactionType: TransactionType,
+    selectedAccount: String,
+    onAccountSectionClick: () -> Unit,
+) {
     PgHeadlineLabel(
         text = stringResource(R.string.transaction_edit_general),
         modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
@@ -259,7 +275,20 @@ private fun GeneralSection(transactionType: TransactionType) {
             topStart = MediumRadius,
             topEnd = MediumRadius
         ),
-        onClick = {}
+        onClick = onAccountSectionClick,
+        trailing = {
+            Row {
+                PgContentTitle(
+                    text = selectedAccount,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
+                )
+                Spacer(Modifier.width(8.dp))
+                PgIcon(
+                    imageVector = Icons.Rounded.ChevronRight,
+                    tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                )
+            }
+        }
     )
 
     if (transactionType == TransactionType.TRANSFER) {
@@ -267,7 +296,13 @@ private fun GeneralSection(transactionType: TransactionType) {
             title = stringResource(R.string.transaction_edit_account_to),
             showDivider = true,
             shape = Shapes.None,
-            onClick = {}
+            onClick = {},
+            trailing = {
+                PgIcon(
+                    imageVector = Icons.Rounded.ChevronRight,
+                    tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                )
+            }
         )
     }
 
@@ -276,7 +311,13 @@ private fun GeneralSection(transactionType: TransactionType) {
             title = stringResource(R.string.transaction_edit_category),
             showDivider = true,
             shape = Shapes.None,
-            onClick = {}
+            onClick = {},
+            trailing = {
+                PgIcon(
+                    imageVector = Icons.Rounded.ChevronRight,
+                    tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                )
+            }
         )
     }
 
@@ -287,7 +328,13 @@ private fun GeneralSection(transactionType: TransactionType) {
             bottomStart = MediumRadius,
             bottomEnd = MediumRadius
         ),
-        onClick = {}
+        onClick = {},
+        trailing = {
+            PgIcon(
+                imageVector = Icons.Rounded.ChevronRight,
+                tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+            )
+        }
     )
 }
 
@@ -336,7 +383,8 @@ private fun ActionContentCell(
     title: String,
     showDivider: Boolean,
     shape: Shape,
-    onClick: (() -> Unit)
+    onClick: (() -> Unit),
+    trailing: @Composable () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -354,10 +402,8 @@ private fun ActionContentCell(
             PgContentTitle(
                 text = title
             )
-            PgIcon(
-                imageVector = Icons.Rounded.ChevronRight,
-                tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
-            )
+            Spacer(Modifier.size(8.dp))
+            trailing()
         }
     }
 

@@ -6,9 +6,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.bottomSheet
+import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.AccountSelectionScreen
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetailScreen
-import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionViewModel
+import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetailViewModel
 
+@OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.TransactionDetailNavHost(
     navController: NavHostController,
     bottomSheetConfig: MutableState<BottomSheetConfig>
@@ -21,8 +25,24 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             route = TransactionDetailFlow.TransactionDetail.route,
             arguments = TransactionDetailFlow.TransactionDetail.arguments
         ) {
-            val viewModel = hiltViewModel<TransactionViewModel>()
+            val viewModel = hiltViewModel<TransactionDetailViewModel>()
             TransactionDetailScreen(navController, viewModel)
+        }
+
+        bottomSheet(TransactionDetailFlow.SelectAccount.route) {
+            val viewModel = if (navController.previousBackStackEntry != null) {
+                hiltViewModel<TransactionDetailViewModel>(
+                    navController.previousBackStackEntry!!
+                )
+            } else {
+                hiltViewModel()
+            }
+            bottomSheetConfig.value = DefaultBottomSheetConfig
+
+            AccountSelectionScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 }

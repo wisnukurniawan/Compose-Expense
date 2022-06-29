@@ -40,6 +40,10 @@ sealed class TransactionDetailFlow(val name: String) {
 
         val route = "$name?$ARG_TRANSACTION_ID={$ARG_TRANSACTION_ID}"
     }
+
+    object SelectAccount : TransactionDetailFlow("select-account-screen") {
+        val route = name
+    }
 }
 
 const val ARG_TRANSACTION_ID = "listId"
