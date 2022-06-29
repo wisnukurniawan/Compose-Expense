@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
@@ -37,8 +38,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -75,6 +79,7 @@ fun TransactionDetailScreen(
             viewModel.dispatch(TransactionAction.SelectTransactionType(it))
         },
         onTotalAmountChange = { viewModel.dispatch(TransactionAction.ChangeTotal(it)) },
+        onTotalAmountFocusChange = { viewModel.dispatch(TransactionAction.FocusChangeTotal(it)) },
         onNoteChange = { viewModel.dispatch(TransactionAction.ChangeNote(it)) },
     )
 }
@@ -85,6 +90,7 @@ private fun TransactionDetailScreen(
     onCancelClick: () -> Unit,
     onTransactionTypeSelected: (TransactionTypeItem) -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
+    onTotalAmountFocusChange: (Boolean) -> Unit,
     onNoteChange: (TextFieldValue) -> Unit,
 ) {
     PgPageLayout(
@@ -115,7 +121,8 @@ private fun TransactionDetailScreen(
                 AmountSection(
                     state.totalAmount,
                     state.currency,
-                    onTotalAmountChange
+                    onTotalAmountChange,
+                    onTotalAmountFocusChange
                 )
             }
 
@@ -192,7 +199,8 @@ private fun TransactionTypeSection(
 private fun AmountSection(
     totalAmount: TextFieldValue,
     currency: Currency,
-    onTotalAmountChange: (TextFieldValue) -> Unit
+    onTotalAmountChange: (TextFieldValue) -> Unit,
+    onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
     PgHeadlineLabel(
         text = stringResource(R.string.transaction_edit_total),
@@ -212,13 +220,22 @@ private fun AmountSection(
             color = MaterialTheme.colorScheme.onBackground
         )
         Box {
+            val localFocusManager = LocalFocusManager.current
             BasicTextField(
                 value = totalAmount,
                 onValueChange = onTotalAmountChange,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .onFocusChanged {
+                        onTotalAmountFocusChange(it.isFocused)
+                    },
                 textStyle = MaterialTheme.typography.headlineMedium,
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
-                singleLine = true
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
+                singleLine = true,
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        localFocusManager.clearFocus()
+                    }
+                )
             )
         }
     }
@@ -291,12 +308,18 @@ private fun NoteSection(
             .fillMaxWidth()
             .padding(all = 16.dp)
     ) {
+        val focusManager = LocalFocusManager.current
         BasicTextField(
             value = note,
             onValueChange = onNoteChange,
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.titleSmall,
-            keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences),
+            keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                }
+            )
         )
 
         if (note.text.isBlank()) {

@@ -23,13 +23,13 @@ class CurrencyTest {
         delimiter = ';'
     )
     fun testFormatAsDisplay(
-        amount: String,
-        formattedAmount: String
+        output: String,
+        input: String
     ) {
         Assertions.assertEquals(
-            formattedAmount,
+            input,
             Currency.INDONESIA.formatAsDisplay(
-                amount.toBigDecimal(),
+                output.toBigDecimal(),
                 ""
             )
         )
@@ -47,17 +47,18 @@ class CurrencyTest {
             "12345678.93; 12.345.678,93",
             "123456789; 123.456.789",
             "123456789222; 123.456.789.222",
+            "555000.88; 555.000,88",
         ],
         delimiter = ';'
     )
     fun testDisplayToDecimal(
-        amount: String,
-        formattedAmount: String
+        output: String,
+        input: String
     ) {
         Assertions.assertEquals(
-            amount,
+            output,
             Currency.INDONESIA.parseAsDecimal(
-                formattedAmount,
+                input,
                 ""
             ).toString()
         )

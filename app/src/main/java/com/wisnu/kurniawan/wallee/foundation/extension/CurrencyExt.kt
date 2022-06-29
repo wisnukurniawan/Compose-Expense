@@ -70,6 +70,26 @@ fun Currency.formatAsDisplay(
     return currencyFormat.format(amount)
 }
 
+fun Currency.toggleFormatDisplay(
+    enable: Boolean,
+    amount: String
+): String {
+    return if (enable) {
+        formatAsDisplay(
+            amount.toBigDecimal(),
+            ""
+        )
+    } else {
+        formatAsDecimal(amount)
+    }
+}
+
+fun formatAsDecimal(amount: String): String {
+    return amount
+        .replace(".", "")
+        .replace(",", ".")
+}
+
 fun Currency.parseAsDecimal(
     amount: String,
     currencySymbol: String
@@ -77,7 +97,7 @@ fun Currency.parseAsDecimal(
     val currencyFormat = NumberFormat.getCurrencyInstance(getLocale())
     val amountCurrency = JavaCurrency.getInstance(code)
     runCatching {
-        val amountSplits = amount.split(FRACTION_SEPARATOR)
+        val amountSplits = amount.split(",")
         val fraction = if (amountSplits.size > 1) {
             amountSplits[1].length
         } else {

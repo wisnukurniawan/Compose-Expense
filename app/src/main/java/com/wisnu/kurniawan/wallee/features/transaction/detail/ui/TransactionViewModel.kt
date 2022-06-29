@@ -5,6 +5,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
+import com.wisnu.kurniawan.wallee.foundation.extension.toggleFormatDisplay
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,6 +39,13 @@ class TransactionViewModel @Inject constructor(
                             }
                         }
                     }
+                }
+            }
+            is TransactionAction.FocusChangeTotal -> {
+                viewModelScope.launch {
+                    val totalAmount = state.value.totalAmount.text
+                    val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmount)
+                    setState { copy(totalAmount = state.value.totalAmount.copy(text = totalAmountFormatted)) }
                 }
             }
             is TransactionAction.ChangeNote -> {
