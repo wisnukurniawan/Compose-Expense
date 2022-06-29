@@ -240,7 +240,7 @@ private fun AmountSection(
                     .onFocusChanged {
                         onTotalAmountFocusChange(it.isFocused)
                     },
-                textStyle = MaterialTheme.typography.headlineMedium,
+                textStyle = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.onBackground),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
                 singleLine = true,
                 keyboardActions = KeyboardActions(
@@ -360,7 +360,7 @@ private fun NoteSection(
             value = note,
             onValueChange = onNoteChange,
             modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.titleSmall,
+            textStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground),
             keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
