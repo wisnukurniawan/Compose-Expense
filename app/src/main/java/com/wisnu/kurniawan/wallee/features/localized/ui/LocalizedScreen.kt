@@ -92,6 +92,11 @@ private fun LanguageItem(
         } else {
             MaterialTheme.colorScheme.surfaceVariant
         },
+        textColor = if (item.applied) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        },
         rightIcon = if (item.applied) {
             @Composable {
                 Icon(

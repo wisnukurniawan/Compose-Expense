@@ -73,6 +73,7 @@
     <string name="transaction_edit_category">Kategori</string>
     <string name="transaction_edit_date_transaction">Tanggal transaksi</string>
     <string name="transaction_edit_note">Catatan</string>
-    <string name="transaction_edit_note_hint">Tulis catatan di sini…</string>
-
+    <string name="transaction_edit_note_expense_hint">Contoh \"Beli ayam goreng &amp; es teh\"</string>
+    <string name="transaction_edit_note_income_hint">Contoh \"Untuk tabungan\"</string>
+    <string name="transaction_edit_note_transfer_hint">Contoh \"Untuk subscription bulan ini\"</string>
 </resources>

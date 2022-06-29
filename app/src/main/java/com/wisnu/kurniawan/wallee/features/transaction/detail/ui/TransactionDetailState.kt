@@ -2,6 +2,7 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.input.TextFieldValue
+import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
@@ -41,6 +42,12 @@ fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.n
 fun TransactionState.selectedAccountTransferName() = transferAccountItems.selected()?.account?.name.orEmpty()
 
 fun TransactionState.transactionDateDisplayable() = transactionDate.formatDateTime()
+
+fun TransactionState.noteHintDisplayable() = when(selectedTransactionType()) {
+    TransactionType.INCOME -> R.string.transaction_edit_note_income_hint
+    TransactionType.EXPENSE -> R.string.transaction_edit_note_expense_hint
+    TransactionType.TRANSFER -> R.string.transaction_edit_note_transfer_hint
+}
 
 fun List<TransactionTypeItem>.select(selectedTransactionTypeItem: TransactionTypeItem): List<TransactionTypeItem> {
     return map {

@@ -73,6 +73,11 @@ private fun ThemeItem(
         } else {
             MaterialTheme.colorScheme.surfaceVariant
         },
+        textColor = if (item.applied) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        },
         leftIcon = @Composable {
             val brush = if (item.theme == Theme.WALLPAPER) {
                 val context = LocalContext.current

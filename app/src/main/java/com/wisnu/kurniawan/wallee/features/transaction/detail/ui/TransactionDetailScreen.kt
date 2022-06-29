@@ -184,7 +184,11 @@ private fun TransactionDetailScreen(
             }
 
             item {
-                NoteSection(state.note, onNoteChange)
+                NoteSection(
+                    note = state.note,
+                    hint = stringResource(state.noteHintDisplayable()),
+                    onNoteChange = onNoteChange
+                )
             }
         }
     }
@@ -233,10 +237,6 @@ private fun TransactionTypeSection(
                             PgTabLabel(stringResource(it.title))
                         }
                     }
-                }
-
-                if (it.transactionType != TransactionType.TRANSFER) {
-                    Spacer(Modifier.width(8.dp))
                 }
             }
         }
@@ -395,6 +395,7 @@ private fun GeneralSection(
 @Composable
 private fun NoteSection(
     note: TextFieldValue,
+    hint: String,
     onNoteChange: (TextFieldValue) -> Unit
 ) {
     PgHeadlineLabel(
@@ -425,7 +426,7 @@ private fun NoteSection(
 
         if (note.text.isBlank()) {
             PgContentTitle(
-                text = stringResource(R.string.transaction_edit_note_hint),
+                text = hint,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
             )
         }

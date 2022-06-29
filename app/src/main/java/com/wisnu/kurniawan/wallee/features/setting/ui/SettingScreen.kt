@@ -3,7 +3,6 @@ package com.wisnu.kurniawan.wallee.features.setting.ui
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -60,6 +59,5 @@ private fun SettingItem(
     PgModalCell(
         onClick = onClick,
         text = title,
-        color = MaterialTheme.colorScheme.surfaceVariant
     )
 }
