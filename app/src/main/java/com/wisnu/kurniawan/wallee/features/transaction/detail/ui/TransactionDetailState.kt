@@ -3,9 +3,12 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
+import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
+import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.model.TransactionType
+import java.time.LocalDateTime
 
 @Immutable
 data class TransactionState(
@@ -14,7 +17,8 @@ data class TransactionState(
     val transferAccountItems: List<AccountItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val note: TextFieldValue = TextFieldValue(),
-    val currency: Currency = Currency.INDONESIA
+    val currency: Currency = Currency.INDONESIA,
+    val transactionDate: LocalDateTime = DateTimeProviderImpl().now()
 )
 
 data class AccountItem(
@@ -35,6 +39,8 @@ fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.
 fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.name
 
 fun TransactionState.selectedAccountTransferName() = transferAccountItems.selected()?.account?.name.orEmpty()
+
+fun TransactionState.transactionDateDisplayable() = transactionDate.formatDateTime()
 
 fun List<TransactionTypeItem>.select(selectedTransactionTypeItem: TransactionTypeItem): List<TransactionTypeItem> {
     return map {

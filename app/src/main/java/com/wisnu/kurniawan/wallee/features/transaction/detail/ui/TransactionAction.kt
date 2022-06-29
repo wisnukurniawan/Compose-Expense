@@ -2,6 +2,7 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.model.Account
+import java.time.LocalDate
 
 sealed interface TransactionAction {
     data class SelectTransactionType(val selectedTransactionItem: TransactionTypeItem) : TransactionAction
@@ -12,4 +13,5 @@ sealed interface TransactionAction {
     data class ChangeNote(val note: TextFieldValue) : TransactionAction
     data class SelectAccount(val selectedAccount: Account): TransactionAction
     data class SelectTransferAccount(val selectedAccount: Account): TransactionAction
+    data class SelectDate(val selectedDate: LocalDate): TransactionAction
 }

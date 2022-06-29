@@ -10,6 +10,8 @@ import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -95,6 +97,11 @@ class TransactionDetailViewModel @Inject constructor(
             is TransactionAction.SelectTransferAccount -> {
                 viewModelScope.launch {
                     setState { copy(transferAccountItems = state.value.transferAccountItems.select(action.selectedAccount)) }
+                }
+            }
+            is TransactionAction.SelectDate -> {
+                viewModelScope.launch {
+                    setState { copy(transactionDate = LocalDateTime.of(action.selectedDate, LocalTime.now())) }
                 }
             }
         }

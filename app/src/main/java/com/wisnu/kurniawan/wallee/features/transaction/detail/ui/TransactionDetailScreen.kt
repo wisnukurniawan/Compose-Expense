@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -43,6 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -64,6 +66,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
+import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.model.TransactionType
@@ -76,6 +79,7 @@ fun TransactionDetailScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val localFocusManager = LocalFocusManager.current
+    val activity = LocalContext.current as AppCompatActivity
 
     TransactionDetailScreen(
         state = state,
@@ -89,6 +93,11 @@ fun TransactionDetailScreen(
         onTransferAccountSectionClick = {
             localFocusManager.clearFocus()
             navController.navigate(TransactionDetailFlow.SelectTransferAccount.route)
+        },
+        onDateSectionClick = {
+            activity.showDatePicker(state.transactionDate.toLocalDate()) { selectedDate ->
+                viewModel.dispatch(TransactionAction.SelectDate(selectedDate))
+            }
         },
         onTransactionTypeSelected = {
             localFocusManager.clearFocus()
@@ -106,6 +115,7 @@ private fun TransactionDetailScreen(
     onCancelClick: () -> Unit,
     onAccountSectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
+    onDateSectionClick: () -> Unit,
     onTransactionTypeSelected: (TransactionTypeItem) -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
@@ -161,8 +171,10 @@ private fun TransactionDetailScreen(
                     transactionType = state.selectedTransactionType(),
                     selectedAccount = state.selectedAccountName() ?: stringResource(AccountType.CASH.getLabel()),
                     selectedTransferAccount = state.selectedAccountTransferName(),
+                    transactionDate = state.transactionDateDisplayable(),
                     onAccountSectionClick = onAccountSectionClick,
-                    onTransferAccountSectionClick = onTransferAccountSectionClick
+                    onTransferAccountSectionClick = onTransferAccountSectionClick,
+                    onDateSectionClick = onDateSectionClick
                 )
             }
 
@@ -278,8 +290,10 @@ private fun GeneralSection(
     transactionType: TransactionType,
     selectedAccount: String,
     selectedTransferAccount: String,
+    transactionDate: String,
     onAccountSectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
+    onDateSectionClick: () -> Unit,
 ) {
     PgHeadlineLabel(
         text = stringResource(R.string.transaction_edit_general),
@@ -357,12 +371,19 @@ private fun GeneralSection(
             bottomStart = MediumRadius,
             bottomEnd = MediumRadius
         ),
-        onClick = {},
+        onClick = onDateSectionClick,
         trailing = {
-            PgIcon(
-                imageVector = Icons.Rounded.ChevronRight,
-                tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
-            )
+            Row {
+                PgContentTitle(
+                    text = transactionDate,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
+                )
+                Spacer(Modifier.width(8.dp))
+                PgIcon(
+                    imageVector = Icons.Rounded.ChevronRight,
+                    tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                )
+            }
         }
     )
 }
