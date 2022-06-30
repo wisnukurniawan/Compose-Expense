@@ -2,6 +2,7 @@ package com.wisnu.kurniawan.wallee.foundation.datasource.local
 
 import com.wisnu.kurniawan.wallee.foundation.di.DiName
 import com.wisnu.kurniawan.wallee.foundation.extension.toAccount
+import com.wisnu.kurniawan.wallee.foundation.extension.toAccountDb
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionDb
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.Transaction
@@ -23,6 +24,12 @@ class LocalManager @Inject constructor(
         return walleeReadDao.getAccounts()
             .map { it.toAccount() }
             .flowOn(dispatcher)
+    }
+
+    suspend fun insertAccount(account: Account) {
+        withContext(dispatcher) {
+            walleeWriteDao.insertAccount(listOf(account.toAccountDb()))
+        }
     }
 
     suspend fun insertTransaction(accountId: String, transferAccountId: String?, transaction: Transaction) {

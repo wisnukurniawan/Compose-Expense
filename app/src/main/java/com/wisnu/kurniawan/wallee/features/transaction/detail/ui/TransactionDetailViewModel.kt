@@ -114,8 +114,11 @@ class TransactionDetailViewModel @Inject constructor(
                     setState { copy(transactionTypeItems = transactionTypeItems.select(action.selectedTransactionItem)) }
 
                     if (action.selectedTransactionItem.transactionType == TransactionType.TRANSFER) {
-                        state.value.accountItems.find { !it.selected }?.let {
-                            setState { copy(transferAccountItems = state.value.transferAccountItems.select(it.account)) }
+                        val selectedAccount = state.value.transferAccountItems.selected()
+                        if (selectedAccount == null) {
+                            state.value.accountItems.find { !it.selected }?.let {
+                                setState { copy(transferAccountItems = state.value.transferAccountItems.select(it.account)) }
+                            }
                         }
                     }
                 }

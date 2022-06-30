@@ -1,8 +1,9 @@
 package com.wisnu.kurniawan.wallee.features.account.detail.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,20 +12,28 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material3.Divider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -38,10 +47,12 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.ActionContentCell
+import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
+import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgBasicTextField
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgErrorLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeaderEditMode
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
@@ -110,7 +121,7 @@ private fun AccountDetailScreen(
             }
     ) {
         PgHeaderEditMode(
-            isAllowToSave = false, // TODO wisnu
+            isAllowToSave = state.isValid(),
             title = stringResource(R.string.account_edit_add),
             onSaveClick = onSaveClick,
             onCancelClick = onCancelClick,
@@ -124,17 +135,19 @@ private fun AccountDetailScreen(
                 .imePadding()
         ) {
             item {
+                if (state.shouldShowDuplicateNameError) {
+                    PgErrorLabel(
+                        text = stringResource(R.string.account_edit_name_duplicate),
+                        modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
+                    )
+                }
+
                 NameSection(
                     name = state.name,
-                    onNameChange = onNameChange
+                    onNameChange = onNameChange,
+                    isError = state.shouldShowDuplicateNameError
                 )
-            }
 
-            item {
-                Spacer(Modifier.height(16.dp))
-            }
-
-            item {
                 CategorySection(
                     categoryName = stringResource(state.selectedAccountType().getLabel()),
                     onCategorySectionClick = onCategorySectionClick
@@ -161,33 +174,38 @@ private fun AccountDetailScreen(
 @Composable
 private fun NameSection(
     name: TextFieldValue,
-    onNameChange: (TextFieldValue) -> Unit
+    isError: Boolean,
+    onNameChange: (TextFieldValue) -> Unit,
 ) {
-    PgHeadlineLabel(
-        text = stringResource(R.string.account_edit_name),
-        modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
-    )
-    Box(
-        modifier = Modifier.background(
-            color = MaterialTheme.colorScheme.secondary,
-            shape = MaterialTheme.shapes.medium
-        )
-            .fillMaxWidth()
-            .padding(all = 16.dp)
-    ) {
-        val focusManager = LocalFocusManager.current
-        PgBasicTextField(
-            value = name,
-            onValueChange = onNameChange,
-            keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    focusManager.clearFocus()
-                }
-            ),
-            placeholderValue = stringResource(R.string.account_edit_name_hint)
-        )
+    val titleColor = if (isError) {
+        MaterialTheme.colorScheme.error
+    } else {
+        MaterialTheme.colorScheme.onBackground
     }
+    ActionContentCell(
+        title = stringResource(R.string.account_edit_name),
+        titleColor = titleColor,
+        showDivider = true,
+        shape = RoundedCornerShape(
+            topStart = MediumRadius,
+            topEnd = MediumRadius
+        ),
+        trailing = {
+            val focusManager = LocalFocusManager.current
+            PgBasicTextField(
+                value = name,
+                onValueChange = onNameChange,
+                keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                    }
+                ),
+                placeholderValue = stringResource(R.string.account_edit_name_hint),
+                singleLine = true
+            )
+        },
+    )
 }
 
 @Composable
@@ -198,13 +216,20 @@ private fun CategorySection(
     ActionContentCell(
         title = stringResource(R.string.category),
         showDivider = false,
-        shape = MaterialTheme.shapes.medium,
+        shape = RoundedCornerShape(
+            bottomStart = MediumRadius,
+            bottomEnd = MediumRadius
+        ),
         onClick = onCategorySectionClick,
         trailing = {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 PgContentTitle(
                     text = categoryName,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled),
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(Modifier.width(8.dp))
                 PgIcon(
@@ -255,5 +280,49 @@ private fun AmountSection(
                 }
             )
         )
+    }
+}
+
+@Composable
+private fun ActionContentCell(
+    title: String,
+    titleColor: Color = MaterialTheme.colorScheme.onBackground,
+    showDivider: Boolean,
+    shape: Shape,
+    onClick: (() -> Unit) = {},
+    trailing: @Composable () -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .clickable(onClick = onClick),
+        color = MaterialTheme.colorScheme.secondary,
+        shape = shape,
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(all = 16.dp)
+        ) {
+            PgContentTitle(
+                text = title,
+                modifier = Modifier.width(70.dp),
+                color = titleColor
+            )
+            Spacer(Modifier.size(8.dp))
+            trailing()
+        }
+    }
+
+    if (showDivider) {
+        Row {
+            Spacer(
+                Modifier
+                    .width(16.dp)
+                    .height(1.dp)
+                    .background(color = MaterialTheme.colorScheme.secondary)
+            )
+            Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
+        }
     }
 }

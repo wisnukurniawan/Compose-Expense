@@ -174,3 +174,16 @@ fun PgAmountLabel(
         modifier = modifier
     )
 }
+
+@Composable
+fun PgErrorLabel(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
+    Text(
+        style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.error),
+        text = text,
+        modifier = modifier
+    )
+}
+

@@ -15,6 +15,7 @@ fun AccountDb.toAccount() = Account(
     name = name,
     type = type.toAccountType(),
     amount = amount.toBigDecimal(),
+    createdAt = createdAt,
     updatedAt = updatedAt,
     transactions = listOf()
 )

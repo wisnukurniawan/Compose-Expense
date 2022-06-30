@@ -335,7 +335,9 @@ private fun GeneralSection(
         ),
         onClick = onAccountSectionClick,
         trailing = {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 PgContentTitle(
                     text = selectedAccount,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
@@ -356,7 +358,9 @@ private fun GeneralSection(
             shape = Shapes.None,
             onClick = onTransferAccountSectionClick,
             trailing = {
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     PgContentTitle(
                         text = selectedTransferAccount,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
@@ -378,7 +382,9 @@ private fun GeneralSection(
             shape = Shapes.None,
             onClick = onCategorySectionClick,
             trailing = {
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     val (emoji, name) = selectedCategoryType.getEmojiAndText()
                     PgContentTitle(
                         text = stringResource(name) + " " + emoji,
@@ -403,7 +409,9 @@ private fun GeneralSection(
         ),
         onClick = onDateSectionClick,
         trailing = {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 PgContentTitle(
                     text = transactionDate,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)

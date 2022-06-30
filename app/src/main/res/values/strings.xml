@@ -76,7 +76,7 @@
     <string name="transaction_edit_account_from">Account from</string>
     <string name="transaction_edit_account_to">Account to</string>
     <string name="transaction_edit_date_transaction">Transaction date</string>
-    <string name="transaction_edit_note">Note</string>
+    <string name="transaction_edit_note">Note (Optional)</string>
     <string name="transaction_edit_note_expense_hint">Example \"Buy fried chicken &amp; tea\"</string>
     <string name="transaction_edit_note_income_hint">Example \"For saving\"</string>
     <string name="transaction_edit_note_transfer_hint">Example \"For subscription this month\"</string>
@@ -85,5 +85,6 @@
     <string name="account_edit_balance">Current balance</string>
     <string name="account_edit_select_category">Select Category</string>
     <string name="account_edit_name">Name</string>
-    <string name="account_edit_name_hint">Example \"My bank\"</string>
+    <string name="account_edit_name_hint">Required</string>
+    <string name="account_edit_name_duplicate">You already have account with this name</string>
 </resources>

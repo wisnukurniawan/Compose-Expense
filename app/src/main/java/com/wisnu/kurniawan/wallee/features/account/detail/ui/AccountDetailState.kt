@@ -12,7 +12,8 @@ data class AccountDetailState(
     val name: TextFieldValue = TextFieldValue(""),
     val accountTypeItems: List<AccountTypeItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
-    val currency: Currency = Currency.INDONESIA
+    val currency: Currency = Currency.INDONESIA,
+    val shouldShowDuplicateNameError: Boolean = false
 )
 
 data class AccountTypeItem(
@@ -21,6 +22,8 @@ data class AccountTypeItem(
 )
 
 // Collections
+fun AccountDetailState.isValid() = name.text.isNotBlank()
+
 fun AccountDetailState.selectedAccountType() = accountTypeItems.selected()?.type ?: AccountType.CASH
 
 fun List<AccountTypeItem>.select(selectedAccountType: AccountType): List<AccountTypeItem> {
