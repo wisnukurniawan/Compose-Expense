@@ -48,6 +48,10 @@ sealed class TransactionDetailFlow(val name: String) {
     object SelectTransferAccount : TransactionDetailFlow("select-transfer-account-screen") {
         val route = name
     }
+
+    object SelectCategory : TransactionDetailFlow("select-category-screen") {
+        val route = name
+    }
 }
 
 const val ARG_TRANSACTION_ID = "listId"

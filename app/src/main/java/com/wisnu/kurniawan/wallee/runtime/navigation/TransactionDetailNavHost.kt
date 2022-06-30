@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.AccountSelectionScreen
+import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.CategorySelectionScreen
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetailScreen
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetailViewModel
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransferAccountSelectionScreen
@@ -57,6 +58,22 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             bottomSheetConfig.value = DefaultBottomSheetConfig
 
             TransferAccountSelectionScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+
+        bottomSheet(TransactionDetailFlow.SelectCategory.route) {
+            val viewModel = if (navController.previousBackStackEntry != null) {
+                hiltViewModel<TransactionDetailViewModel>(
+                    navController.previousBackStackEntry!!
+                )
+            } else {
+                hiltViewModel()
+            }
+            bottomSheetConfig.value = DefaultBottomSheetConfig
+
+            CategorySelectionScreen(
                 navController = navController,
                 viewModel = viewModel
             )

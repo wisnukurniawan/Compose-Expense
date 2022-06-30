@@ -44,7 +44,7 @@ fun PgTitleBar(
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.titleSmall.copy(
-            color = MaterialTheme.colorScheme.onBackground,
+            color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Medium
         ),
     )
@@ -78,7 +78,7 @@ fun PgTitleBarSecondary(
         enabled = enabled,
         text = text,
         style = MaterialTheme.typography.titleSmall.copy(
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onSurface
         )
     )
 }
@@ -131,7 +131,7 @@ fun PgHeadlineLabel(
     modifier: Modifier = Modifier,
 ) {
     Text(
-        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaMedium)),
+        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaMedium)),
         text = text.uppercase(),
         modifier = modifier
     )
@@ -166,7 +166,7 @@ fun PgTabLabel(
 fun PgAmountLabel(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = MaterialTheme.colorScheme.onBackground,
+    color: Color = MaterialTheme.colorScheme.onSurface,
 ) {
     Text(
         style = MaterialTheme.typography.headlineMedium.copy(color = color),

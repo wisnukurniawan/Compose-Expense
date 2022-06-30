@@ -8,6 +8,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
 import com.wisnu.kurniawan.wallee.foundation.extension.toggleFormatDisplay
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Account
+import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDateTime
@@ -22,7 +23,12 @@ class TransactionDetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            setState { copy(transactionTypeItems = initialTransactionTypes()) }
+            setState {
+                copy(
+                    transactionTypeItems = initialTransactionTypes(),
+                    categoryItems = initialCategoryTypes()
+                )
+            }
             environment.getAccounts()
                 .collect {
                     val selectedAccount = state.value.accountItems.selected()
@@ -110,6 +116,11 @@ class TransactionDetailViewModel @Inject constructor(
                     setState { copy(transactionDate = LocalDateTime.of(action.selectedDate, LocalTime.now())) }
                 }
             }
+            is TransactionAction.SelectCategory -> {
+                viewModelScope.launch {
+                    setState { copy(categoryItems = state.value.categoryItems.select(action.selectedCategoryType)) }
+                }
+            }
         }
     }
 
@@ -119,6 +130,47 @@ class TransactionDetailViewModel @Inject constructor(
             TransactionTypeItem(R.string.transaction_income, false, TransactionType.INCOME),
             TransactionTypeItem(R.string.transaction_transfer, false, TransactionType.TRANSFER)
         )
+    }
+
+    private fun initialCategoryTypes(): List<CategoryItem> {
+        return listOf(
+            CategoryType.MONTHLY_FEE,
+            CategoryType.ADMIN_FEE,
+            CategoryType.PETS,
+            CategoryType.DONATION,
+            CategoryType.EDUCATION,
+            CategoryType.FINANCIAL,
+            CategoryType.ENTERTAINMENT,
+            CategoryType.CHILDREN_NEEDS,
+            CategoryType.HOUSEHOLD_NEEDS,
+            CategoryType.SPORT,
+            CategoryType.OTHERS,
+            CategoryType.FOOD,
+            CategoryType.PARKING,
+            CategoryType.FUEL,
+            CategoryType.MOVIE,
+            CategoryType.AUTOMOTIVE,
+            CategoryType.TAX,
+            CategoryType.INCOME,
+            CategoryType.BUSINESS_EXPENSES,
+            CategoryType.SELF_CARE,
+            CategoryType.LOAN,
+            CategoryType.SERVICE,
+            CategoryType.SHOPPING,
+            CategoryType.BILLS,
+            CategoryType.TAXI,
+            CategoryType.CASH_WITHDRAWAL,
+            CategoryType.PHONE,
+            CategoryType.TOP_UP,
+            CategoryType.PUBLIC_TRANSPORTATION,
+            CategoryType.TRAVEL,
+            CategoryType.UNCATEGORIZED,
+        ).map {
+            CategoryItem(
+                it,
+                selected = it == CategoryType.OTHERS
+            )
+        }
     }
 
     companion object {

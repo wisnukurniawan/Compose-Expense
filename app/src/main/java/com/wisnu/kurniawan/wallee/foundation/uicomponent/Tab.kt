@@ -54,7 +54,7 @@ fun PgTab(
         modifier = modifier,
         enabled = enabled,
         text = text,
-        selectedContentColor = MaterialTheme.colorScheme.onBackground,
-        unselectedContentColor = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaMedium)
+        selectedContentColor = MaterialTheme.colorScheme.onSurface,
+        unselectedContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaMedium)
     )
 }

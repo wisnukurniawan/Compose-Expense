@@ -7,6 +7,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.Account
+import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import java.time.LocalDateTime
@@ -16,6 +17,7 @@ data class TransactionState(
     val transactionTypeItems: List<TransactionTypeItem> = listOf(),
     val accountItems: List<AccountItem> = listOf(),
     val transferAccountItems: List<AccountItem> = listOf(),
+    val categoryItems: List<CategoryItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val note: TextFieldValue = TextFieldValue(),
     val currency: Currency = Currency.INDONESIA,
@@ -33,6 +35,11 @@ data class TransactionTypeItem(
     val transactionType: TransactionType
 )
 
+data class CategoryItem(
+    val type: CategoryType,
+    val selected: Boolean,
+)
+
 // Collections
 
 fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.selected }?.transactionType ?: TransactionType.INCOME
@@ -41,9 +48,11 @@ fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.n
 
 fun TransactionState.selectedAccountTransferName() = transferAccountItems.selected()?.account?.name.orEmpty()
 
+fun TransactionState.selectedCategoryType() = categoryItems.selected()?.type ?: CategoryType.OTHERS
+
 fun TransactionState.transactionDateDisplayable() = transactionDate.formatDateTime()
 
-fun TransactionState.noteHintDisplayable() = when(selectedTransactionType()) {
+fun TransactionState.noteHintDisplayable() = when (selectedTransactionType()) {
     TransactionType.INCOME -> R.string.transaction_edit_note_income_hint
     TransactionType.EXPENSE -> R.string.transaction_edit_note_expense_hint
     TransactionType.TRANSFER -> R.string.transaction_edit_note_transfer_hint
@@ -60,5 +69,13 @@ fun List<AccountItem>.select(selectedAccount: Account): List<AccountItem> {
 }
 
 fun List<AccountItem>.selected(): AccountItem? {
+    return find { it.selected }
+}
+
+fun List<CategoryItem>.select(selectedCategoryType: CategoryType): List<CategoryItem> {
+    return map { it.copy(selected = it.type == selectedCategoryType) }
+}
+
+fun List<CategoryItem>.selected(): CategoryItem? {
     return find { it.selected }
 }

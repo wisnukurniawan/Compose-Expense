@@ -55,6 +55,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
+import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
@@ -69,6 +70,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.model.AccountType
+import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
@@ -90,6 +92,10 @@ fun TransactionDetailScreen(
         onAccountSectionClick = {
             localFocusManager.clearFocus()
             navController.navigate(TransactionDetailFlow.SelectAccount.route)
+        },
+        onCategorySectionClick = {
+            localFocusManager.clearFocus()
+            navController.navigate(TransactionDetailFlow.SelectCategory.route)
         },
         onTransferAccountSectionClick = {
             localFocusManager.clearFocus()
@@ -115,6 +121,7 @@ private fun TransactionDetailScreen(
     state: TransactionState,
     onCancelClick: () -> Unit,
     onAccountSectionClick: () -> Unit,
+    onCategorySectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
     onDateSectionClick: () -> Unit,
     onTransactionTypeSelected: (TransactionTypeItem) -> Unit,
@@ -171,9 +178,11 @@ private fun TransactionDetailScreen(
                 GeneralSection(
                     transactionType = state.selectedTransactionType(),
                     selectedAccount = state.selectedAccountName() ?: stringResource(AccountType.CASH.getLabel()),
+                    selectedCategoryType = state.selectedCategoryType(),
                     selectedTransferAccount = state.selectedAccountTransferName(),
                     transactionDate = state.transactionDateDisplayable(),
                     onAccountSectionClick = onAccountSectionClick,
+                    onCategorySectionClick = onCategorySectionClick,
                     onTransferAccountSectionClick = onTransferAccountSectionClick,
                     onDateSectionClick = onDateSectionClick
                 )
@@ -265,7 +274,7 @@ private fun AmountSection(
     ) {
         PgAmountLabel(
             text = currency.getSymbol() + " ",
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onSurface
         )
         Box {
             val localFocusManager = LocalFocusManager.current
@@ -276,7 +285,7 @@ private fun AmountSection(
                     .onFocusChanged {
                         onTotalAmountFocusChange(it.isFocused)
                     },
-                textStyle = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.onBackground),
+                textStyle = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
                 singleLine = true,
                 keyboardActions = KeyboardActions(
@@ -293,9 +302,11 @@ private fun AmountSection(
 private fun GeneralSection(
     transactionType: TransactionType,
     selectedAccount: String,
+    selectedCategoryType: CategoryType,
     selectedTransferAccount: String,
     transactionDate: String,
     onAccountSectionClick: () -> Unit,
+    onCategorySectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
     onDateSectionClick: () -> Unit,
 ) {
@@ -320,7 +331,7 @@ private fun GeneralSection(
             Row {
                 PgContentTitle(
                     text = selectedAccount,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
                 )
                 Spacer(Modifier.width(8.dp))
                 PgIcon(
@@ -341,7 +352,7 @@ private fun GeneralSection(
                 Row {
                     PgContentTitle(
                         text = selectedTransferAccount,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
                     )
                     Spacer(Modifier.width(8.dp))
                     PgIcon(
@@ -358,12 +369,20 @@ private fun GeneralSection(
             title = stringResource(R.string.transaction_edit_category),
             showDivider = true,
             shape = Shapes.None,
-            onClick = {},
+            onClick = onCategorySectionClick,
             trailing = {
-                PgIcon(
-                    imageVector = Icons.Rounded.ChevronRight,
-                    tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
-                )
+                Row {
+                    val (emoji, name) = selectedCategoryType.getEmojiAndText()
+                    PgContentTitle(
+                        text = stringResource(name) + " " + emoji,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled),
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    PgIcon(
+                        imageVector = Icons.Rounded.ChevronRight,
+                        tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                    )
+                }
             }
         )
     }
@@ -380,7 +399,7 @@ private fun GeneralSection(
             Row {
                 PgContentTitle(
                     text = transactionDate,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
                 )
                 Spacer(Modifier.width(8.dp))
                 PgIcon(
@@ -415,7 +434,7 @@ private fun NoteSection(
             value = note,
             onValueChange = onNoteChange,
             modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground),
+            textStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
             keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -427,7 +446,7 @@ private fun NoteSection(
         if (note.text.isBlank()) {
             PgContentTitle(
                 text = hint,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled)
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
             )
         }
     }
