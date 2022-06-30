@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.foundation.theme
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -7,10 +8,12 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.model.Theme
 
 val LightColorPalette = lightColorScheme(
@@ -136,6 +139,7 @@ fun Theme(
     }
     val darkIcons = colors == LightColorPalette || colors == SunriseColorPalette
     val systemUiController = rememberSystemUiController()
+    val activity = LocalContext.current as AppCompatActivity
 
     SideEffect {
         systemUiController.setSystemBarsColor(
@@ -143,6 +147,16 @@ fun Theme(
             darkIcons = darkIcons,
             isNavigationBarContrastEnforced = false
         )
+    }
+
+    LaunchedEffect(colors) {
+        when (colors) {
+            LightColorPalette -> activity.setTheme(R.style.Theme_Wallee_Light)
+            TwilightColorPalette -> activity.setTheme(R.style.Theme_Wallee_Twilight)
+            NightColorPalette -> activity.setTheme(R.style.Theme_Wallee_Night)
+            SunriseColorPalette -> activity.setTheme(R.style.Theme_Wallee_Sunrise)
+            AuroraColorPalette -> activity.setTheme(R.style.Theme_Wallee_Aurora)
+        }
     }
 
     MaterialTheme(
