@@ -42,6 +42,24 @@ data class CategoryItem(
 
 // Collections
 
+fun TransactionState.isValid(): Boolean {
+    val isTotalAmountNotZero = totalAmount.text.toBigDecimal() > "0".toBigDecimal()
+
+    return when (selectedTransactionType()) {
+        TransactionType.INCOME -> {
+            isTotalAmountNotZero
+        }
+        TransactionType.EXPENSE -> {
+            isTotalAmountNotZero
+        }
+        TransactionType.TRANSFER -> {
+            val isTransferAccountNotEmpty = transferAccountItems.selected() != null
+
+            isTotalAmountNotZero && isTransferAccountNotEmpty
+        }
+    }
+}
+
 fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.selected }?.transactionType ?: TransactionType.INCOME
 
 fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.name

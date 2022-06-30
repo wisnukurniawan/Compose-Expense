@@ -141,7 +141,7 @@ private fun TransactionDetailScreen(
             }
     ) {
         PgHeaderEditMode(
-            isAllowToSave = true,
+            isAllowToSave = state.isValid(),
             title = stringResource(R.string.transaction_edit_add),
             onSaveClick = {},
             onCancelClick = onCancelClick,
