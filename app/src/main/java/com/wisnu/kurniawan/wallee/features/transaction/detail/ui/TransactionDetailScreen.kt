@@ -2,9 +2,7 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,14 +13,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Chip
@@ -30,11 +26,9 @@ import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material3.Divider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -42,9 +36,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -60,9 +52,10 @@ import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
-import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.ActionContentCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgBasicTextField
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeaderEditMode
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
@@ -73,7 +66,6 @@ import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffect
 import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.CategoryType
-import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
 
@@ -88,7 +80,7 @@ fun TransactionDetailScreen(
     val localFocusManager = LocalFocusManager.current
     val activity = LocalContext.current as AppCompatActivity
 
-    when(effect) {
+    when (effect) {
         TransactionEffect.ClosePage -> {
             LaunchedEffect(effect) {
                 navController.navigateUp()
@@ -182,10 +174,10 @@ private fun TransactionDetailScreen(
         ) {
             item {
                 AmountSection(
-                    state.totalAmount,
-                    state.currency,
-                    onTotalAmountChange,
-                    onTotalAmountFocusChange
+                    totalAmount = state.totalAmount,
+                    totalAmountDisplay = state.currency.getSymbol() + " ",
+                    onTotalAmountChange = onTotalAmountChange,
+                    onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
             }
 
@@ -274,7 +266,7 @@ private fun TransactionTypeSection(
 @Composable
 private fun AmountSection(
     totalAmount: TextFieldValue,
-    currency: Currency,
+    totalAmountDisplay: String,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
@@ -292,28 +284,24 @@ private fun AmountSection(
             .padding(all = 16.dp)
     ) {
         PgAmountLabel(
-            text = currency.getSymbol() + " ",
+            text = totalAmountDisplay,
             color = MaterialTheme.colorScheme.onSurface
         )
-        Box {
-            val localFocusManager = LocalFocusManager.current
-            BasicTextField(
-                value = totalAmount,
-                onValueChange = onTotalAmountChange,
-                modifier = Modifier.fillMaxWidth()
-                    .onFocusChanged {
-                        onTotalAmountFocusChange(it.isFocused)
-                    },
-                textStyle = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.onSurface),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
-                singleLine = true,
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        localFocusManager.clearFocus()
-                    }
-                )
+        val localFocusManager = LocalFocusManager.current
+        PgBasicTextField(
+            value = totalAmount,
+            onValueChange = onTotalAmountChange,
+            modifier = Modifier.onFocusChanged {
+                onTotalAmountFocusChange(it.isFocused)
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
+            singleLine = true,
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    localFocusManager.clearFocus()
+                }
             )
-        }
+        )
     }
 }
 
@@ -385,7 +373,7 @@ private fun GeneralSection(
 
     if (transactionType == TransactionType.EXPENSE) {
         ActionContentCell(
-            title = stringResource(R.string.transaction_edit_category),
+            title = stringResource(R.string.category),
             showDivider = true,
             shape = Shapes.None,
             onClick = onCategorySectionClick,
@@ -449,66 +437,16 @@ private fun NoteSection(
             .padding(all = 16.dp)
     ) {
         val focusManager = LocalFocusManager.current
-        BasicTextField(
+        PgBasicTextField(
             value = note,
             onValueChange = onNoteChange,
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
             keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
                     focusManager.clearFocus()
                 }
-            )
+            ),
+            placeholderValue = hint
         )
-
-        if (note.text.isBlank()) {
-            PgContentTitle(
-                text = hint,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
-            )
-        }
-    }
-}
-
-@Composable
-private fun ActionContentCell(
-    title: String,
-    showDivider: Boolean,
-    shape: Shape,
-    onClick: (() -> Unit),
-    trailing: @Composable () -> Unit
-) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(shape)
-            .clickable(onClick = onClick),
-        color = MaterialTheme.colorScheme.secondary,
-        shape = shape,
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(all = 16.dp)
-        ) {
-            PgContentTitle(
-                text = title
-            )
-            Spacer(Modifier.size(8.dp))
-            trailing()
-        }
-    }
-
-    if (showDivider) {
-        Row {
-            Spacer(
-                Modifier
-                    .width(16.dp)
-                    .height(1.dp)
-                    .background(color = MaterialTheme.colorScheme.secondary)
-            )
-            Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
-        }
     }
 }

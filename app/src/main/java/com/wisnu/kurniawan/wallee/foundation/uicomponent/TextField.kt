@@ -47,7 +47,7 @@ fun PgTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     shape: Shape = Shapes.small,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
-    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
+    textStyle: TextStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
     errorLabel: @Composable (() -> Unit)? = null,
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
@@ -91,7 +91,7 @@ fun PgTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     shape: Shape = Shapes.small,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
-    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
+    textStyle: TextStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
     errorLabel: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
@@ -139,7 +139,7 @@ fun PgBasicTextField(
     placeholderValue: String = "",
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
+    textStyle: TextStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
@@ -187,7 +187,7 @@ fun PgBasicTextField(
     placeholderValue: String = "",
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
+    textStyle: TextStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,

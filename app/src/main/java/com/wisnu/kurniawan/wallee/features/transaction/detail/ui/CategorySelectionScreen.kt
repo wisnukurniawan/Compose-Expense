@@ -54,7 +54,7 @@ private fun CategorySelectionScreen(
     PgModalVerticalGridLayout(
         title = {
             PgModalTitle(
-                text = stringResource(R.string.transaction_edit_category)
+                text = stringResource(R.string.category)
             )
         },
         content = {

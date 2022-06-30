@@ -26,6 +26,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
 import com.wisnu.kurniawan.wallee.model.TransactionType
+import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 
 @Composable
 fun AccountSelectionScreen(
@@ -44,6 +45,9 @@ fun AccountSelectionScreen(
         onClick = {
             viewModel.dispatch(TransactionAction.SelectAccount(it.account))
             navController.navigateUp()
+        },
+        onAddAccountClick = {
+            navController.navigate(AccountDetailFlow.Root.route())
         }
     )
 }
@@ -61,6 +65,9 @@ fun TransferAccountSelectionScreen(
         onClick = {
             viewModel.dispatch(TransactionAction.SelectTransferAccount(it.account))
             navController.navigateUp()
+        },
+        onAddAccountClick = {
+            navController.navigate(AccountDetailFlow.Root.route())
         }
     )
 }
@@ -70,6 +77,7 @@ private fun AccountSelectionScreen(
     accountItems: List<AccountItem>,
     disabledAccount: AccountItem?,
     onClick: (AccountItem) -> Unit,
+    onAddAccountClick: () -> Unit,
 ) {
     PgModalLayout(
         title = {
@@ -85,7 +93,7 @@ private fun AccountSelectionScreen(
                         .align(Alignment.CenterEnd)
                 ) {
                     PgIconButton(
-                        onClick = {},
+                        onClick = onAddAccountClick,
                         modifier = Modifier.size(28.dp)
                     ) {
                         PgIcon(

@@ -6,6 +6,7 @@
     <string name="login_email_invalid">Email invalid</string>
     <string name="login_password">Password</string>
 
+    <string name="category">Category</string>
     <string name="category_monthly_fee">Monthly fee</string>
     <string name="category_admin_fee">Admin fee</string>
     <string name="category_pets">Pet care</string>
@@ -74,7 +75,6 @@
     <string name="transaction_edit_account">Account</string>
     <string name="transaction_edit_account_from">Account from</string>
     <string name="transaction_edit_account_to">Account to</string>
-    <string name="transaction_edit_category">Category</string>
     <string name="transaction_edit_date_transaction">Transaction date</string>
     <string name="transaction_edit_note">Note</string>
     <string name="transaction_edit_note_expense_hint">Example \"Buy fried chicken &amp; tea\"</string>

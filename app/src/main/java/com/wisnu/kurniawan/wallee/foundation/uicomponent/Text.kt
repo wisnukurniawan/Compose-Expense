@@ -169,7 +169,7 @@ fun PgAmountLabel(
     color: Color = MaterialTheme.colorScheme.onSurface,
 ) {
     Text(
-        style = MaterialTheme.typography.headlineMedium.copy(color = color),
+        style = MaterialTheme.typography.titleSmall.copy(color = color),
         text = text,
         modifier = modifier
     )

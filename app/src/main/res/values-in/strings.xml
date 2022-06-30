@@ -5,6 +5,7 @@
     <string name="login_email_invalid">Email tidak valid</string>
     <string name="login_password">Kata sandi</string>
 
+    <string name="category">Kategori</string>
     <string name="category_monthly_fee">Belanja bulanan</string>
     <string name="category_admin_fee">Biaya admin</string>
     <string name="category_pets">Binatang peliharaan</string>
@@ -70,7 +71,6 @@
     <string name="transaction_edit_account">Akun</string>
     <string name="transaction_edit_account_from">Akun asal</string>
     <string name="transaction_edit_account_to">Akun tujuan</string>
-    <string name="transaction_edit_category">Kategori</string>
     <string name="transaction_edit_date_transaction">Tanggal transaksi</string>
     <string name="transaction_edit_note">Catatan</string>
     <string name="transaction_edit_note_expense_hint">Contoh \"Beli ayam goreng &amp; es teh\"</string>
