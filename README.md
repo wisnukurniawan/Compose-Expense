@@ -1,8 +1,10 @@
 ![build](https://github.com/wisnukurniawan/Compose-Wallee/actions/workflows/build.yml/badge.svg)
 
-## Compose playground: Expense Tracker
+## [WIP] Compose playground: Expense Tracker
 
 <img src="art/playstore_icon.png" width="140">
+
+<img src="art/demo.gif" width="400">
 
 Compose playground for learning purpose
 
