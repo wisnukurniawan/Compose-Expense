@@ -1,6 +1,26 @@
 <resources>
 
-    <style name="Theme.Wallee.Light" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Wallee" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.App.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.App.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.App.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.App.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.App.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.App.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.App.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.App.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.App.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.App.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.App.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.App.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.App.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.App.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.App.LabelSmall</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="Theme.Wallee.Light" parent="Theme.Wallee">
         <item name="colorPrimary">@color/light_primary</item>
         <item name="colorPrimaryContainer">@color/light_primary</item>
         <item name="colorSecondary">@color/light_item_background_l1</item>
@@ -17,11 +37,9 @@
         <item name="colorOnSurface">@color/light_on</item>
         <item name="colorOnSurfaceVariant">@color/light_on</item>
         <item name="colorOnError">#FFFFFF</item>
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
     </style>
 
-    <style name="Theme.Wallee.Twilight" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Wallee.Twilight" parent="Theme.Wallee">
         <item name="colorPrimary">@color/twilight_primary</item>
         <item name="colorPrimaryContainer">@color/twilight_primary</item>
         <item name="colorSecondary">@color/twilight_item_background_l1</item>
@@ -38,11 +56,9 @@
         <item name="colorOnSurface">@color/twilight_on</item>
         <item name="colorOnSurfaceVariant">@color/twilight_on</item>
         <item name="colorOnError">#FFFFFF</item>
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
     </style>
 
-    <style name="Theme.Wallee.Night" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Wallee.Night" parent="Theme.Wallee">
         <item name="colorPrimary">@color/night_primary</item>
         <item name="colorPrimaryContainer">@color/night_primary</item>
         <item name="colorSecondary">@color/night_item_background_l1</item>
@@ -59,11 +75,9 @@
         <item name="colorOnSurface">@color/night_on</item>
         <item name="colorOnSurfaceVariant">@color/night_on</item>
         <item name="colorOnError">#FFFFFF</item>
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
     </style>
 
-    <style name="Theme.Wallee.Sunrise" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Wallee.Sunrise" parent="Theme.Wallee">
         <item name="colorPrimary">@color/sunrise_primary</item>
         <item name="colorPrimaryContainer">@color/sunrise_primary</item>
         <item name="colorSecondary">@color/sunrise_item_background_l1</item>
@@ -80,11 +94,9 @@
         <item name="colorOnSurface">@color/sunrise_on</item>
         <item name="colorOnSurfaceVariant">@color/sunrise_on</item>
         <item name="colorOnError">#FFFFFF</item>
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
     </style>
 
-    <style name="Theme.Wallee.Aurora" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Wallee.Aurora" parent="Theme.Wallee">
         <item name="colorPrimary">@color/aurora_primary</item>
         <item name="colorPrimaryContainer">@color/aurora_primary</item>
         <item name="colorSecondary">@color/aurora_item_background_l1</item>
@@ -101,8 +113,6 @@
         <item name="colorOnSurface">@color/aurora_on</item>
         <item name="colorOnSurfaceVariant">@color/aurora_on</item>
         <item name="colorOnError">#FFFFFF</item>
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
     </style>
 
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
@@ -111,6 +121,81 @@
 
     <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="TextAppearance.App.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">57sp</item>
+    </style>
+
+    <style name="TextAppearance.App.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">45sp</item>
+    </style>
+
+    <style name="TextAppearance.App.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="TextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.App.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+
+    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontWeight">600</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="TextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontWeight">500</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+
+    <style name="TextAppearance.App.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="TextAppearance.App.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.App.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.App.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">9sp</item>
     </style>
 
     <style name="Theme.AppSplash" parent="android:Theme.DeviceDefault.Light.NoActionBar">

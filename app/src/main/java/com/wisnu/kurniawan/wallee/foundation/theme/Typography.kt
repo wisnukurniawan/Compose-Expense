@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wisnu.kurniawan.wallee.R
 
-private val Roboto = FontFamily(
+private val Sans = FontFamily(
     Font(R.font.sans_light, FontWeight.Light),
     Font(R.font.sans_regular, FontWeight.Normal),
     Font(R.font.sans_medium, FontWeight.Medium),
@@ -62,47 +62,47 @@ val Typography = Typography(
         fontSize = 21.sp,
     ),
     titleLarge = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.SemiBold,
         fontSize = 32.sp,
     ),
     titleMedium = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.Medium,
         fontSize = 21.sp,
     ),
     titleSmall = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
     ),
     bodyLarge = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
     ),
     bodyMedium = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.Normal,
         fontSize = 13.sp,
     ),
     bodySmall = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
     ),
     labelLarge = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
     ),
     labelMedium = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
     ),
     labelSmall = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Sans,
         fontWeight = FontWeight.Normal,
         fontSize = 9.sp,
     )
