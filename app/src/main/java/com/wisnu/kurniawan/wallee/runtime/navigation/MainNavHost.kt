@@ -67,5 +67,7 @@ private fun SmallScreenNavHost(
         HomeNavHost(navController)
 
         TransactionDetailNavHost(navController, bottomSheetConfig)
+
+        AccountDetailNavHost(navController, bottomSheetConfig)
     }
 }

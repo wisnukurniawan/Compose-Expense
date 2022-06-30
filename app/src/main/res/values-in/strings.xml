@@ -76,4 +76,10 @@
     <string name="transaction_edit_note_expense_hint">Contoh \"Beli ayam goreng &amp; es teh\"</string>
     <string name="transaction_edit_note_income_hint">Contoh \"Untuk tabungan\"</string>
     <string name="transaction_edit_note_transfer_hint">Contoh \"Untuk subscription bulan ini\"</string>
+
+    <string name="account_edit_add">Tambah akun</string>
+    <string name="account_edit_balance">Saldo saat ini</string>
+    <string name="account_edit_select_category">Pilih Kategori</string>
+    <string name="account_edit_name">Nama</string>
+    <string name="account_edit_name_hint">Example \"Bank saya\"</string>
 </resources>

@@ -54,4 +54,29 @@ sealed class TransactionDetailFlow(val name: String) {
     }
 }
 
-const val ARG_TRANSACTION_ID = "listId"
+sealed class AccountDetailFlow(val name: String) {
+    object Root : AccountDetailFlow("account-detail-root") {
+        val route = "$name?$ARG_ACCOUNT_ID={$ARG_ACCOUNT_ID}"
+
+        fun route(accountId: String = ""): String {
+            return "$name?$ARG_ACCOUNT_ID=${accountId}"
+        }
+    }
+
+    object AccountDetail : AccountDetailFlow("account-detail-screen") {
+        val arguments = listOf(
+            navArgument(ARG_ACCOUNT_ID) {
+                defaultValue = ""
+            }
+        )
+
+        val route = "$name?$ARG_ACCOUNT_ID={$ARG_ACCOUNT_ID}"
+    }
+
+    object SelectCategory : AccountDetailFlow("account-category-screen") {
+        val route = name
+    }
+}
+
+const val ARG_TRANSACTION_ID = "transactionId"
+const val ARG_ACCOUNT_ID = "accountId"

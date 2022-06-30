@@ -80,4 +80,10 @@
     <string name="transaction_edit_note_expense_hint">Example \"Buy fried chicken &amp; tea\"</string>
     <string name="transaction_edit_note_income_hint">Example \"For saving\"</string>
     <string name="transaction_edit_note_transfer_hint">Example \"For subscription this month\"</string>
+
+    <string name="account_edit_add">Add Account</string>
+    <string name="account_edit_balance">Current balance</string>
+    <string name="account_edit_select_category">Select Category</string>
+    <string name="account_edit_name">Name</string>
+    <string name="account_edit_name_hint">Example \"My bank\"</string>
 </resources>
