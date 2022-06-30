@@ -80,14 +80,17 @@ fun Currency.toggleFormatDisplay(
             ""
         )
     } else {
-        formatAsDecimal(amount)
+        amount.formatAsDecimal()
     }
 }
 
-fun formatAsDecimal(amount: String): String {
-    return amount
-        .replace(".", "")
+fun String.formatAsDecimal(): String {
+    return replace(".", "")
         .replace(",", ".")
+}
+
+fun TextFieldValue.formatAsBigDecimal(): BigDecimal {
+    return text.formatAsDecimal().toBigDecimal()
 }
 
 fun Currency.parseAsDecimal(

@@ -6,6 +6,7 @@ import com.wisnu.kurniawan.wallee.model.CategoryType
 import java.time.LocalDate
 
 sealed interface TransactionAction {
+    object Save : TransactionAction
     data class SelectTransactionType(val selectedTransactionItem: TransactionTypeItem) : TransactionAction
     sealed interface TotalAmountAction : TransactionAction {
         data class Change(val totalAmount: TextFieldValue) : TotalAmountAction

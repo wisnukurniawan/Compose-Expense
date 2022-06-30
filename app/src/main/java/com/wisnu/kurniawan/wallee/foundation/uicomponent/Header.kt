@@ -109,17 +109,19 @@ fun PgHeaderEditMode(
             text = title,
         )
 
-        val saveModifier = Modifier.align(Alignment.CenterEnd)
-        if (isAllowToSave) {
-            saveModifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = onSaveClick
-            )
+        val onClickState = if (isAllowToSave) {
+            onSaveClick
+        } else {
+            {}
         }
-
         PgTitleBarPrimary(
-            modifier = saveModifier.padding(end = 16.dp),
+            modifier = Modifier.align(Alignment.CenterEnd)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClickState
+                )
+                .padding(end = 16.dp),
             text = stringResource(R.string.transaction_edit_save),
             enabled = isAllowToSave,
         )

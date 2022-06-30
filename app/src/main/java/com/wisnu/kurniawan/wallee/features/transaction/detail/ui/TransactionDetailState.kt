@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
+import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.Account
@@ -43,8 +44,7 @@ data class CategoryItem(
 // Collections
 
 fun TransactionState.isValid(): Boolean {
-    val isTotalAmountNotZero = totalAmount.text.toBigDecimal() > "0".toBigDecimal()
-
+    val isTotalAmountNotZero = totalAmount.formatAsBigDecimal() > "0".toBigDecimal()
     return when (selectedTransactionType()) {
         TransactionType.INCOME -> {
             isTotalAmountNotZero

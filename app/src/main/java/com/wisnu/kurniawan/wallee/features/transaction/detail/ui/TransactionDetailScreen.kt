@@ -37,6 +37,7 @@ import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -68,6 +69,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
+import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffect
 import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.CategoryType
@@ -81,12 +83,28 @@ fun TransactionDetailScreen(
     viewModel: TransactionDetailViewModel
 ) {
     val state by viewModel.state.collectAsState()
+    val effect by viewModel.effect.collectAsEffect()
+
     val localFocusManager = LocalFocusManager.current
     val activity = LocalContext.current as AppCompatActivity
 
+    when(effect) {
+        TransactionEffect.ClosePage -> {
+            LaunchedEffect(effect) {
+                navController.navigateUp()
+            }
+        }
+        null -> {}
+    }
+
     TransactionDetailScreen(
         state = state,
+        onSaveClick = {
+            localFocusManager.clearFocus()
+            viewModel.dispatch(TransactionAction.Save)
+        },
         onCancelClick = {
+            localFocusManager.clearFocus()
             navController.navigateUp()
         },
         onAccountSectionClick = {
@@ -119,6 +137,7 @@ fun TransactionDetailScreen(
 @Composable
 private fun TransactionDetailScreen(
     state: TransactionState,
+    onSaveClick: () -> Unit,
     onCancelClick: () -> Unit,
     onAccountSectionClick: () -> Unit,
     onCategorySectionClick: () -> Unit,
@@ -143,7 +162,7 @@ private fun TransactionDetailScreen(
         PgHeaderEditMode(
             isAllowToSave = state.isValid(),
             title = stringResource(R.string.transaction_edit_add),
-            onSaveClick = {},
+            onSaveClick = onSaveClick,
             onCancelClick = onCancelClick,
         )
 

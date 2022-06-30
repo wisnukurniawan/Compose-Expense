@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fc4ff3aa46227c7ad64335546e97b4af",
+    "identityHash": "c87d6a7db305e287d23612e17c24f675",
     "entities": [
       {
         "tableName": "AccountDb",
@@ -72,7 +72,7 @@
       },
       {
         "tableName": "TransactionDb",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` TEXT NOT NULL, `transaction_accountId` TEXT NOT NULL, `transaction_categoryName` TEXT NOT NULL, `transaction_currencyCode` TEXT NOT NULL, `transaction_amount` INTEGER NOT NULL, `transaction_type` TEXT NOT NULL, `transaction_date` INTEGER NOT NULL, `account_createdAt` INTEGER NOT NULL, `transaction_updatedAt` INTEGER, `transaction_note` TEXT NOT NULL, `transaction_transferAccountId` TEXT, PRIMARY KEY(`transaction_id`), FOREIGN KEY(`transaction_accountId`) REFERENCES `AccountDb`(`account_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` TEXT NOT NULL, `transaction_accountId` TEXT NOT NULL, `transaction_categoryName` TEXT, `transaction_currencyCode` TEXT NOT NULL, `transaction_amount` INTEGER NOT NULL, `transaction_type` TEXT NOT NULL, `transaction_date` INTEGER NOT NULL, `account_createdAt` INTEGER NOT NULL, `transaction_updatedAt` INTEGER, `transaction_note` TEXT NOT NULL, `transaction_transferAccountId` TEXT, PRIMARY KEY(`transaction_id`), FOREIGN KEY(`transaction_accountId`) REFERENCES `AccountDb`(`account_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -90,7 +90,7 @@
             "fieldPath": "categoryName",
             "columnName": "transaction_categoryName",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "currencyCode",
@@ -176,7 +176,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fc4ff3aa46227c7ad64335546e97b4af')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c87d6a7db305e287d23612e17c24f675')"
     ]
   }
 }

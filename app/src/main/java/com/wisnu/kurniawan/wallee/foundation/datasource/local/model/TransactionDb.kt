@@ -27,7 +27,7 @@ data class TransactionDb(
     @ColumnInfo(name = "transaction_accountId")
     val accountId: String,
     @ColumnInfo(name = "transaction_categoryName")
-    val categoryName: String,
+    val categoryName: String? = null,
     @ColumnInfo(name = "transaction_currencyCode")
     val currencyCode: String,
     @ColumnInfo(name = "transaction_amount")

@@ -3,6 +3,7 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionDetailEnvironment
+import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
 import com.wisnu.kurniawan.wallee.foundation.extension.toggleFormatDisplay
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class TransactionDetailViewModel @Inject constructor(
     transactionEnvironment: ITransactionDetailEnvironment,
-) : StatefulViewModel<TransactionState, Unit, TransactionAction, ITransactionDetailEnvironment>(TransactionState(), transactionEnvironment) {
+) : StatefulViewModel<TransactionState, TransactionEffect, TransactionAction, ITransactionDetailEnvironment>(TransactionState(), transactionEnvironment) {
 
     init {
         viewModelScope.launch {
@@ -67,6 +68,47 @@ class TransactionDetailViewModel @Inject constructor(
 
     override fun dispatch(action: TransactionAction) {
         when (action) {
+            TransactionAction.Save -> {
+                viewModelScope.launch {
+                    val transactionDetail = when (state.value.selectedTransactionType()) {
+                        TransactionType.INCOME -> {
+                            TransactionDetail.Income(
+                                amount = state.value.totalAmount.formatAsBigDecimal(),
+                                account = state.value.accountItems.selected()?.account!!,
+                                date = state.value.transactionDate,
+                                type = state.value.selectedTransactionType(),
+                                currency = state.value.currency,
+                                note = state.value.note.text.trim()
+                            )
+                        }
+                        TransactionType.EXPENSE -> {
+                            TransactionDetail.Expense(
+                                amount = state.value.totalAmount.formatAsBigDecimal(),
+                                account = state.value.accountItems.selected()?.account!!,
+                                date = state.value.transactionDate,
+                                type = state.value.selectedTransactionType(),
+                                note = state.value.note.text.trim(),
+                                currency = state.value.currency,
+                                categoryType = state.value.selectedCategoryType()
+                            )
+                        }
+                        TransactionType.TRANSFER -> {
+                            TransactionDetail.Transfer(
+                                amount = state.value.totalAmount.formatAsBigDecimal(),
+                                account = state.value.accountItems.selected()?.account!!,
+                                date = state.value.transactionDate,
+                                type = state.value.selectedTransactionType(),
+                                note = state.value.note.text.trim(),
+                                currency = state.value.currency,
+                                transferAccount = state.value.transferAccountItems.selected()?.account!!,
+                            )
+                        }
+                    }
+
+                    environment.saveTransaction(transactionDetail)
+                    setEffect(TransactionEffect.ClosePage)
+                }
+            }
             is TransactionAction.SelectTransactionType -> {
                 viewModelScope.launch {
                     setState { copy(transactionTypeItems = transactionTypeItems.select(action.selectedTransactionItem)) }
