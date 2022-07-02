@@ -8,12 +8,25 @@ sealed class HomeFlow(val name: String) {
     object DashboardScreen : HomeFlow("dashboard-screen") {
         val route = name
     }
+}
 
-    object TransactionSummaryScreen : HomeFlow("transaction-summary-screen") {
+sealed class BalanceSummaryFlow(val name: String) {
+    object Root : BalanceSummaryFlow("balance-summary-root") {
         val route = name
     }
 
-    object BalanceSummaryScreen : HomeFlow("balance-summary-screen") {
+    object BalanceSummaryScreen : BalanceSummaryFlow("balance-summary-screen") {
+        val route = name
+    }
+}
+
+
+sealed class TransactionSummaryFlow(val name: String) {
+    object Root : TransactionSummaryFlow("transaction-summary-root") {
+        val route = name
+    }
+
+    object TransactionSummaryScreen : TransactionSummaryFlow("transaction-summary-screen") {
         val route = name
     }
 }

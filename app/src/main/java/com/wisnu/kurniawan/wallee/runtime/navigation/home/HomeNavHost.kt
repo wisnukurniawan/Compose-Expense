@@ -23,10 +23,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.wisnu.kurniawan.wallee.features.balance.summary.ui.BalanceSummaryScreen
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardBottomBar
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardHostViewModel
-import com.wisnu.kurniawan.wallee.features.transaction.summary.ui.TransactionSummaryScreen
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
 import com.wisnu.kurniawan.wallee.runtime.navigation.BottomSheetConfig
 import com.wisnu.kurniawan.wallee.runtime.navigation.DefaultBottomSheetConfig
@@ -87,17 +85,14 @@ private fun SmallScreenNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeFlow.TransactionSummaryScreen.route,
+        startDestination = TransactionSummaryFlow.Root.route,
     ) {
-        composable(HomeFlow.TransactionSummaryScreen.route) {
-            TransactionSummaryScreen(
-                mainNavController = mainNavController,
-            )
-        }
+        TransactionSummaryNavHost(
+            mainNavController = mainNavController,
+        )
 
-        composable(HomeFlow.BalanceSummaryScreen.route) {
-            BalanceSummaryScreen()
-        }
-
+        BalanceSummaryNavHost(
+            mainNavController = mainNavController,
+        )
     }
 }

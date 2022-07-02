@@ -6,7 +6,8 @@ import androidx.compose.material.icons.rounded.Wallet
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
-import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.BalanceSummaryFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -34,13 +35,13 @@ class DashboardHostViewModel @Inject constructor() : StatefulViewModel<Dashboard
                 SectionType.TRANSACTION,
                 R.string.dashboard_transaction,
                 Icons.Rounded.ReceiptLong,
-                HomeFlow.TransactionSummaryScreen.route
+                TransactionSummaryFlow.Root.route
             ),
             DashboardSection(
                 SectionType.BALANCE,
                 R.string.dashboard_balance,
                 Icons.Rounded.Wallet,
-                HomeFlow.BalanceSummaryScreen.route
+                BalanceSummaryFlow.Root.route
             ),
         )
     }
