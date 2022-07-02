@@ -1,4 +1,4 @@
-package com.wisnu.kurniawan.wallee.runtime.navigation.home
+package com.wisnu.kurniawan.wallee.runtime.navigation
 
 import androidx.compose.runtime.MutableState
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,8 +15,6 @@ import com.wisnu.kurniawan.wallee.features.setting.ui.SettingScreen
 import com.wisnu.kurniawan.wallee.features.setting.ui.SettingViewModel
 import com.wisnu.kurniawan.wallee.features.theme.ui.ThemeScreen
 import com.wisnu.kurniawan.wallee.features.theme.ui.ThemeViewModel
-import com.wisnu.kurniawan.wallee.runtime.navigation.BottomSheetConfig
-import com.wisnu.kurniawan.wallee.runtime.navigation.DefaultBottomSheetConfig
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.SettingNavHost(

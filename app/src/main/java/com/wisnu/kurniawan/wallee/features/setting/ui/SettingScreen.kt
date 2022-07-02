@@ -14,7 +14,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
-import com.wisnu.kurniawan.wallee.runtime.navigation.home.SettingFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.SettingFlow
 
 @Composable
 fun SettingScreen(

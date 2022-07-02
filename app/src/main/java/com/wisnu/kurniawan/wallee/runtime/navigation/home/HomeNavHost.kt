@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ModalBottomSheetDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -17,14 +18,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.wisnu.kurniawan.wallee.features.balance.summary.ui.BalanceSummaryScreen
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardBottomBar
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardHostViewModel
-import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardScreen
-import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardViewModel
+import com.wisnu.kurniawan.wallee.features.transaction.summary.ui.TransactionSummaryScreen
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
 import com.wisnu.kurniawan.wallee.runtime.navigation.BottomSheetConfig
 import com.wisnu.kurniawan.wallee.runtime.navigation.DefaultBottomSheetConfig
@@ -40,6 +42,11 @@ fun NavGraphBuilder.HomeNavHost(
             val bottomSheetNavigator = rememberBottomSheetNavigator()
             val bottomSheetConfig = remember { mutableStateOf(DefaultBottomSheetConfig) }
             val homeNavController = rememberNavController(bottomSheetNavigator)
+            val topLevelNavigation = remember(homeNavController) {
+                HomeTopLevelNavigation(homeNavController)
+            }
+            val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
 
             ModalBottomSheetLayout(
                 bottomSheetNavigator = bottomSheetNavigator,
@@ -51,7 +58,7 @@ fun NavGraphBuilder.HomeNavHost(
                 }
             ) {
                 Column {
-                    Box(Modifier.fillMaxSize().weight(1F)) {
+                    Box(Modifier.fillMaxSize()) {
                         SmallScreenNavHost(
                             navController,
                             homeNavController,
@@ -61,8 +68,9 @@ fun NavGraphBuilder.HomeNavHost(
                         val viewModel = hiltViewModel<DashboardHostViewModel>()
                         DashboardBottomBar(
                             modifier = Modifier.align(Alignment.BottomStart),
-                            navController = homeNavController,
-                            viewModel = viewModel
+                            topLevelNavigation = topLevelNavigation,
+                            viewModel = viewModel,
+                            currentDestination = currentDestination
                         )
                     }
                 }
@@ -79,17 +87,17 @@ private fun SmallScreenNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeFlow.DashboardScreen.route,
+        startDestination = HomeFlow.TransactionSummaryScreen.route,
     ) {
-        composable(HomeFlow.DashboardScreen.route) {
-            val viewModel = hiltViewModel<DashboardViewModel>()
-            DashboardScreen(
+        composable(HomeFlow.TransactionSummaryScreen.route) {
+            TransactionSummaryScreen(
                 mainNavController = mainNavController,
-                navController = navController,
-                viewModel = viewModel,
             )
         }
 
-        SettingNavHost(navController, bottomSheetConfig)
+        composable(HomeFlow.BalanceSummaryScreen.route) {
+            BalanceSummaryScreen()
+        }
+
     }
 }

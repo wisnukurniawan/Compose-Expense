@@ -8,26 +8,14 @@ sealed class HomeFlow(val name: String) {
     object DashboardScreen : HomeFlow("dashboard-screen") {
         val route = name
     }
-}
 
-sealed class SettingFlow(val name: String) {
-    object Root : SettingFlow("setting-root") {
+    object TransactionSummaryScreen : HomeFlow("transaction-summary-screen") {
         val route = name
     }
 
-    object Setting : SettingFlow("setting-screen") {
-        val route = name
-    }
-
-    object Theme : SettingFlow("theme-screen") {
-        val route = name
-    }
-
-    object Logout : SettingFlow("logout-screen") {
-        val route = name
-    }
-
-    object Language : SettingFlow("language-screen") {
+    object BalanceSummaryScreen : HomeFlow("balance-summary-screen") {
         val route = name
     }
 }
+
+

@@ -15,14 +15,8 @@ data class DashboardSection(
     val sectionType: SectionType,
     @StringRes val title: Int,
     val icon: ImageVector,
-    val selected: Boolean
+    val route: String
 )
-
-fun List<DashboardSection>.select(section: SectionType): List<DashboardSection> {
-    return map {
-        it.copy(selected = it.sectionType == section)
-    }
-}
 
 enum class SectionType {
     TRANSACTION,

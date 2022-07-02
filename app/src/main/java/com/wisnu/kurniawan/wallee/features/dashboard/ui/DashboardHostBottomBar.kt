@@ -15,13 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeTopLevelNavigation
 
 @Composable
 fun DashboardBottomBar(
     modifier: Modifier,
-    navController: NavController,
+    topLevelNavigation: HomeTopLevelNavigation,
+    currentDestination: NavDestination?,
     viewModel: DashboardHostViewModel,
 ) {
     val state by viewModel.state.collectAsState()
@@ -29,16 +32,9 @@ fun DashboardBottomBar(
     DashboardBottomBar(
         modifier = modifier,
         sections = state.sections,
+        currentDestination = currentDestination,
         onTabClick = {
-            viewModel.dispatch(DashboardHostAction.ClickTab(it))
-            when (it) {
-                SectionType.TRANSACTION -> {
-                    // TODO open transaction page
-                }
-                SectionType.BALANCE -> {
-                    // TODO open balance
-                }
-            }
+            topLevelNavigation.navigateTo(it.route)
         }
     )
 }
@@ -47,7 +43,8 @@ fun DashboardBottomBar(
 private fun DashboardBottomBar(
     modifier: Modifier,
     sections: List<DashboardSection>,
-    onTabClick: (SectionType) -> Unit
+    currentDestination: NavDestination?,
+    onTabClick: (DashboardSection) -> Unit
 ) {
     NavigationBar(
         modifier = modifier
@@ -65,9 +62,11 @@ private fun DashboardBottomBar(
         containerColor = Color.Transparent,
     ) {
         sections.forEachIndexed { _, item ->
+            val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
+
             NavigationBarItem(
                 icon = {
-                    val color = if (item.selected) {
+                    val color = if (selected) {
                         MaterialTheme.colorScheme.primary
                     } else {
                         LocalContentColor.current
@@ -75,8 +74,8 @@ private fun DashboardBottomBar(
                     PgIcon(imageVector = item.icon, tint = color)
                 },
                 label = { Text(stringResource(item.title)) },
-                selected = item.selected,
-                onClick = { onTabClick(item.sectionType) },
+                selected = selected,
+                onClick = { onTabClick(item) },
                 colors = NavigationBarItemDefaults.colors(
                     selectedTextColor = MaterialTheme.colorScheme.primary
                 )
