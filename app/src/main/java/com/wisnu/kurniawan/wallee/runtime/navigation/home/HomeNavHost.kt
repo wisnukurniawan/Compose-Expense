@@ -40,9 +40,6 @@ fun NavGraphBuilder.HomeNavHost(
             val bottomSheetNavigator = rememberBottomSheetNavigator()
             val bottomSheetConfig = remember { mutableStateOf(DefaultBottomSheetConfig) }
             val homeNavController = rememberNavController(bottomSheetNavigator)
-            val topLevelNavigation = remember(homeNavController) {
-                HomeTopLevelNavigation(homeNavController)
-            }
             val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
 
@@ -66,7 +63,7 @@ fun NavGraphBuilder.HomeNavHost(
                         val viewModel = hiltViewModel<DashboardHostViewModel>()
                         DashboardBottomBar(
                             modifier = Modifier.align(Alignment.BottomStart),
-                            topLevelNavigation = topLevelNavigation,
+                            homeNavController = homeNavController,
                             viewModel = viewModel,
                             currentDestination = currentDestination
                         )
