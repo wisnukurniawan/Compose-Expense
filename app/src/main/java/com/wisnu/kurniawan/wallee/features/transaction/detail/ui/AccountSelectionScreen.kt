@@ -12,12 +12,13 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
@@ -28,12 +29,13 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AccountSelectionScreen(
     navController: NavController,
     viewModel: TransactionDetailViewModel,
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     AccountSelectionScreen(
         accountItems = state.accountItems,
@@ -52,12 +54,13 @@ fun AccountSelectionScreen(
     )
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TransferAccountSelectionScreen(
     navController: NavController,
     viewModel: TransactionDetailViewModel,
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     AccountSelectionScreen(
         accountItems = state.transferAccountItems,

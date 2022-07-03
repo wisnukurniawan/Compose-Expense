@@ -21,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,19 +35,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextField
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffect
+import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.runtime.navigation.AuthFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeFlow
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
-    val state by viewModel.state.collectAsState()
-    val effect by viewModel.effect.collectAsEffect()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsEffectWithLifecycle()
 
     LoginScreen(
         state = state,

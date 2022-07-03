@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffect
+import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.runtime.navigation.AuthFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.MainFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeFlow
@@ -14,7 +14,7 @@ fun SplashScreen(
     navController: NavController,
     viewModel: SplashViewModel
 ) {
-    val effect by viewModel.effect.collectAsEffect()
+    val effect by viewModel.effect.collectAsEffectWithLifecycle()
     when (effect) {
         SplashEffect.NavigateToDashboard -> {
             LaunchedEffect(effect) {

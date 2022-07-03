@@ -26,7 +26,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +41,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
@@ -57,16 +58,17 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeaderEditMode
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffect
+import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AccountDetailScreen(
     navController: NavController,
     viewModel: AccountDetailViewModel
 ) {
-    val state by viewModel.state.collectAsState()
-    val effect by viewModel.effect.collectAsEffect()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsEffectWithLifecycle()
 
     val localFocusManager = LocalFocusManager.current
 
