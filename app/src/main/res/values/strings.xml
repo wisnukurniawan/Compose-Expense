@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Wallee</string>
 
+    <string name="summary">Summary</string>
+
     <string name="login_login">Log in</string>
     <string name="login_email">Email</string>
     <string name="login_email_invalid">Email invalid</string>

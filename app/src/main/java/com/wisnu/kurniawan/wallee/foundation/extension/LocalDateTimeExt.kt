@@ -1,11 +1,12 @@
 package com.wisnu.kurniawan.wallee.foundation.extension
 
 import androidx.appcompat.app.AppCompatDelegate
-import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.*
@@ -30,17 +31,26 @@ fun LocalDateTime.isSameHour(dateTime: LocalDateTime): Boolean {
     return truncatedTo(ChronoUnit.HOURS).isEqual(dateTime.truncatedTo(ChronoUnit.HOURS))
 }
 
-fun LocalDateTime.formatDateTime(currentDate: LocalDateTime = DateTimeProviderImpl().now()): String {
-    val patternWithYear = "EEE, dd MMM yyyy"
-    val patternWithoutYear = "EEE, dd MMM"
+fun LocalDateTime.formatDateTime(): String {
+    val pattern = "EEE, dd MMM yyyy"
+    return format(pattern)
+}
+
+fun LocalDateTime.formatDate(): String {
+    val pattern = "dd MMM yyyy"
+    return format(pattern)
+}
+
+fun LocalDateTime.formatMonth(): String {
+    val pattern = "MMM yyyy"
+    return format(pattern)
+}
+
+fun LocalDateTime.format(pattern: String): String {
     val zoneId = ZoneId.systemDefault()
     val locale = AppCompatDelegate.getApplicationLocales().get(0) ?: Locale.getDefault()
 
-    return if (year == currentDate.year) {
-        SimpleDateFormat(patternWithoutYear, locale).format(atZone(zoneId).toInstant().toEpochMilli())
-    } else {
-        SimpleDateFormat(patternWithYear, locale).format(atZone(zoneId).toInstant().toEpochMilli())
-    }
+    return SimpleDateFormat(pattern, locale).format(atZone(zoneId).toInstant().toEpochMilli())
 }
 
 fun LocalDateTime.toMillis(): Long {
@@ -51,6 +61,10 @@ fun LocalDateTime.toMillis(): Long {
 fun Long.toLocalDateTime(): LocalDateTime {
     val zoneId = ZoneId.systemDefault()
     return LocalDateTime.ofInstant(Instant.ofEpochMilli(this), zoneId)
+}
+
+fun LocalDate.toLocalDateTime(): LocalDateTime {
+    return LocalDateTime.of(this, LocalTime.of(0, 0))
 }
 
 fun LocalDateTime.isFriday(): Boolean {
