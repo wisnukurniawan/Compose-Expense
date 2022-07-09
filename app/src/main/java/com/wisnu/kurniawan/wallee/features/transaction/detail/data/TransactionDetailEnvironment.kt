@@ -1,6 +1,5 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.data
 
-import com.wisnu.kurniawan.coreLogger.Loggr
 import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetail
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
@@ -71,8 +70,6 @@ class TransactionDetailEnvironment @Inject constructor(
                 )
             }
         }
-
-        Loggr.debug { "asdadasd $transaction" }
 
         localManager.insertTransaction(transactionDetail.account.id, transferAccountId, transaction)
     }
