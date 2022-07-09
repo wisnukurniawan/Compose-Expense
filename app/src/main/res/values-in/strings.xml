@@ -96,5 +96,9 @@
 
     <string name="balance_all_time">Sepanjang waktu</string>
     <string name="balance_total_transaction">%1$s transaksi</string>
-
+    <string name="balance_account_updated_at_second">Terakhir diupdate beberapa menit yang lalu</string>
+    <string name="balance_account_updated_at_minute">Terakhir diupdate %1$s menit yang lalu</string>
+    <string name="balance_account_updated_at_hour">Terakhir diupdate %1$s jam yang lalu</string>
+    <string name="balance_account_updated_at_yesterday">Terakhir diupdate kemarin</string>
+    <string name="balance_account_updated_at_date">Terakhir diupdate %1$s</string>
 </resources>

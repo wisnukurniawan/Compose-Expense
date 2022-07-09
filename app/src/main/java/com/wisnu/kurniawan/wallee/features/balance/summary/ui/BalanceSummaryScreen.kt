@@ -169,7 +169,7 @@ private inline fun LazyGridScope.AccountCell(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .size(width = 150.dp, height = 120.dp)
+                .size(width = 150.dp, height = 136.dp)
                 .clip(MaterialTheme.shapes.medium)
                 .clickable(onClick = { onClick(it.account) }),
             shape = MaterialTheme.shapes.medium,
