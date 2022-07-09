@@ -87,9 +87,9 @@
     <string name="transaction_this_month">This Month</string>
     <string name="transaction_last">Last Transaction</string>
     <string name="transaction_last_no_data_title">Keep Creating Transaction</string>
-    <string name="transaction_last_no_data_message">Show your last 5 transactions.</string>
+    <string name="transaction_last_no_data_message">It will show your last 5 transactions.</string>
     <string name="transaction_top_expenses">Top Expenses</string>
-    <string name="transaction_top_expenses_no_data_message">Show your top expense this month group by category.</string>
+    <string name="transaction_top_expenses_no_data_message">It will show your top expense this month group by category.</string>
 
     <string name="account_edit_add">Add Account</string>
     <string name="account_edit_balance">Current balance</string>
