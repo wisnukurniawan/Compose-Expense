@@ -1,7 +1,5 @@
 package com.wisnu.kurniawan.wallee.foundation.uicomponent
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,12 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronLeft
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.wisnu.kurniawan.wallee.R
 
@@ -93,15 +92,13 @@ fun PgHeaderEditMode(
             .padding(horizontal = 4.dp)
             .fillMaxWidth()
     ) {
-        PgTitleBarSecondary(
+        PgTextButton(
             modifier = Modifier.align(Alignment.CenterStart)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = onCancelClick
-                )
                 .padding(start = 16.dp),
+            enabled = true,
             text = stringResource(R.string.transaction_edit_cancel),
+            color = MaterialTheme.colorScheme.onSurface,
+            onClick = onCancelClick
         )
 
         PgTitleBarPrimary(
@@ -109,21 +106,14 @@ fun PgHeaderEditMode(
             text = title,
         )
 
-        val onClickState = if (isAllowToSave) {
-            onSaveClick
-        } else {
-            {}
-        }
-        PgTitleBarPrimary(
+        PgTextButton(
             modifier = Modifier.align(Alignment.CenterEnd)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = onClickState
-                )
                 .padding(end = 16.dp),
-            text = stringResource(R.string.transaction_edit_save),
             enabled = isAllowToSave,
+            text = stringResource(R.string.transaction_edit_save),
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Medium,
+            onClick = onSaveClick
         )
     }
 }

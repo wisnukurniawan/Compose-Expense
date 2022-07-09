@@ -41,6 +41,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.runtime.navigation.SettingFlow
@@ -271,10 +272,12 @@ private inline fun LazyListScope.LastTransactionCell(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             PgHeadline2(text = stringResource(R.string.transaction_last))
-            PgContentTitle(
+            PgTextButton(
                 text = stringResource(R.string.show_more),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.align(Alignment.Bottom)
+                modifier = Modifier.align(Alignment.Bottom),
+                onClick = {
+
+                }
             )
         }
 
@@ -309,15 +312,14 @@ private inline fun LazyListScope.TopExpenseCell(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             PgHeadline2(text = stringResource(R.string.transaction_top_expenses))
-            PgContentTitle(
+            PgTextButton(
                 text = stringResource(R.string.show_more),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.align(Alignment.Bottom)
+                modifier = Modifier.align(Alignment.Bottom),
+                onClick = {}
             )
         }
         SpacerHeadline2()
     }
-
 
     if (data.isEmpty()) {
         item {

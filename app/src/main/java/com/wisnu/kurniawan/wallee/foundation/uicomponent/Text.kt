@@ -11,14 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
-import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaMedium
 
 @Composable
@@ -45,62 +42,26 @@ fun PgTitleBar(
     modifier: Modifier = Modifier,
     text: String,
 ) {
-    PgTitleBarBase(
+    Text(
         modifier = modifier,
-        text = text,
         style = MaterialTheme.typography.titleSmall.copy(
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Medium
         ),
+        text = text
     )
 }
 
 @Composable
 fun PgTitleBarPrimary(
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    text: String
+    text: String,
 ) {
-    PgTitleBarBase(
+    Text(
         modifier = modifier,
-        enabled = enabled,
-        text = text,
         style = MaterialTheme.typography.titleSmall.copy(
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Medium
-        )
-    )
-}
-
-@Composable
-fun PgTitleBarSecondary(
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    text: String,
-) {
-    PgTitleBarBase(
-        modifier = modifier,
-        enabled = enabled,
-        text = text,
-        style = MaterialTheme.typography.titleSmall.copy(
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    )
-}
-
-@Composable
-private fun PgTitleBarBase(
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    text: String,
-    style: TextStyle,
-) {
-    val textAlpha = if (enabled) AlphaHigh else AlphaDisabled
-
-    Text(
-        modifier = modifier,
-        style = style.copy(
-            color = style.color.copy(alpha = textAlpha)
         ),
         text = text
     )
@@ -147,9 +108,10 @@ fun PgContentTitle(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onBackground,
+    fontWeight: FontWeight = FontWeight.Normal
 ) {
     Text(
-        style = MaterialTheme.typography.titleSmall.copy(color = color),
+        style = MaterialTheme.typography.titleSmall.copy(color = color, fontWeight = fontWeight),
         text = text,
         modifier = modifier
     )
