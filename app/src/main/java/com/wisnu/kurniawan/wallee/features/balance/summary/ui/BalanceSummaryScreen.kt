@@ -180,6 +180,7 @@ private inline fun LazyGridScope.AccountCell(
     }
 }
 
+@Composable
 private fun AccountCellItem(
     accountName: String,
     totalAmount: String,
