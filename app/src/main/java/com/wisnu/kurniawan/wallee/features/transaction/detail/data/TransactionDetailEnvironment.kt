@@ -42,7 +42,7 @@ class TransactionDetailEnvironment @Inject constructor(
                     Transaction(
                         id = idProvider.generate(),
                         currency = transactionDetail.currency,
-                        categoryType = null,
+                        categoryType = transactionDetail.categoryType,
                         amount = transactionDetail.amount,
                         type = transactionDetail.type,
                         date = transactionDetail.date,
@@ -58,7 +58,7 @@ class TransactionDetailEnvironment @Inject constructor(
                     Transaction(
                         id = idProvider.generate(),
                         currency = transactionDetail.currency,
-                        categoryType = null,
+                        categoryType = transactionDetail.categoryType,
                         amount = transactionDetail.amount,
                         type = transactionDetail.type,
                         date = transactionDetail.date,

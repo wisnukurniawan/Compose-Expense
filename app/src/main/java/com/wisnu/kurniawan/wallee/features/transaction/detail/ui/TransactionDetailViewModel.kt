@@ -78,7 +78,8 @@ class TransactionDetailViewModel @Inject constructor(
                                 date = state.value.transactionDate,
                                 type = state.value.selectedTransactionType(),
                                 currency = state.value.currency,
-                                note = state.value.note.text.trim()
+                                note = state.value.note.text.trim(),
+                                categoryType = CategoryType.INCOME
                             )
                         }
                         TransactionType.EXPENSE -> {
@@ -101,6 +102,7 @@ class TransactionDetailViewModel @Inject constructor(
                                 note = state.value.note.text.trim(),
                                 currency = state.value.currency,
                                 transferAccount = state.value.transferAccountItems.selected()?.account!!,
+                                categoryType = CategoryType.UNCATEGORIZED
                             )
                         }
                     }

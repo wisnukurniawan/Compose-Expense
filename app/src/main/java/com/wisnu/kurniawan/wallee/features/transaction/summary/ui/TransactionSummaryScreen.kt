@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
+import com.wisnu.kurniawan.wallee.foundation.extension.getColor
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.extension.shouldShowDivider
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
@@ -51,6 +52,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextButton
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.RoundedLinearProgressIndicator
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.runtime.navigation.SettingFlow
@@ -365,19 +367,9 @@ private fun TransactionItemCell(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
             ) {
-                Row {
-                    PgContentTitle(
-                        text = emoji
-                    )
-
-                    Spacer(
-                        modifier = Modifier.width(16.dp)
-                    )
-
-                    PgContentTitle(
-                        text = stringResource(text) + "・" + item.accountName,
-                    )
-                }
+                PgContentTitle(
+                    text = emoji + "   " + stringResource(text) + "・" + item.accountName,
+                )
 
                 PgDateLabel(
                     text = item.getDateTimeDisplay(),
@@ -444,13 +436,63 @@ private inline fun LazyListScope.TopExpenseCell(
             )
         }
     } else {
+        val size = data.size
         itemsIndexed(
             items = data,
             key = { _, item -> item.categoryType }
-        ) { _, item ->
-
+        ) { index, item ->
+            TopExpenseItemCell(
+                item = item,
+                shape = cellShape(index, size),
+            )
         }
     }
+}
+
+@Composable
+private fun TopExpenseItemCell(
+    item: TopExpenseItem,
+    shape: Shape
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(shape),
+        shape = shape,
+    ) {
+        Column(
+            Modifier.fillMaxWidth()
+                .background(
+                    shape = shape,
+                    color = MaterialTheme.colorScheme.secondary,
+                )
+                .padding(all = 16.dp)
+        ) {
+            val (emoji, text) = item.getEmojiAndText()
+            PgContentTitle(
+                text = emoji + "   " + stringResource(text),
+                modifier = Modifier.padding(bottom = 2.dp)
+            )
+
+            PgAmountLabel2(
+                amount = item.getAmountDisplay(),
+                symbol = item.currency.getSymbol(),
+                color = item.getAmountColor(
+                    MaterialTheme.colorScheme.onBackground
+                ),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp),
+            )
+
+            RoundedLinearProgressIndicator(
+                progress = item.progress,
+                modifier = Modifier.fillMaxWidth().height(24.dp),
+                trackColor = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled),
+                color = item.categoryType.getColor()
+            )
+        }
+    }
+
 }
 
 @Composable

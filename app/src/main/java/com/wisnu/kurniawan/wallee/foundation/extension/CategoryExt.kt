@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.foundation.extension
 
+import androidx.compose.ui.graphics.Color
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.emoji.EmojiData
 import com.wisnu.kurniawan.wallee.model.CategoryType
@@ -37,6 +38,42 @@ fun CategoryType.getEmojiAndText(): Pair<String, Int> {
         CategoryType.PUBLIC_TRANSPORTATION -> Pair(getEmoji("bus"), R.string.category_public_transportation)
         CategoryType.TRAVEL -> Pair(getEmoji("airplane"), R.string.category_travel)
         CategoryType.UNCATEGORIZED -> Pair(getEmoji("question"), R.string.category_uncategorized)
+    }
+}
+
+fun CategoryType.getColor(): Color {
+    return when (this) {
+        CategoryType.MONTHLY_FEE -> Color(0xFFDF1125)
+        CategoryType.ADMIN_FEE -> Color(0xFFFD4154)
+        CategoryType.PETS -> Color(0xFFD80E4F)
+        CategoryType.DONATION -> Color(0xFFAB1438)
+        CategoryType.EDUCATION -> Color(0xFFFC4E12)
+        CategoryType.FINANCIAL -> Color(0xFFFC5C42)
+        CategoryType.ENTERTAINMENT -> Color(0xFFFD7036)
+        CategoryType.CHILDREN_NEEDS -> Color(0xFFFD820B)
+        CategoryType.HOUSEHOLD_NEEDS -> Color(0xFFE0694E)
+        CategoryType.SPORT -> Color(0xFFCA6F59)
+        CategoryType.OTHERS -> Color(0xFF1E538F)
+        CategoryType.FOOD -> Color(0xFFFDA27E)
+        CategoryType.PARKING -> Color(0xFFF7F6AF)
+        CategoryType.FUEL -> Color(0xFFFFDA3A)
+        CategoryType.MOVIE -> Color(0xFFFAED0B)
+        CategoryType.AUTOMOTIVE -> Color(0xFFFFEB6D)
+        CategoryType.TAX -> Color(0xFF80E220)
+        CategoryType.INCOME -> Color(0xFF77EA7E)
+        CategoryType.BUSINESS_EXPENSES -> Color(0xFFA2EC8E)
+        CategoryType.SELF_CARE -> Color(0xFF1EA5FC)
+        CategoryType.LOAN -> Color(0xFF1871AC)
+        CategoryType.SERVICE -> Color(0xFFF29C98)
+        CategoryType.SHOPPING -> Color(0xFF383B65)
+        CategoryType.BILLS -> Color(0xFF5F41B2)
+        CategoryType.TAXI -> Color(0xFF578887)
+        CategoryType.CASH_WITHDRAWAL -> Color(0xFF7A6E49)
+        CategoryType.PHONE -> Color(0xFF715D50)
+        CategoryType.TOP_UP -> Color(0xFF474E95)
+        CategoryType.PUBLIC_TRANSPORTATION -> Color(0xFF383B65)
+        CategoryType.TRAVEL -> Color(0xFFD8C9AF)
+        CategoryType.UNCATEGORIZED -> Color(0xFF788991)
     }
 }
 

@@ -53,7 +53,8 @@ data class LastTransactionItem(
 data class TopExpenseItem(
     val amount: BigDecimal,
     val categoryType: CategoryType,
-    val currency: Currency
+    val currency: Currency,
+    val progress: Float
 )
 
 // Collections
@@ -97,6 +98,18 @@ fun LastTransactionItem.getDateTimeDisplay(): String {
 }
 
 fun LastTransactionItem.getEmojiAndText(): Pair<String, Int> {
+    return categoryType.getEmojiAndText()
+}
+
+fun TopExpenseItem.getAmountDisplay(): String {
+    return currency.formatAsDisplay(amount.normalize(), true)
+}
+
+fun TopExpenseItem.getAmountColor(defaultColor: Color): Color {
+    return amount.getAmountColor(defaultColor)
+}
+
+fun TopExpenseItem.getEmojiAndText(): Pair<String, Int> {
     return categoryType.getEmojiAndText()
 }
 

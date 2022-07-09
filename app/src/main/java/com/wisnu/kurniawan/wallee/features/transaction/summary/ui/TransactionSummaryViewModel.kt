@@ -29,6 +29,32 @@ class TransactionSummaryViewModel @Inject constructor(
                         totalIncome = totalIncome,
                         currency = currency
                     ),
+                    topExpenseItems = listOf(
+                        TopExpenseItem(
+                            amount = "4000099999999".toBigDecimal(),
+                            categoryType = CategoryType.OTHERS,
+                            currency = currency,
+                            progress = 0.5f
+                        ),
+                        TopExpenseItem(
+                            amount = "4000099999999".toBigDecimal(),
+                            categoryType = CategoryType.UNCATEGORIZED,
+                            currency = currency,
+                            progress = 0.3f
+                        ),
+                        TopExpenseItem(
+                            amount = "4000099999999".toBigDecimal(),
+                            categoryType = CategoryType.INCOME,
+                            currency = currency,
+                            progress = 0.2f
+                        ),
+                        TopExpenseItem(
+                            amount = "4000099999999".toBigDecimal(),
+                            categoryType = CategoryType.ADMIN_FEE,
+                            currency = currency,
+                            progress = 0.1f
+                        )
+                    ),
                     lastTransactionItems = listOf(
                         LastTransactionItem(
                             transactionId = "1",

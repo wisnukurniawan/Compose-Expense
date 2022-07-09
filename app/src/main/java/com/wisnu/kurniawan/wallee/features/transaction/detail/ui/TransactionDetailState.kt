@@ -61,7 +61,7 @@ fun TransactionState.isValid(): Boolean {
     }
 }
 
-fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.selected }?.transactionType ?: TransactionType.INCOME
+fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.selected }?.transactionType ?: TransactionType.EXPENSE
 
 fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.name
 

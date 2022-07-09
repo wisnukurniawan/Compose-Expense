@@ -14,6 +14,7 @@ sealed class TransactionDetail(
     open val type: TransactionType,
     open val note: String,
     open val currency: Currency,
+    open val categoryType: CategoryType
 ) {
     data class Income(
         override val amount: BigDecimal,
@@ -21,14 +22,16 @@ sealed class TransactionDetail(
         override val date: LocalDateTime,
         override val type: TransactionType,
         override val note: String,
-        override val currency: Currency
+        override val currency: Currency,
+        override val categoryType: CategoryType
     ) : TransactionDetail(
         amount,
         account,
         date,
         type,
         note,
-        currency
+        currency,
+        categoryType
     )
 
     data class Expense(
@@ -38,7 +41,7 @@ sealed class TransactionDetail(
         override val type: TransactionType,
         override val note: String,
         override val currency: Currency,
-        val categoryType: CategoryType
+        override val categoryType: CategoryType
     ) : TransactionDetail(
         amount,
         account,
@@ -46,6 +49,7 @@ sealed class TransactionDetail(
         type,
         note,
         currency,
+        categoryType
     )
 
     data class Transfer(
@@ -55,7 +59,8 @@ sealed class TransactionDetail(
         override val type: TransactionType,
         override val note: String,
         override val currency: Currency,
-        val transferAccount: Account
+        override val categoryType: CategoryType,
+        val transferAccount: Account,
     ) : TransactionDetail(
         amount,
         account,
@@ -63,5 +68,6 @@ sealed class TransactionDetail(
         type,
         note,
         currency,
+        categoryType
     )
 }
