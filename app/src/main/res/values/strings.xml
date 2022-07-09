@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Wallee</string>
 
+    <string name="show_more">Show More</string>
+
     <string name="login_login">Log in</string>
     <string name="login_email">Email</string>
     <string name="login_email_invalid">Email invalid</string>
@@ -83,6 +85,11 @@
     <string name="transaction_summary">Summary</string>
     <string name="transaction_cash_flow" translatable="false">Cash Flow</string>
     <string name="transaction_this_month">This Month</string>
+    <string name="transaction_last">Last Transaction</string>
+    <string name="transaction_last_no_data_title">Keep Your Transaction</string>
+    <string name="transaction_last_no_data_message">You don\'t have any created transaction.</string>
+    <string name="transaction_top_expenses">Top Expenses</string>
+    <string name="transaction_top_expenses_no_data_message">Show your top expense this month grouped by transaction category.</string>
 
     <string name="account_edit_add">Add Account</string>
     <string name="account_edit_balance">Current balance</string>

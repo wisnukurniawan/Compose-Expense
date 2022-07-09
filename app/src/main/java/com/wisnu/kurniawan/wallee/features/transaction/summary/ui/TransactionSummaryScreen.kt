@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Menu
@@ -28,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
+import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
 import com.wisnu.kurniawan.wallee.foundation.theme.Expense
 import com.wisnu.kurniawan.wallee.foundation.theme.Income
@@ -124,20 +127,20 @@ private fun Body(
             SpacerSection()
         }
 
-        item {
-            LastTransactionSection(
-                lastTransactionItems = state.lastTransactionItems
-            )
-        }
+        LastTransactionCell(
+            data = state.lastTransactionItems
+        )
 
         item {
             SpacerSection()
         }
 
+        TopExpenseCell(
+            data = state.topExpenseItems
+        )
+
         item {
-            TopExpenseSection(
-                topExpenseItems = state.topExpenseItems
-            )
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }
@@ -191,8 +194,11 @@ private fun CashFlowSection(
                 modifier = Modifier.padding(bottom = 2.dp)
             )
             PgAmountLabel2(
-                amount = cashFlow.totalAmount,
-                symbol = cashFlow.currency.getSymbol()
+                amount = cashFlow.getTotalAmountDisplay(),
+                symbol = cashFlow.currency.getSymbol(),
+                color = cashFlow.getTotalAmountColor(
+                    MaterialTheme.colorScheme.onBackground
+                )
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -202,12 +208,12 @@ private fun CashFlowSection(
             ) {
                 CashFlowContent(
                     title = stringResource(R.string.transaction_income),
-                    amount = cashFlow.totalIncome,
+                    amount = cashFlow.getTotalIncomeDisplay(),
                     currency = cashFlow.currency,
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp),
-                    titleColor = Income
+                    amountColor = Income
                 )
 
                 Box(
@@ -219,12 +225,12 @@ private fun CashFlowSection(
 
                 CashFlowContent(
                     title = stringResource(R.string.transaction_expense),
-                    amount = cashFlow.totalExpense,
+                    amount = cashFlow.getTotalExpenseDisplay(),
                     currency = cashFlow.currency,
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 8.dp),
-                    titleColor = Expense
+                    amountColor = Expense
                 )
             }
         }
@@ -235,35 +241,124 @@ private fun CashFlowSection(
 private fun CashFlowContent(
     modifier: Modifier,
     title: String,
-    titleColor: Color,
     amount: String,
+    amountColor: Color,
     currency: Currency
 ) {
     Column(modifier = modifier) {
         PgContentTitle2(
             text = title,
-            color = titleColor,
             modifier = Modifier.padding(bottom = 2.dp)
         )
         PgAmountLabel2(
             amount = amount,
+            color = amountColor,
             symbol = currency.getSymbol()
         )
     }
 }
 
-@Composable
-private fun LastTransactionSection(
-    lastTransactionItems: List<LastTransactionItem>
+private inline fun LazyListScope.LastTransactionCell(
+    data: List<LastTransactionItem>,
 ) {
+    item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            PgHeadline2(text = stringResource(R.string.transaction_last))
+            PgContentTitle(
+                text = stringResource(R.string.show_more),
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.align(Alignment.Bottom)
+            )
+        }
 
+        SpacerHeadline2()
+    }
+
+    if (data.isEmpty()) {
+        item {
+            Empty(
+                title = stringResource(R.string.transaction_last_no_data_title),
+                message = stringResource(R.string.transaction_last_no_data_message)
+            )
+        }
+    } else {
+        items(
+            items = data,
+            key = { item -> item.transactionId }
+        ) {
+
+        }
+    }
+}
+
+private inline fun LazyListScope.TopExpenseCell(
+    data: List<TopExpenseItem>,
+) {
+    item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            PgHeadline2(text = stringResource(R.string.transaction_top_expenses))
+            PgContentTitle(
+                text = stringResource(R.string.show_more),
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.align(Alignment.Bottom)
+            )
+        }
+        SpacerHeadline2()
+    }
+
+
+    if (data.isEmpty()) {
+        item {
+            Empty(
+                title = stringResource(R.string.transaction_this_month),
+                message = stringResource(R.string.transaction_top_expenses_no_data_message)
+            )
+        }
+    } else {
+        items(
+            items = data,
+            key = { item -> item.categoryType }
+        ) {
+
+        }
+    }
 }
 
 @Composable
-private fun TopExpenseSection(
-    topExpenseItems: List<TopExpenseItem>
+private fun Empty(
+    title: String,
+    message: String
 ) {
-
+    Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Column(
+            Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.secondary,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            PgContentTitle(
+                text = title,
+                modifier = Modifier.padding(bottom = 2.dp)
+            )
+            PgContentTitle(
+                text = message,
+                color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled)
+            )
+        }
+    }
 }
 
 @Composable

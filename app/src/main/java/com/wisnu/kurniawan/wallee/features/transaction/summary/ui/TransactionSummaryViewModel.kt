@@ -2,7 +2,6 @@ package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.features.transaction.summary.data.ITransactionSummaryEnvironment
-import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplay
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,15 +17,15 @@ class TransactionSummaryViewModel @Inject constructor(
         viewModelScope.launch {
             val currency = Currency.INDONESIA
             val divider = 100.toBigDecimal()
-            val totalExpense = 250000000L.toBigDecimal().setScale(2) / divider
-            val totalIncome = 30000000L.toBigDecimal().setScale(2) / divider
+            val totalExpense = 30000000L.toBigDecimal().setScale(2) / divider
+            val totalIncome = 31000000L.toBigDecimal().setScale(2) / divider
             val totalAmount = totalIncome - totalExpense
             setState {
                 copy(
                     cashFlow = CashFlow(
-                        totalAmount = currency.formatAsDisplay(totalAmount, true),
-                        totalExpense = currency.formatAsDisplay(totalExpense, true),
-                        totalIncome = currency.formatAsDisplay(totalIncome, true),
+                        totalAmount = totalAmount,
+                        totalExpense = totalExpense,
+                        totalIncome = totalIncome,
                         currency = currency
                     )
                 )
