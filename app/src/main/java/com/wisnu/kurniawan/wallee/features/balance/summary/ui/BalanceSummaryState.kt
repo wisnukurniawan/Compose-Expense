@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplay
 import com.wisnu.kurniawan.wallee.foundation.extension.getAmountColor
+import com.wisnu.kurniawan.wallee.foundation.extension.normalize
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.Currency
 import java.math.BigDecimal
@@ -16,7 +17,7 @@ data class BalanceSummaryState(
 ) {
     companion object {
         fun initial() = BalanceSummaryState(
-            totalBalance = "0".toBigDecimal(),
+            totalBalance = BigDecimal.ZERO,
             currency = Currency.INDONESIA,
             accountItems = listOf()
         )
@@ -26,7 +27,7 @@ data class BalanceSummaryState(
 // Collections
 
 fun BalanceSummaryState.getTotalBalanceDisplay(): String {
-    return currency.formatAsDisplay(totalBalance, true)
+    return currency.formatAsDisplay(totalBalance.normalize(), true)
 }
 
 fun BalanceSummaryState.getTotalBalanceColor(defaultColor: Color): Color {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="show_more">Lihat Semua</string>
+    <string name="add">Tambah</string>
 
     <string name="login_login">Log in</string>
     <string name="login_email">Email</string>

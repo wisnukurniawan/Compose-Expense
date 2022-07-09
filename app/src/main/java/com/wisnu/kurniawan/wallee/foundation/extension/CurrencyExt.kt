@@ -14,18 +14,6 @@ const val MAX_SCALE_DIGIT = 2
 const val ZERO_AMOUNT = "0"
 const val FRACTION_SEPARATOR = "."
 
-fun Currency.getSymbol(): String {
-    return when (this) {
-        Currency.INDONESIA -> "Rp"
-    }
-}
-
-fun Currency.getLocale(): Locale {
-    return when (this) {
-        Currency.INDONESIA -> Locale("ID", "in")
-    }
-}
-
 fun TextFieldValue.formatAsDecimal(): TextFieldValue {
     val decimal = if (text.isBlank()) {
         TextFieldValue(ZERO_AMOUNT, selection = TextRange(ZERO_AMOUNT.length))
@@ -52,6 +40,18 @@ fun TextFieldValue.formatAsDecimal(): TextFieldValue {
 fun TextFieldValue.isDecimalNotExceed(): Boolean {
     val amountOnly = text.split(FRACTION_SEPARATOR).firstOrNull()
     return amountOnly != null && amountOnly.length <= MAX_TOTAL_AMOUNT_DIGIT
+}
+
+fun Currency.getSymbol(): String {
+    return when (this) {
+        Currency.INDONESIA -> "Rp"
+    }
+}
+
+fun Currency.getLocale(): Locale {
+    return when (this) {
+        Currency.INDONESIA -> Locale("ID", "in")
+    }
 }
 
 fun Currency.formatAsDisplay(

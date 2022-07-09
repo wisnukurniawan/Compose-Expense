@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">Wallee</string>
 
     <string name="show_more">Show More</string>
+    <string name="add">Add</string>
 
     <string name="login_login">Log in</string>
     <string name="login_email">Email</string>

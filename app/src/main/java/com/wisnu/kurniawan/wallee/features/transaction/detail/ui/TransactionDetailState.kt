@@ -11,6 +11,7 @@ import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.model.TransactionType
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Immutable
@@ -44,7 +45,7 @@ data class CategoryItem(
 // Collections
 
 fun TransactionState.isValid(): Boolean {
-    val isTotalAmountNotZero = totalAmount.formatAsBigDecimal() > "0".toBigDecimal()
+    val isTotalAmountNotZero = totalAmount.formatAsBigDecimal() > BigDecimal.ZERO
     return when (selectedTransactionType()) {
         TransactionType.INCOME -> {
             isTotalAmountNotZero

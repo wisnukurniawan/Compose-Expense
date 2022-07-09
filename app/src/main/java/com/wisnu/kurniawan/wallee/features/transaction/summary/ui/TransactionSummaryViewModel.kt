@@ -16,9 +16,8 @@ class TransactionSummaryViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val currency = Currency.INDONESIA
-            val divider = 100.toBigDecimal()
-            val totalExpense = 30000000L.toBigDecimal().setScale(2) / divider
-            val totalIncome = 31000000L.toBigDecimal().setScale(2) / divider
+            val totalExpense = 30000000L.toBigDecimal()
+            val totalIncome = 31000000L.toBigDecimal()
             val totalAmount = totalIncome - totalExpense
             setState {
                 copy(
