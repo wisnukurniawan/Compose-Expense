@@ -215,6 +215,23 @@ fun PgAmountLabel2(
 }
 
 @Composable
+fun PgAmountLabel3(
+    modifier: Modifier = Modifier,
+    amount: String,
+    symbol: String,
+    color: Color = MaterialTheme.colorScheme.onBackground,
+) {
+    PgAmountLabel(
+        modifier = modifier,
+        amount = amount,
+        amountFontSize = 32.sp,
+        symbol = symbol,
+        symbolFontSize = 26.sp,
+        color = color
+    )
+}
+
+@Composable
 fun PgAmountLabel(
     modifier: Modifier = Modifier,
     amount: String,

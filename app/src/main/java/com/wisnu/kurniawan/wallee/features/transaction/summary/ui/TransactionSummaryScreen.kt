@@ -32,8 +32,6 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
-import com.wisnu.kurniawan.wallee.foundation.theme.Expense
-import com.wisnu.kurniawan.wallee.foundation.theme.Income
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle2
@@ -213,7 +211,9 @@ private fun CashFlowSection(
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp),
-                    amountColor = Income
+                    amountColor = cashFlow.getTotalIncomeColor(
+                        MaterialTheme.colorScheme.onBackground
+                    )
                 )
 
                 Box(
@@ -230,7 +230,9 @@ private fun CashFlowSection(
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 8.dp),
-                    amountColor = Expense
+                    amountColor = cashFlow.getTotalExpenseColor(
+                        MaterialTheme.colorScheme.onBackground
+                    )
                 )
             }
         }

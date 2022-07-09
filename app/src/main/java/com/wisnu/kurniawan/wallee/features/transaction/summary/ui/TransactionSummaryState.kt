@@ -4,9 +4,8 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplay
 import com.wisnu.kurniawan.wallee.foundation.extension.formatMonth
+import com.wisnu.kurniawan.wallee.foundation.extension.getAmountColor
 import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
-import com.wisnu.kurniawan.wallee.foundation.theme.Expense
-import com.wisnu.kurniawan.wallee.foundation.theme.Income
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Currency
@@ -23,7 +22,7 @@ data class TransactionSummaryState(
     companion object {
         fun initial() = TransactionSummaryState(
             currentMonth = DateTimeProviderImpl().now().toLocalDate(),
-            cashFlow = CashFlow(BigDecimal(0), BigDecimal(0), BigDecimal(0), Currency.INDONESIA),
+            cashFlow = CashFlow("0".toBigDecimal(), "0".toBigDecimal(), "0".toBigDecimal(), Currency.INDONESIA),
             lastTransactionItems = listOf(),
             topExpenseItems = listOf()
         )
@@ -67,11 +66,14 @@ fun CashFlow.getTotalExpenseDisplay(): String {
 }
 
 fun CashFlow.getTotalAmountColor(defaultColor: Color): Color {
-    return if (totalAmount > BigDecimal(0)) {
-        Income
-    } else if (totalAmount < BigDecimal(0)) {
-        Expense
-    } else {
-        defaultColor
-    }
+    return totalAmount.getAmountColor(defaultColor)
 }
+
+fun CashFlow.getTotalIncomeColor(defaultColor: Color): Color {
+    return totalIncome.getAmountColor(defaultColor)
+}
+
+fun CashFlow.getTotalExpenseColor(defaultColor: Color): Color {
+    return totalExpense.getAmountColor(defaultColor)
+}
+

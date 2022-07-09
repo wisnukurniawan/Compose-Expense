@@ -93,4 +93,6 @@
     <string name="account_edit_name_hint">Wajib</string>
     <string name="account_edit_name_duplicate">Kamu udah punya akun dengan nama ini</string>
 
+    <string name="balance_all_time">Sepanjang waktu</string>
+
 </resources>

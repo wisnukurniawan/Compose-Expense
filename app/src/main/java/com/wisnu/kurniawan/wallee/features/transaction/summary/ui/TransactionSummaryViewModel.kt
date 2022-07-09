@@ -24,7 +24,7 @@ class TransactionSummaryViewModel @Inject constructor(
                 copy(
                     cashFlow = CashFlow(
                         totalAmount = totalAmount,
-                        totalExpense = totalExpense,
+                        totalExpense = -totalExpense,
                         totalIncome = totalIncome,
                         currency = currency
                     )

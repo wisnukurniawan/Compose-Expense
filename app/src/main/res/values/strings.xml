@@ -97,4 +97,7 @@
     <string name="account_edit_name">Name</string>
     <string name="account_edit_name_hint">Required</string>
     <string name="account_edit_name_duplicate">You already have account with this name</string>
+
+    <string name="balance_all_time">All the time</string>
+
 </resources>
