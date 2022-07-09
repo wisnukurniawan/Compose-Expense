@@ -1,4 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.transaction.summary.data
 
-class TransactionSummaryEnvironment : ITransactionSummaryEnvironment {
+import javax.inject.Inject
+
+class TransactionSummaryEnvironment @Inject constructor() : ITransactionSummaryEnvironment {
 }

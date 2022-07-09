@@ -45,3 +45,5 @@ val AuroraItemBackgroundL2 = Color(0xFF3D514A)
 val AuroraOn = Color(0xFFD0E0CF)
 
 val Error = Color(0xFFB00020)
+val Expense = Color(0xFFFD3C4A)
+val Income = Color(0xFF00A86B)

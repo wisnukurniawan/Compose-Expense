@@ -56,14 +56,14 @@ fun TextFieldValue.isDecimalNotExceed(): Boolean {
 
 fun Currency.formatAsDisplay(
     amount: BigDecimal,
-    currencySymbol: String
+    withSymbol: Boolean = false
 ): String {
     val currencyFormat = NumberFormat.getCurrencyInstance(getLocale())
     val amountCurrency = JavaCurrency.getInstance(code)
     runCatching {
         val decimalFormatSymbols = (currencyFormat as DecimalFormat).decimalFormatSymbols
         decimalFormatSymbols.currency = amountCurrency
-        decimalFormatSymbols.currencySymbol = currencySymbol
+        decimalFormatSymbols.currencySymbol = if (withSymbol) getSymbol() else ""
         currencyFormat.minimumFractionDigits = amount.scale()
         currencyFormat.decimalFormatSymbols = decimalFormatSymbols
     }
@@ -76,8 +76,7 @@ fun Currency.toggleFormatDisplay(
 ): String {
     return if (enable) {
         formatAsDisplay(
-            amount.toBigDecimal(),
-            ""
+            amount.toBigDecimal()
         )
     } else {
         amount.formatAsDecimal()

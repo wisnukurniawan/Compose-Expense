@@ -29,8 +29,7 @@ class CurrencyTest {
         Assertions.assertEquals(
             input,
             Currency.INDONESIA.formatAsDisplay(
-                output.toBigDecimal(),
-                ""
+                output.toBigDecimal()
             )
         )
     }

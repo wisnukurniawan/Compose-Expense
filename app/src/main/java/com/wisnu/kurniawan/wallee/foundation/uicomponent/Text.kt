@@ -9,9 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaMedium
@@ -151,6 +156,19 @@ fun PgContentTitle(
 }
 
 @Composable
+fun PgContentTitle2(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onBackground,
+) {
+    Text(
+        style = MaterialTheme.typography.bodyLarge.copy(color = color),
+        text = text,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun PgTabLabel(
     text: String,
     modifier: Modifier = Modifier,
@@ -163,14 +181,62 @@ fun PgTabLabel(
 }
 
 @Composable
+fun PgAmountLabel1(
+    modifier: Modifier = Modifier,
+    amount: String,
+    symbol: String,
+    color: Color = MaterialTheme.colorScheme.onBackground,
+) {
+    PgAmountLabel(
+        modifier = modifier,
+        amount = amount,
+        amountFontSize = 24.sp,
+        symbol = symbol,
+        symbolFontSize = 18.sp,
+        color = color
+    )
+}
+
+@Composable
+fun PgAmountLabel2(
+    modifier: Modifier = Modifier,
+    amount: String,
+    symbol: String,
+    color: Color = MaterialTheme.colorScheme.onBackground,
+) {
+    PgAmountLabel(
+        modifier = modifier,
+        amount = amount,
+        amountFontSize = 20.sp,
+        symbol = symbol,
+        symbolFontSize = 14.sp,
+        color = color
+    )
+}
+
+@Composable
 fun PgAmountLabel(
     modifier: Modifier = Modifier,
-    text: String,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    amount: String,
+    amountFontSize: TextUnit,
+    symbol: String,
+    symbolFontSize: TextUnit,
+    color: Color = MaterialTheme.colorScheme.onBackground,
 ) {
     Text(
-        style = MaterialTheme.typography.titleSmall.copy(color = color),
-        text = text,
+        style = MaterialTheme.typography.headlineMedium.copy(color = color, fontSize = amountFontSize),
+        text = AnnotatedString(
+            text = amount,
+            spanStyles = listOf(
+                AnnotatedString.Range(
+                    SpanStyle(fontSize = symbolFontSize),
+                    amount.indexOf(symbol),
+                    amount.indexOf(symbol) + symbol.length
+                )
+            )
+        ),
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
         modifier = modifier
     )
 }

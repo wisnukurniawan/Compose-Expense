@@ -5,6 +5,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.formatMonth
 import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.CategoryType
+import com.wisnu.kurniawan.wallee.model.Currency
 import java.time.LocalDate
 
 @Immutable
@@ -17,7 +18,7 @@ data class TransactionSummaryState(
     companion object {
         fun initial() = TransactionSummaryState(
             currentMonth = DateTimeProviderImpl().now().toLocalDate(),
-            cashFlow = CashFlow("", "", ""),
+            cashFlow = CashFlow("", "", "", Currency.INDONESIA),
             lastTransactionItems = listOf(),
             topExpenseItems = listOf()
         )
@@ -27,7 +28,8 @@ data class TransactionSummaryState(
 data class CashFlow(
     val totalAmount: String,
     val totalExpense: String,
-    val totalIncome: String
+    val totalIncome: String,
+    val currency: Currency
 )
 
 data class LastTransactionItem(

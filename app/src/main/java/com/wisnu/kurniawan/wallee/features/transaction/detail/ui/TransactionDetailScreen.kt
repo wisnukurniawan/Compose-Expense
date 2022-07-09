@@ -55,7 +55,6 @@ import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.ActionContentCell
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgBasicTextField
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeaderEditMode
@@ -285,9 +284,8 @@ private fun AmountSection(
             .fillMaxWidth()
             .padding(all = 16.dp)
     ) {
-        PgAmountLabel(
+        PgContentTitle(
             text = totalAmountDisplay,
-            color = MaterialTheme.colorScheme.onSurface
         )
         val localFocusManager = LocalFocusManager.current
         PgBasicTextField(

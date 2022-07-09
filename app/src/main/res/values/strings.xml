@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Wallee</string>
 
-    <string name="summary">Summary</string>
-
     <string name="login_login">Log in</string>
     <string name="login_email">Email</string>
     <string name="login_email_invalid">Email invalid</string>
@@ -82,6 +80,9 @@
     <string name="transaction_edit_note_expense_hint">Example \"Buy fried chicken &amp; tea\"</string>
     <string name="transaction_edit_note_income_hint">Example \"For saving\"</string>
     <string name="transaction_edit_note_transfer_hint">Example \"For subscription this month\"</string>
+    <string name="transaction_summary">Summary</string>
+    <string name="transaction_cash_flow" translatable="false">Cash Flow</string>
+    <string name="transaction_this_month">This Month</string>
 
     <string name="account_edit_add">Add Account</string>
     <string name="account_edit_balance">Current balance</string>
