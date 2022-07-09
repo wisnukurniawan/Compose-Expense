@@ -77,6 +77,9 @@ fun TransactionSummaryScreen(
         onLastTransactionItemClick = {
             // TODO open transaction detail pass trx id
         },
+        onSeeMoreTopExpenseClick = {
+            // TODO open all top expense
+        }
     )
 }
 
@@ -87,6 +90,7 @@ private fun TransactionSummaryScreen(
     onClickAddTransaction: () -> Unit,
     onSeeMoreLastTransactionClick: () -> Unit,
     onLastTransactionItemClick: (LastTransactionItem) -> Unit,
+    onSeeMoreTopExpenseClick: () -> Unit,
 ) {
     PgPageLayout(
         modifier = Modifier.fillMaxSize()
@@ -98,7 +102,8 @@ private fun TransactionSummaryScreen(
         Content(
             state = state,
             onSeeMoreLastTransactionClick = onSeeMoreLastTransactionClick,
-            onLastTransactionItemClick = onLastTransactionItemClick
+            onLastTransactionItemClick = onLastTransactionItemClick,
+            onSeeMoreTopExpenseClick = onSeeMoreTopExpenseClick
         )
     }
 }
@@ -130,6 +135,7 @@ private fun Content(
     state: TransactionSummaryState,
     onSeeMoreLastTransactionClick: () -> Unit,
     onLastTransactionItemClick: (LastTransactionItem) -> Unit,
+    onSeeMoreTopExpenseClick: () -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -165,7 +171,8 @@ private fun Content(
         }
 
         TopExpenseCell(
-            data = state.topExpenseItems
+            data = state.topExpenseItems,
+            onSeeMoreClick = onSeeMoreTopExpenseClick
         )
 
         item {
@@ -410,6 +417,7 @@ private fun TransactionItemCell(
 
 private inline fun LazyListScope.TopExpenseCell(
     data: List<TopExpenseItem>,
+    noinline onSeeMoreClick: () -> Unit,
 ) {
     item {
         Row(
@@ -422,7 +430,7 @@ private inline fun LazyListScope.TopExpenseCell(
             PgTextButton(
                 text = stringResource(R.string.show_more),
                 modifier = Modifier.align(Alignment.Bottom),
-                onClick = {}
+                onClick = onSeeMoreClick
             )
         }
         SpacerHeadline2()
