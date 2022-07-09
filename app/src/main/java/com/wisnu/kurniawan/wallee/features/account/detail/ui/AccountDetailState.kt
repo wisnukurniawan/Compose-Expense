@@ -6,7 +6,6 @@ import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.Currency
 
-// nama ga boleh kosong cuman angka sama alphabet
 @Immutable
 data class AccountDetailState(
     val name: TextFieldValue = TextFieldValue(""),
