@@ -468,13 +468,10 @@ private fun TopExpenseItemCell(
             .padding(horizontal = 16.dp)
             .clip(shape),
         shape = shape,
+        color = MaterialTheme.colorScheme.secondary,
     ) {
         Column(
             Modifier.fillMaxWidth()
-                .background(
-                    shape = shape,
-                    color = MaterialTheme.colorScheme.secondary,
-                )
                 .padding(all = 16.dp)
         ) {
             val (emoji, text) = item.getEmojiAndText()

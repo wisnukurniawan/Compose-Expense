@@ -1,8 +1,8 @@
 package com.wisnu.kurniawan.wallee.features.balance.summary.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,11 +16,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,13 +32,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
+import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel1
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgDateLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
+import com.wisnu.kurniawan.wallee.model.Account
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -47,12 +53,18 @@ fun BalanceSummaryScreen(
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
 
     BalanceSummaryScreen(
-        state = state
+        state = state,
+        onClickAccount = {
+            // TODO open specific account, pass account id
+        }
     )
 }
 
 @Composable
-private fun BalanceSummaryScreen(state: BalanceSummaryState) {
+private fun BalanceSummaryScreen(
+    state: BalanceSummaryState,
+    onClickAccount: (Account) -> Unit
+) {
     PgPageLayout(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -81,7 +93,10 @@ private fun BalanceSummaryScreen(state: BalanceSummaryState) {
                 SpacerSection()
             }
 
-            AccountCell()
+            AccountCell(
+                accountItems = state.accountItems,
+                onClick = onClickAccount
+            )
 
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Spacer(modifier = Modifier.height(72.dp))
@@ -126,7 +141,10 @@ private fun AllTimeSection(
     }
 }
 
-private fun LazyGridScope.AccountCell() {
+private inline fun LazyGridScope.AccountCell(
+    accountItems: List<AccountItem>,
+    noinline onClick: (Account) -> Unit
+) {
     item(span = { GridItemSpan(maxLineSpan) }) {
         Row(
             modifier = Modifier
@@ -144,28 +162,48 @@ private fun LazyGridScope.AccountCell() {
         }
     }
 
-    item {
-        Box(
-            Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.secondary,
-                    shape = MaterialTheme.shapes.medium
+    items(
+        items = accountItems,
+        key = { it.account.id }
+    ) {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(width = 150.dp, height = 120.dp)
+                .clip(MaterialTheme.shapes.medium)
+                .clickable(onClick = { onClick(it.account) }),
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.secondary,
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                PgContentTitle(
+                    text = it.account.name,
+                    modifier = Modifier.padding(bottom = 2.dp)
                 )
-                .size(width = 150.dp, height = 100.dp)
-                .padding(16.dp)
-        )
-    }
-
-    item {
-        Box(
-            Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.secondary,
-                    shape = MaterialTheme.shapes.medium
+                PgAmountLabel1(
+                    modifier = Modifier,
+                    amount = it.account.getTotalBalanceDisplay(),
+                    symbol = it.account.currency.getSymbol(),
+                    color = it.account.getTotalBalanceColor(
+                        MaterialTheme.colorScheme.onBackground
+                    )
                 )
-                .size(width = 150.dp, height = 100.dp)
-                .padding(16.dp)
-        )
+                PgContentTitle(
+                    text = stringResource(R.string.balance_total_transaction, it.totalTransaction),
+                    color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
+                    modifier = Modifier.padding(bottom = 2.dp)
+                )
+                val updatedAt = it.account.getDateTimeDisplay()
+                if (updatedAt.isNotEmpty()) {
+                    PgDateLabel(
+                        text = updatedAt,
+                        modifier = Modifier.padding(bottom = 2.dp)
+                    )
+                }
+            }
+        }
     }
 }
 

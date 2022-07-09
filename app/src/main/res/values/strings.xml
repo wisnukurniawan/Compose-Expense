@@ -100,5 +100,6 @@
     <string name="account_edit_name_duplicate">You already have account with this name</string>
 
     <string name="balance_all_time">All the time</string>
+    <string name="balance_total_transaction">%1$s transactions</string>
 
 </resources>
