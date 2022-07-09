@@ -95,7 +95,7 @@ private fun BalanceSummaryScreen(
 
             AccountCell(
                 accountItems = state.accountItems,
-                onClick = onClickAccount
+                onClickAccount = onClickAccount
             )
 
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -143,7 +143,7 @@ private fun AllTimeSection(
 
 private inline fun LazyGridScope.AccountCell(
     accountItems: List<AccountItem>,
-    noinline onClick: (Account) -> Unit
+    noinline onClickAccount: (Account) -> Unit
 ) {
     item(span = { GridItemSpan(maxLineSpan) }) {
         Row(
@@ -166,43 +166,60 @@ private inline fun LazyGridScope.AccountCell(
         items = accountItems,
         key = { it.account.id }
     ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(width = 150.dp, height = 136.dp)
-                .clip(MaterialTheme.shapes.medium)
-                .clickable(onClick = { onClick(it.account) }),
-            shape = MaterialTheme.shapes.medium,
-            color = MaterialTheme.colorScheme.secondary,
+        AccountCellItem(
+            accountName = it.account.name,
+            totalAmount = it.account.getTotalBalanceDisplay(),
+            amountSymbol = it.account.currency.getSymbol(),
+            amountColor = it.account.getTotalBalanceColor(
+                MaterialTheme.colorScheme.onBackground
+            ),
+            totalTransaction = stringResource(R.string.balance_total_transaction, it.totalTransaction),
+            updatedAt = it.account.getDateTimeDisplay(),
+            onClick = { onClickAccount(it.account) }
+        )
+    }
+}
+
+private fun AccountCellItem(
+    accountName: String,
+    totalAmount: String,
+    amountSymbol: String,
+    amountColor: Color,
+    totalTransaction: String,
+    updatedAt: String,
+    onClick: () -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .size(width = 150.dp, height = 136.dp)
+            .clip(MaterialTheme.shapes.medium)
+            .clickable(onClick = onClick),
+        shape = MaterialTheme.shapes.medium,
+        color = MaterialTheme.colorScheme.secondary,
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                PgContentTitle(
-                    text = it.account.name,
-                    modifier = Modifier.padding(bottom = 2.dp)
-                )
-                PgAmountLabel1(
-                    modifier = Modifier,
-                    amount = it.account.getTotalBalanceDisplay(),
-                    symbol = it.account.currency.getSymbol(),
-                    color = it.account.getTotalBalanceColor(
-                        MaterialTheme.colorScheme.onBackground
-                    )
-                )
-                PgContentTitle(
-                    text = stringResource(R.string.balance_total_transaction, it.totalTransaction),
-                    color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
-                    modifier = Modifier.padding(bottom = 2.dp)
-                )
-                val updatedAt = it.account.getDateTimeDisplay()
-                if (updatedAt.isNotEmpty()) {
-                    PgDateLabel(
-                        text = updatedAt,
-                        modifier = Modifier.padding(bottom = 2.dp)
-                    )
-                }
-            }
+            PgContentTitle(
+                text = accountName,
+                modifier = Modifier.padding(bottom = 2.dp)
+            )
+            PgAmountLabel1(
+                modifier = Modifier,
+                amount = totalAmount,
+                symbol = amountSymbol,
+                color = amountColor
+            )
+            PgContentTitle(
+                text = totalTransaction,
+                color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
+                modifier = Modifier.padding(bottom = 2.dp)
+            )
+            PgDateLabel(
+                text = updatedAt,
+                modifier = Modifier.padding(bottom = 2.dp)
+            )
         }
     }
 }

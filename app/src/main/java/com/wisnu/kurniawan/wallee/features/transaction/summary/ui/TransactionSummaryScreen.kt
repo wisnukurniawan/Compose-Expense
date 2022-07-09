@@ -335,7 +335,14 @@ private inline fun LazyListScope.LastTransactionCell(
             key = { _, item -> item.transactionId }
         ) { index, item ->
             TransactionItemCell(
-                item = item,
+                title = item.getTitle(),
+                dateTime = item.getDateTimeDisplay(),
+                amount = item.getAmountDisplay(),
+                amountSymbol = item.currency.getSymbol(),
+                amountColor = item.getAmountColor(
+                    MaterialTheme.colorScheme.onBackground
+                ),
+                note = item.note,
                 shape = cellShape(index, size),
                 shouldShowDivider = shouldShowDivider(index, size),
                 isSelected = false,
@@ -347,7 +354,12 @@ private inline fun LazyListScope.LastTransactionCell(
 
 @Composable
 private fun TransactionItemCell(
-    item: LastTransactionItem,
+    title: String,
+    dateTime: String,
+    amount: String,
+    amountSymbol: String,
+    amountColor: Color,
+    note: String,
     shape: Shape,
     shouldShowDivider: Boolean,
     isSelected: Boolean,
@@ -366,8 +378,6 @@ private fun TransactionItemCell(
             MaterialTheme.colorScheme.secondary
         }
     ) {
-        val (emoji, text) = item.getEmojiAndText()
-
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, bottom = 2.dp, end = 16.dp),
@@ -375,25 +385,23 @@ private fun TransactionItemCell(
                 verticalAlignment = Alignment.Bottom,
             ) {
                 PgContentTitle(
-                    text = emoji + "   " + stringResource(text) + "・" + item.accountName,
+                    text = title,
                 )
 
                 PgDateLabel(
-                    text = item.getDateTimeDisplay(),
+                    text = dateTime,
                 )
             }
 
             PgAmountLabel2(
-                amount = item.getAmountDisplay(),
-                symbol = item.currency.getSymbol(),
-                color = item.getAmountColor(
-                    MaterialTheme.colorScheme.onBackground
-                ),
+                amount = amount,
+                symbol = amountSymbol,
+                color = amountColor,
                 modifier = Modifier.fillMaxWidth().padding(start = 48.dp, bottom = 2.dp, end = 16.dp),
             )
 
             PgContentTitle(
-                text = item.note,
+                text = note,
                 color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -450,7 +458,14 @@ private inline fun LazyListScope.TopExpenseCell(
             key = { _, item -> item.categoryType }
         ) { index, item ->
             TopExpenseItemCell(
-                item = item,
+                title = item.getTitle(),
+                amount = item.getAmountDisplay(),
+                amountSymbol = item.currency.getSymbol(),
+                amountColor = item.getAmountColor(
+                    MaterialTheme.colorScheme.onBackground
+                ),
+                progress = item.progress,
+                progressColor = item.categoryType.getColor(),
                 shape = cellShape(index, size),
             )
         }
@@ -459,7 +474,12 @@ private inline fun LazyListScope.TopExpenseCell(
 
 @Composable
 private fun TopExpenseItemCell(
-    item: TopExpenseItem,
+    title: String,
+    amount: String,
+    amountSymbol: String,
+    amountColor: Color,
+    progress: Float,
+    progressColor: Color,
     shape: Shape
 ) {
     Surface(
@@ -474,26 +494,23 @@ private fun TopExpenseItemCell(
             Modifier.fillMaxWidth()
                 .padding(all = 16.dp)
         ) {
-            val (emoji, text) = item.getEmojiAndText()
             PgContentTitle(
-                text = emoji + "   " + stringResource(text),
+                text = title,
                 modifier = Modifier.padding(bottom = 2.dp)
             )
 
             PgAmountLabel2(
-                amount = item.getAmountDisplay(),
-                symbol = item.currency.getSymbol(),
-                color = item.getAmountColor(
-                    MaterialTheme.colorScheme.onBackground
-                ),
-                modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp),
+                amount = amount,
+                symbol = amountSymbol,
+                color = amountColor,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
             )
 
             RoundedLinearProgressIndicator(
-                progress = item.progress,
+                progress = progress,
                 modifier = Modifier.fillMaxWidth().height(24.dp),
                 trackColor = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled),
-                color = item.categoryType.getColor()
+                color = progressColor
             )
         }
     }

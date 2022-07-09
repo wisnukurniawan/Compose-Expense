@@ -5,14 +5,13 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplay
+import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.extension.getAmountColor
 import com.wisnu.kurniawan.wallee.foundation.extension.isSameDay
 import com.wisnu.kurniawan.wallee.foundation.extension.isSameHour
 import com.wisnu.kurniawan.wallee.foundation.extension.isSameMinute
 import com.wisnu.kurniawan.wallee.foundation.extension.isYesterday
-import com.wisnu.kurniawan.wallee.foundation.extension.normalize
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.Currency
@@ -43,7 +42,7 @@ data class AccountItem(
 // Collections
 
 fun BalanceSummaryState.getTotalBalanceDisplay(): String {
-    return currency.formatAsDisplay(totalBalance.normalize(), true)
+    return currency.formatAsDisplayNormalize(totalBalance, true)
 }
 
 fun BalanceSummaryState.getTotalBalanceColor(defaultColor: Color): Color {
@@ -51,7 +50,7 @@ fun BalanceSummaryState.getTotalBalanceColor(defaultColor: Color): Color {
 }
 
 fun Account.getTotalBalanceDisplay(): String {
-    return currency.formatAsDisplay(amount.normalize(), true)
+    return currency.formatAsDisplayNormalize(amount, true)
 }
 
 fun Account.getTotalBalanceColor(defaultColor: Color): Color {

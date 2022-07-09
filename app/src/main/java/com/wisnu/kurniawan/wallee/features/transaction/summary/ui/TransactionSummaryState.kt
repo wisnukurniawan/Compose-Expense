@@ -1,13 +1,14 @@
 package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
-import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplay
+import androidx.compose.ui.res.stringResource
+import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.extension.formatMonth
 import com.wisnu.kurniawan.wallee.foundation.extension.getAmountColor
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
-import com.wisnu.kurniawan.wallee.foundation.extension.normalize
 import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.CategoryType
@@ -62,15 +63,15 @@ data class TopExpenseItem(
 fun TransactionSummaryState.currentMonthDisplay() = currentMonth.toLocalDateTime().formatMonth()
 
 fun CashFlow.getTotalAmountDisplay(): String {
-    return currency.formatAsDisplay(totalAmount.normalize(), true)
+    return currency.formatAsDisplayNormalize(totalAmount, true)
 }
 
 fun CashFlow.getTotalIncomeDisplay(): String {
-    return currency.formatAsDisplay(totalIncome.normalize(), true)
+    return currency.formatAsDisplayNormalize(totalIncome, true)
 }
 
 fun CashFlow.getTotalExpenseDisplay(): String {
-    return currency.formatAsDisplay(totalExpense.normalize(), true)
+    return currency.formatAsDisplayNormalize(totalExpense, true)
 }
 
 fun CashFlow.getTotalAmountColor(defaultColor: Color): Color {
@@ -86,7 +87,7 @@ fun CashFlow.getTotalExpenseColor(defaultColor: Color): Color {
 }
 
 fun LastTransactionItem.getAmountDisplay(): String {
-    return currency.formatAsDisplay(amount.normalize(), true)
+    return currency.formatAsDisplayNormalize(amount, true)
 }
 
 fun LastTransactionItem.getAmountColor(defaultColor: Color): Color {
@@ -97,19 +98,23 @@ fun LastTransactionItem.getDateTimeDisplay(): String {
     return date.formatDateTime()
 }
 
-fun LastTransactionItem.getEmojiAndText(): Pair<String, Int> {
-    return categoryType.getEmojiAndText()
+@Composable
+fun LastTransactionItem.getTitle(): String {
+    val (emoji, text) = categoryType.getEmojiAndText()
+    return emoji + "   " + stringResource(text) + "・" + accountName
 }
 
 fun TopExpenseItem.getAmountDisplay(): String {
-    return currency.formatAsDisplay(amount.normalize(), true)
+    return currency.formatAsDisplayNormalize(amount, true)
 }
 
 fun TopExpenseItem.getAmountColor(defaultColor: Color): Color {
     return amount.getAmountColor(defaultColor)
 }
 
-fun TopExpenseItem.getEmojiAndText(): Pair<String, Int> {
-    return categoryType.getEmojiAndText()
+@Composable
+fun TopExpenseItem.getTitle(): String {
+    val (emoji, text) = categoryType.getEmojiAndText()
+    return emoji + "   " + stringResource(text)
 }
 

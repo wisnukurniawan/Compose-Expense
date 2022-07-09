@@ -54,6 +54,13 @@ fun Currency.getLocale(): Locale {
     }
 }
 
+fun Currency.formatAsDisplayNormalize(
+    amount: BigDecimal,
+    withSymbol: Boolean = false
+): String {
+    return formatAsDisplay(amount.normalize(), true)
+}
+
 fun Currency.formatAsDisplay(
     amount: BigDecimal,
     withSymbol: Boolean = false
