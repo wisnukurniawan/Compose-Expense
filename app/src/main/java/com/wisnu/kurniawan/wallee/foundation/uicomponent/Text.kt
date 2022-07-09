@@ -108,12 +108,16 @@ fun PgContentTitle(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onBackground,
-    fontWeight: FontWeight = FontWeight.Normal
+    fontWeight: FontWeight = FontWeight.Normal,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
 ) {
     Text(
         style = MaterialTheme.typography.titleSmall.copy(color = color, fontWeight = fontWeight),
         text = text,
-        modifier = modifier
+        modifier = modifier,
+        maxLines = maxLines,
+        overflow = overflow,
     )
 }
 
@@ -227,6 +231,18 @@ fun PgErrorLabel(
 ) {
     Text(
         style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.error),
+        text = text,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PgDateLabel(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
+    Text(
+        style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaMedium)),
         text = text,
         modifier = modifier
     )

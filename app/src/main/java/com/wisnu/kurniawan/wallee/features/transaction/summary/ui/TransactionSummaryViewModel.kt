@@ -3,6 +3,8 @@ package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.features.transaction.summary.data.ITransactionSummaryEnvironment
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
+import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
+import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -26,6 +28,35 @@ class TransactionSummaryViewModel @Inject constructor(
                         totalExpense = -totalExpense,
                         totalIncome = totalIncome,
                         currency = currency
+                    ),
+                    lastTransactionItems = listOf(
+                        LastTransactionItem(
+                            transactionId = "1",
+                            amount = "4000099999999".toBigDecimal(),
+                            categoryType = CategoryType.OTHERS,
+                            date = DateTimeProviderImpl().now(),
+                            accountName = "Cash",
+                            currency = currency,
+                            note = "lsfja;lsjdflakjsdflkajs;ldfja slkfdja;lksjfl;asjfl;kasjd f;laksjdf;lkajsdklfj as;ldfj a;klsdj f;klasj dfkl;ja slk;f jasf"
+                        ),
+                        LastTransactionItem(
+                            transactionId = "2",
+                            amount = "4000099999999".toBigDecimal(),
+                            categoryType = CategoryType.OTHERS,
+                            date = DateTimeProviderImpl().now(),
+                            accountName = "Cash",
+                            currency = currency,
+                            note = "-"
+                        ),
+                        LastTransactionItem(
+                            transactionId = "3",
+                            amount = "4000099999999".toBigDecimal(),
+                            categoryType = CategoryType.OTHERS,
+                            date = DateTimeProviderImpl().now(),
+                            accountName = "Cash",
+                            currency = currency,
+                            note = "-"
+                        )
                     )
                 )
             }

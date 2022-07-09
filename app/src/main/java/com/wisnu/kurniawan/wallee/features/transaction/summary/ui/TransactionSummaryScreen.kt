@@ -1,6 +1,7 @@
 package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,28 +14,36 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
+import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
+import com.wisnu.kurniawan.wallee.foundation.extension.shouldShowDivider
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle2
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgDateLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
@@ -59,7 +68,13 @@ fun TransactionSummaryScreen(
     TransactionSummaryScreen(
         state = state,
         onSettingClick = { mainNavController.navigate(SettingFlow.Root.route) },
-        onClickAddTransaction = { mainNavController.navigate(TransactionDetailFlow.Root.route()) }
+        onClickAddTransaction = { mainNavController.navigate(TransactionDetailFlow.Root.route()) },
+        onSeeMoreLastTransactionClick = {
+            // TODO open all transaction items
+        },
+        onLastTransactionItemClick = {
+            // TODO open transaction detail pass trx id
+        },
     )
 }
 
@@ -68,12 +83,21 @@ private fun TransactionSummaryScreen(
     state: TransactionSummaryState,
     onSettingClick: () -> Unit,
     onClickAddTransaction: () -> Unit,
+    onSeeMoreLastTransactionClick: () -> Unit,
+    onLastTransactionItemClick: (LastTransactionItem) -> Unit,
 ) {
     PgPageLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        Header(onSettingClick, onClickAddTransaction)
-        Body(state)
+        Header(
+            onSettingClick = onSettingClick,
+            onClickAddTransaction = onClickAddTransaction
+        )
+        Content(
+            state = state,
+            onSeeMoreLastTransactionClick = onSeeMoreLastTransactionClick,
+            onLastTransactionItemClick = onLastTransactionItemClick
+        )
     }
 }
 
@@ -100,8 +124,10 @@ private fun Header(
 }
 
 @Composable
-private fun Body(
+private fun Content(
     state: TransactionSummaryState,
+    onSeeMoreLastTransactionClick: () -> Unit,
+    onLastTransactionItemClick: (LastTransactionItem) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -127,7 +153,9 @@ private fun Body(
         }
 
         LastTransactionCell(
-            data = state.lastTransactionItems
+            data = state.lastTransactionItems,
+            onSeeMoreClick = onSeeMoreLastTransactionClick,
+            onItemClick = onLastTransactionItemClick,
         )
 
         item {
@@ -263,6 +291,8 @@ private fun CashFlowContent(
 
 private inline fun LazyListScope.LastTransactionCell(
     data: List<LastTransactionItem>,
+    noinline onSeeMoreClick: () -> Unit,
+    noinline onItemClick: (LastTransactionItem) -> Unit,
 ) {
     item {
         Row(
@@ -275,9 +305,7 @@ private inline fun LazyListScope.LastTransactionCell(
             PgTextButton(
                 text = stringResource(R.string.show_more),
                 modifier = Modifier.align(Alignment.Bottom),
-                onClick = {
-
-                }
+                onClick = onSeeMoreClick
             )
         }
 
@@ -292,14 +320,101 @@ private inline fun LazyListScope.LastTransactionCell(
             )
         }
     } else {
-        items(
+        val size = data.size
+        itemsIndexed(
             items = data,
-            key = { item -> item.transactionId }
-        ) {
-
+            key = { _, item -> item.transactionId }
+        ) { index, item ->
+            TransactionItemCell(
+                item = item,
+                shape = cellShape(index, size),
+                shouldShowDivider = shouldShowDivider(index, size),
+                isSelected = false,
+                onClick = { onItemClick(item) }
+            )
         }
     }
 }
+
+@Composable
+private fun TransactionItemCell(
+    item: LastTransactionItem,
+    shape: Shape,
+    shouldShowDivider: Boolean,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(shape)
+            .clickable(onClick = onClick),
+        shape = shape,
+        color = if (isSelected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.secondary
+        }
+    ) {
+        val (emoji, text) = item.getEmojiAndText()
+
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, bottom = 2.dp, end = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                Row {
+                    PgContentTitle(
+                        text = emoji
+                    )
+
+                    Spacer(
+                        modifier = Modifier.width(16.dp)
+                    )
+
+                    PgContentTitle(
+                        text = stringResource(text) + "・" + item.accountName,
+                    )
+                }
+
+                PgDateLabel(
+                    text = item.getDateTimeDisplay(),
+                )
+            }
+
+            PgAmountLabel2(
+                amount = item.getAmountDisplay(),
+                symbol = item.currency.getSymbol(),
+                color = item.getAmountColor(
+                    MaterialTheme.colorScheme.onBackground
+                ),
+                modifier = Modifier.fillMaxWidth().padding(start = 48.dp, bottom = 2.dp, end = 16.dp),
+            )
+
+            PgContentTitle(
+                text = item.note,
+                color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 48.dp, end = 16.dp, bottom = 16.dp)
+            )
+
+            if (shouldShowDivider) {
+                PgDivider(
+                    needSpacer = !isSelected,
+                    color = if (isSelected) {
+                        MaterialTheme.colorScheme.primaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+                    }
+                )
+            }
+        }
+    }
+}
+
 
 private inline fun LazyListScope.TopExpenseCell(
     data: List<TopExpenseItem>,
@@ -329,10 +444,10 @@ private inline fun LazyListScope.TopExpenseCell(
             )
         }
     } else {
-        items(
+        itemsIndexed(
             items = data,
-            key = { item -> item.categoryType }
-        ) {
+            key = { _, item -> item.categoryType }
+        ) { _, item ->
 
         }
     }
@@ -373,4 +488,22 @@ private fun SpacerSection() {
 @Composable
 private fun SpacerHeadline2() {
     Spacer(Modifier.height(10.dp))
+}
+
+@Composable
+private fun PgDivider(
+    needSpacer: Boolean,
+    color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha),
+) {
+    Row {
+        if (needSpacer) {
+            Spacer(
+                Modifier
+                    .width(48.dp)
+                    .height(1.dp)
+                    .background(color = MaterialTheme.colorScheme.secondary)
+            )
+        }
+        Divider(color = color)
+    }
 }
