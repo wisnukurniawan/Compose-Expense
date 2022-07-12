@@ -77,7 +77,7 @@ abstract class WalleeDatabase : RoomDatabase() {
             )
             val writeDao = getInstance(context).walleeWriteDao()
 
-            writeDao.insertAccount(listOf(defaultAccount))
+            writeDao.insertAccount(defaultAccount)
         }
 
     }

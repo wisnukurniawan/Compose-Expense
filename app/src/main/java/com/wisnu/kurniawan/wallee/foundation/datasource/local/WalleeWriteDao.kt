@@ -12,6 +12,12 @@ abstract class WalleeWriteDao {
     abstract suspend fun insertAccount(data: List<AccountDb>)
 
     @Insert
-    abstract suspend fun insertTransaction(transactionDb: TransactionDb)
+    abstract suspend fun insertAccount(data: AccountDb)
+
+    @Insert
+    abstract suspend fun insertTransaction(data: List<TransactionDb>)
+
+    @Insert
+    abstract suspend fun insertTransaction(data: TransactionDb)
 
 }

@@ -8,6 +8,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'com.google.firebase.firebase-perf'
+    id 'kotlin-parcelize'
 }
 
 apply from: "$rootDir/gradle/test-report.gradle"

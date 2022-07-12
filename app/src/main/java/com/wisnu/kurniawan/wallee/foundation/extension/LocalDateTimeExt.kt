@@ -58,13 +58,17 @@ fun LocalDateTime.toMillis(): Long {
     return atZone(zoneId).toInstant().toEpochMilli()
 }
 
+fun LocalDate.toMillis(zone: ZoneId = ZoneId.systemDefault()): Long {
+    return atStartOfDay(zone).toInstant().toEpochMilli()
+}
+
 fun Long.toLocalDateTime(): LocalDateTime {
     val zoneId = ZoneId.systemDefault()
     return LocalDateTime.ofInstant(Instant.ofEpochMilli(this), zoneId)
 }
 
 fun LocalDate.toLocalDateTime(): LocalDateTime {
-    return LocalDateTime.of(this, LocalTime.of(0, 0))
+    return LocalDateTime.of(this, LocalTime.of(0, 0, 0, 0))
 }
 
 fun LocalDateTime.isFriday(): Boolean {
