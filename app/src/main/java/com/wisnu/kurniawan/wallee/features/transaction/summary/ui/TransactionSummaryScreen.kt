@@ -398,7 +398,7 @@ private fun TransactionItemCell(
                 amount = amount,
                 symbol = amountSymbol,
                 color = amountColor,
-                modifier = Modifier.fillMaxWidth().padding(start = 48.dp, bottom = 2.dp, end = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
             )
 
             PgContentTitle(
@@ -406,7 +406,7 @@ private fun TransactionItemCell(
                 color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 48.dp, end = 16.dp, bottom = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             )
 
             if (shouldShowDivider) {

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.wisnu.kurniawan.wallee.features.transaction.summary.data.CashFlow
+import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_AMOUNT_MULTIPLIER
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.extension.formatMonth
@@ -126,7 +127,7 @@ fun List<TransactionWithAccount>.toLastTransactionItems(): List<LastTransactionI
             date = it.transaction.date,
             accountName = it.account.name,
             currency = it.transaction.currency,
-            note = it.transaction.note
+            note = it.transaction.note.ifBlank { "-" }
         )
     }
 }
@@ -138,7 +139,7 @@ fun List<Transaction>.toTopExpenseItems(): List<TopExpenseItem> {
             amount = it.amount,
             categoryType = it.categoryType,
             currency = it.currency,
-            progress = it.amount.percentageOf(max).toFloat()
+            progress = it.amount.percentageOf(max).divide(DEFAULT_AMOUNT_MULTIPLIER).toFloat()
         )
     }
 }

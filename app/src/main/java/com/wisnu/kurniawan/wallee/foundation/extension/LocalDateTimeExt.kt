@@ -76,7 +76,7 @@ fun LocalDateTime.isFriday(): Boolean {
 }
 
 fun LocalDateTime.generateThisMonthDateRange(): Pair<LocalDate, LocalDate> {
-    return Pair(toLocalDate().withDayOfMonth(1), this.toLocalDate())
+    return Pair(toLocalDate().withDayOfMonth(1), this.toLocalDate().plusDays(1))
 }
 
 fun LocalDateTime.generateThisMonthDateTimeRange(): Pair<LocalDateTime, LocalDateTime> {
