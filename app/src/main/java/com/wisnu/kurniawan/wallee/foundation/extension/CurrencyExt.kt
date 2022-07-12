@@ -22,6 +22,7 @@ fun TextFieldValue.formatAsDecimal(): TextFieldValue {
         val scale = totalAmount.scale()
 
         if (scale > 0) {
+            if (scale > MAX_SCALE_DIGIT) throw NumberFormatException(totalAmount.toString())
             copy(text = totalAmount.setScale(scale.coerceAtMost(MAX_SCALE_DIGIT), BigDecimal.ROUND_UNNECESSARY).toString())
         } else if (text.startsWith(ZERO_AMOUNT)) {
             if (text.contains(FRACTION_SEPARATOR)) {
@@ -58,7 +59,7 @@ fun Currency.formatAsDisplayNormalize(
     amount: BigDecimal,
     withSymbol: Boolean = false
 ): String {
-    return formatAsDisplay(amount.normalize(), withSymbol)
+    return formatAsDisplay(amount.asDisplay(), withSymbol)
 }
 
 fun Currency.formatAsDisplay(

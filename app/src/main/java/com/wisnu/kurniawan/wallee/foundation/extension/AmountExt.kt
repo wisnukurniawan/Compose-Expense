@@ -5,6 +5,9 @@ import com.wisnu.kurniawan.wallee.foundation.theme.Expense
 import com.wisnu.kurniawan.wallee.foundation.theme.Income
 import java.math.BigDecimal
 
+
+val DEFAULT_AMOUNT_MULTIPLIER = "100".toBigDecimal()
+
 fun BigDecimal.getAmountColor(defaultColor: Color): Color {
     val zero = BigDecimal.ZERO
     return if (this > zero) {
@@ -16,10 +19,14 @@ fun BigDecimal.getAmountColor(defaultColor: Color): Color {
     }
 }
 
-fun BigDecimal.normalize(): BigDecimal {
-    return setScale(2) / "100".toBigDecimal()
+fun BigDecimal.asDisplay(): BigDecimal {
+    return setScale(2) / DEFAULT_AMOUNT_MULTIPLIER
+}
+
+fun BigDecimal.asData(): BigDecimal {
+    return this * DEFAULT_AMOUNT_MULTIPLIER
 }
 
 fun BigDecimal.percentageOf(value: BigDecimal): BigDecimal {
-    return this * "100".toBigDecimal() / value
+    return this * DEFAULT_AMOUNT_MULTIPLIER / value
 }

@@ -1,6 +1,7 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.data
 
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
+import com.wisnu.kurniawan.wallee.foundation.extension.asData
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.foundation.wrapper.IdProvider
 import com.wisnu.kurniawan.wallee.model.Account
@@ -26,7 +27,7 @@ class TransactionDetailEnvironment @Inject constructor(
                         id = idProvider.generate(),
                         currency = transactionDetail.currency,
                         categoryType = transactionDetail.categoryType,
-                        amount = transactionDetail.amount,
+                        amount = transactionDetail.amount.asData(),
                         type = transactionDetail.type,
                         date = transactionDetail.date,
                         createdAt = dateTimeProvider.now(),
@@ -42,7 +43,7 @@ class TransactionDetailEnvironment @Inject constructor(
                         id = idProvider.generate(),
                         currency = transactionDetail.currency,
                         categoryType = transactionDetail.categoryType,
-                        amount = transactionDetail.amount,
+                        amount = transactionDetail.amount.asData(),
                         type = transactionDetail.type,
                         date = transactionDetail.date,
                         createdAt = dateTimeProvider.now(),
@@ -58,7 +59,7 @@ class TransactionDetailEnvironment @Inject constructor(
                         id = idProvider.generate(),
                         currency = transactionDetail.currency,
                         categoryType = transactionDetail.categoryType,
-                        amount = transactionDetail.amount,
+                        amount = transactionDetail.amount.asData(),
                         type = transactionDetail.type,
                         date = transactionDetail.date,
                         createdAt = dateTimeProvider.now(),

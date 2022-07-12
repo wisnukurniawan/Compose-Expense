@@ -1,6 +1,7 @@
 package com.wisnu.kurniawan.wallee.features.account.detail.data
 
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
+import com.wisnu.kurniawan.wallee.foundation.extension.asData
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.foundation.wrapper.IdProvider
 import com.wisnu.kurniawan.wallee.model.Account
@@ -19,7 +20,7 @@ class AccountDetailEnvironment @Inject constructor(
         val account = Account(
             id = idProvider.generate(),
             currency = currency,
-            amount = amount,
+            amount = amount.asData(),
             name = name,
             type = type,
             createdAt = dateTimeProvider.now(),
