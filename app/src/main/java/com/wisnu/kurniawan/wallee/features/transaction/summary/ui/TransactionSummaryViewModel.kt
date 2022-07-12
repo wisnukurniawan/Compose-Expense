@@ -32,7 +32,7 @@ class TransactionSummaryViewModel @Inject constructor(
                             cashFlow = CashFlow(
                                 totalAmount = totalAmount,
                                 totalIncome = totalIncome,
-                                totalExpense = totalExpense,
+                                totalExpense = -totalExpense,
                                 currency = account.currency
                             )
                         )

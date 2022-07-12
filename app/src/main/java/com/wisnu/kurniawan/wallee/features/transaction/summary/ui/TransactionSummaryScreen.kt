@@ -173,6 +173,7 @@ private fun Content(
 
         TopExpenseCell(
             data = state.topExpenseItems,
+            currency = state.cashFlow.currency,
             onSeeMoreClick = onSeeMoreTopExpenseClick
         )
 
@@ -224,7 +225,7 @@ private fun CashFlowSection(
                 shape = MaterialTheme.shapes.medium
             )
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             PgContentTitle(
                 text = stringResource(R.string.transaction_this_month),
@@ -381,7 +382,7 @@ private fun TransactionItemCell(
     ) {
         Column {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, bottom = 2.dp, end = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 8.dp, bottom = 2.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
             ) {
@@ -406,7 +407,7 @@ private fun TransactionItemCell(
                 color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
             )
 
             if (shouldShowDivider) {
@@ -415,7 +416,7 @@ private fun TransactionItemCell(
                     color = if (isSelected) {
                         MaterialTheme.colorScheme.primaryContainer
                     } else {
-                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha)
                     }
                 )
             }
@@ -426,6 +427,7 @@ private fun TransactionItemCell(
 
 private inline fun LazyListScope.TopExpenseCell(
     data: List<TopExpenseItem>,
+    currency: Currency,
     noinline onSeeMoreClick: () -> Unit,
 ) {
     item {
@@ -460,8 +462,8 @@ private inline fun LazyListScope.TopExpenseCell(
         ) { index, item ->
             TopExpenseItemCell(
                 title = item.getTitle(),
-                amount = item.getAmountDisplay(),
-                amountSymbol = item.currency.getSymbol(),
+                amount = item.getAmountDisplay(currency),
+                amountSymbol = currency.getSymbol(),
                 amountColor = item.getAmountColor(
                     MaterialTheme.colorScheme.onBackground
                 ),
@@ -493,7 +495,7 @@ private fun TopExpenseItemCell(
     ) {
         Column(
             Modifier.fillMaxWidth()
-                .padding(all = 16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             PgContentTitle(
                 text = title,

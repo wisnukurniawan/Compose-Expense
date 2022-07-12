@@ -3,6 +3,7 @@ package com.wisnu.kurniawan.wallee.foundation.datasource.local
 import androidx.room.Dao
 import androidx.room.Query
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TopTransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionWithAccountDb
 import com.wisnu.kurniawan.wallee.model.TransactionType
@@ -34,10 +35,11 @@ interface WalleeReadDao {
 
     @Query(
         """
-            SELECT * FROM TransactionDb
+            SELECT TransactionDb.transaction_categoryType as type, SUM(TransactionDb.transaction_amount) AS amount FROM TransactionDb
             WHERE TransactionDb.transaction_date BETWEEN :startDate AND :endDate
             AND TransactionDb.transaction_type = :type
-            ORDER BY TransactionDb.transaction_amount DESC
+            GROUP BY type
+            ORDER BY amount DESC
             LIMIT :limit
         """
     )
@@ -46,7 +48,7 @@ interface WalleeReadDao {
         endDate: LocalDateTime,
         type: TransactionType,
         limit: Int
-    ): Flow<List<TransactionDb>>
+    ): Flow<List<TopTransactionDb>>
 
     @Query(
         """

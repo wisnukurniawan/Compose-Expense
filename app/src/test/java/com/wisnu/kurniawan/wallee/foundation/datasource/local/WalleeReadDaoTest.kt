@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.wisnu.kurniawan.wallee.DateFactory
 import com.wisnu.kurniawan.wallee.expect
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TopTransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionWithAccountDb
 import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
@@ -151,6 +152,130 @@ class WalleeReadDaoTest {
                     transaction3,
                     account
                 ),
+            )
+        )
+    }
+
+    @Test
+    fun getTopTransactions() = runBlocking {
+        val account = AccountDb(
+            id = "1",
+            currencyCode = "IDR",
+            amount = 0,
+            name = "Cash",
+            type = AccountType.CASH,
+            createdAt = DateFactory.constantDate,
+            updatedAt = DateFactory.constantDate,
+        )
+        val transaction1 = TransactionDb(
+            id = "1",
+            accountId = "1",
+            categoryType = CategoryType.PARKING,
+            currencyCode = Currency.INDONESIA.code,
+            amount = 1000,
+            type = TransactionType.EXPENSE,
+            date = LocalDate.of(2021, 2, 22).toLocalDateTime(),
+            createdAt = LocalDate.of(2021, 2, 22).toLocalDateTime(),
+            updatedAt = null,
+            note = "",
+            transferAccountId = null
+        )
+        val transaction2 = TransactionDb(
+            id = "2",
+            accountId = "1",
+            categoryType = CategoryType.ADMIN_FEE,
+            currencyCode = Currency.INDONESIA.code,
+            amount = 2000,
+            type = TransactionType.EXPENSE,
+            date = LocalDate.of(2021, 2, 1).toLocalDateTime(),
+            createdAt = LocalDate.of(2021, 2, 1).toLocalDateTime(),
+            updatedAt = null,
+            note = "",
+            transferAccountId = null
+        )
+        val transaction3 = TransactionDb(
+            id = "3",
+            accountId = "1",
+            categoryType = CategoryType.SPORT,
+            currencyCode = Currency.INDONESIA.code,
+            amount = 1000,
+            type = TransactionType.EXPENSE,
+            date = LocalDate.of(2021, 2, 22).toLocalDateTime(),
+            createdAt = LocalDate.of(2021, 2, 22).toLocalDateTime(),
+            updatedAt = null,
+            note = "",
+            transferAccountId = null
+        )
+        val transaction4 = TransactionDb(
+            id = "4",
+            accountId = "1",
+            categoryType = CategoryType.SPORT,
+            currencyCode = Currency.INDONESIA.code,
+            amount = 1000,
+            type = TransactionType.EXPENSE,
+            date = LocalDate.of(2021, 2, 23).toLocalDateTime(),
+            createdAt = LocalDate.of(2021, 2, 23).toLocalDateTime(),
+            updatedAt = null,
+            note = "",
+            transferAccountId = null
+        )
+        val transaction5 = TransactionDb(
+            id = "5",
+            accountId = "1",
+            categoryType = CategoryType.SPORT,
+            currencyCode = Currency.INDONESIA.code,
+            amount = 1000,
+            type = TransactionType.EXPENSE,
+            date = LocalDate.of(2021, 2, 23).toLocalDateTime(),
+            createdAt = LocalDate.of(2021, 2, 23).toLocalDateTime(),
+            updatedAt = null,
+            note = "",
+            transferAccountId = null
+        )
+        val transaction6 = TransactionDb(
+            id = "6",
+            accountId = "1",
+            categoryType = CategoryType.BILLS,
+            currencyCode = Currency.INDONESIA.code,
+            amount = 500,
+            type = TransactionType.EXPENSE,
+            date = LocalDate.of(2021, 2, 23).toLocalDateTime(),
+            createdAt = LocalDate.of(2021, 2, 23).toLocalDateTime(),
+            updatedAt = null,
+            note = "",
+            transferAccountId = null
+        )
+
+        walleeWriteDao.insertAccount(account)
+        walleeWriteDao.insertTransaction(listOf(transaction1, transaction2, transaction3, transaction4, transaction5, transaction6))
+
+        val initial = LocalDate.of(2021, 2, 1)
+        val start = initial.withDayOfMonth(1).toLocalDateTime()
+        val end = initial.withDayOfMonth(initial.month.length(initial.isLeapYear)).toLocalDateTime()
+        walleeReadDao.getTopTransactions(
+            startDate = start,
+            endDate = end,
+            type = TransactionType.EXPENSE,
+            limit = 5
+        ).expect(
+            listOf(
+                TopTransactionDb(
+                    CategoryType.SPORT,
+                    3000
+                ),
+                TopTransactionDb(
+                    CategoryType.ADMIN_FEE,
+                    2000,
+
+                    ),
+                TopTransactionDb(
+                    CategoryType.PARKING,
+                    1000,
+                ),
+                TopTransactionDb(
+                    CategoryType.BILLS,
+                    500,
+                )
             )
         )
     }

@@ -282,7 +282,7 @@ private fun AmountSection(
             shape = MaterialTheme.shapes.medium
         )
             .fillMaxWidth()
-            .padding(all = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         PgContentTitle(
             text = totalAmountDisplay,
@@ -442,7 +442,7 @@ private fun NoteSection(
             shape = MaterialTheme.shapes.medium
         )
             .fillMaxWidth()
-            .padding(all = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         val focusManager = LocalFocusManager.current
         PgBasicTextField(

@@ -6,8 +6,12 @@ import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.foundation.wrapper.IdProvider
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.Transaction
+import java.math.BigDecimal
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 class TransactionDetailEnvironment @Inject constructor(
     private val localManager: LocalManager,
@@ -19,7 +23,7 @@ class TransactionDetailEnvironment @Inject constructor(
         return localManager.getAccounts()
     }
 
-    override suspend fun saveTransaction(transactionDetail: TransactionDetail) {
+    override suspend fun saveTransaction(transactionDetail: TransactionDetail): Flow<Boolean> {
         val (transaction, transferAccountId) = when (transactionDetail) {
             is TransactionDetail.Expense -> {
                 Pair(
@@ -72,6 +76,46 @@ class TransactionDetailEnvironment @Inject constructor(
         }
 
         localManager.insertTransaction(transactionDetail.account.id, transferAccountId, transaction)
+
+        return when (transactionDetail) {
+            is TransactionDetail.Expense -> {
+                reduceAccountAmount(transactionDetail.account, transaction.amount)
+                    .map { true }
+            }
+            is TransactionDetail.Income -> {
+                transferAccountAmount(transactionDetail.account, transaction.amount)
+                    .map { true }
+            }
+            is TransactionDetail.Transfer -> {
+                combine(
+                    reduceAccountAmount(transactionDetail.account, transaction.amount),
+                    transferAccountAmount(transactionDetail.transferAccount, transaction.amount)
+                ) { _, _ ->
+                    true
+                }
+            }
+        }
+    }
+
+    private fun reduceAccountAmount(account: Account, amount: BigDecimal): Flow<Account> {
+        return updateAccount(account).onEach {
+            localManager.updateAccount(
+                it.copy(amount = it.amount - amount)
+            )
+        }
+    }
+
+    private fun transferAccountAmount(account: Account, amount: BigDecimal): Flow<Account> {
+        return updateAccount(account).onEach {
+            localManager.updateAccount(
+                it.copy(amount = it.amount + amount)
+            )
+        }
+    }
+
+    private fun updateAccount(account: Account): Flow<Account> {
+        return localManager.getAccount(account.id)
+
     }
 
 }

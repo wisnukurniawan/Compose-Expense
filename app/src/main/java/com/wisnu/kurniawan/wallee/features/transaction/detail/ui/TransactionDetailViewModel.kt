@@ -109,7 +109,9 @@ class TransactionDetailViewModel @Inject constructor(
                     }
 
                     environment.saveTransaction(transactionDetail)
-                    setEffect(TransactionEffect.ClosePage)
+                        .collect {
+                            setEffect(TransactionEffect.ClosePage)
+                        }
                 }
             }
             is TransactionAction.SelectTransactionType -> {

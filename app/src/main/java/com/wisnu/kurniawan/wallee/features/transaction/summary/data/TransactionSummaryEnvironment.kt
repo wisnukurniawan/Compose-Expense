@@ -4,6 +4,7 @@ import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
 import com.wisnu.kurniawan.wallee.foundation.extension.generateThisMonthDateTimeRange
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.model.Account
+import com.wisnu.kurniawan.wallee.model.TopTransaction
 import com.wisnu.kurniawan.wallee.model.Transaction
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
@@ -48,7 +49,7 @@ class TransactionSummaryEnvironment @Inject constructor(
         )
     }
 
-    override fun getTopExpense(): Flow<List<Transaction>> {
+    override fun getTopExpense(): Flow<List<TopTransaction>> {
         val (startDate, endDate) = dateTimeProvider.now().generateThisMonthDateTimeRange()
         return localManager.getTopTransactions(
             startDate = startDate,

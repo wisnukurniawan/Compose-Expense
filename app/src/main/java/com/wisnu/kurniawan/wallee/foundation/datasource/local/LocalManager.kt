@@ -7,6 +7,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.toAccountDb
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransaction
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionDb
 import com.wisnu.kurniawan.wallee.model.Account
+import com.wisnu.kurniawan.wallee.model.TopTransaction
 import com.wisnu.kurniawan.wallee.model.Transaction
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
@@ -38,6 +39,12 @@ class LocalManager @Inject constructor(
             .flowOn(dispatcher)
     }
 
+    fun getAccount(id: String): Flow<Account> {
+        return walleeReadDao.getAccount(id)
+            .map { it.toAccount() }
+            .flowOn(dispatcher)
+    }
+
     fun getTransactions(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
@@ -58,7 +65,7 @@ class LocalManager @Inject constructor(
         endDate: LocalDateTime,
         type: TransactionType,
         limit: Int
-    ): Flow<List<Transaction>> {
+    ): Flow<List<TopTransaction>> {
         return walleeReadDao.getTopTransactions(
             startDate = startDate,
             endDate = endDate,
@@ -66,7 +73,14 @@ class LocalManager @Inject constructor(
             limit = limit
         )
             .filterNotNull()
-            .map { it.toTransaction() }
+            .map { transaction ->
+                transaction.map {
+                    TopTransaction(
+                        amount = it.amount.toBigDecimal(),
+                        type = it.type
+                    )
+                }
+            }
             .flowOn(dispatcher)
     }
 
@@ -94,7 +108,13 @@ class LocalManager @Inject constructor(
 
     suspend fun insertAccount(account: Account) {
         withContext(dispatcher) {
-            walleeWriteDao.insertAccount(listOf(account.toAccountDb()))
+            walleeWriteDao.insertAccount(account.toAccountDb())
+        }
+    }
+
+    suspend fun updateAccount(account: Account) {
+        withContext(dispatcher) {
+            walleeWriteDao.updateAccount(account.toAccountDb())
         }
     }
 

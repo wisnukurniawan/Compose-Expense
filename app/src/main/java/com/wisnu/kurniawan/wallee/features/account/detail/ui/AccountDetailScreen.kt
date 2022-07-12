@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -300,29 +301,32 @@ private fun ActionContentCell(
         color = MaterialTheme.colorScheme.secondary,
         shape = shape,
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(all = 16.dp)
-        ) {
-            PgContentTitle(
-                text = title,
-                modifier = Modifier.width(70.dp),
-                color = titleColor
-            )
-            Spacer(Modifier.size(8.dp))
-            trailing()
-        }
-    }
-
-    if (showDivider) {
-        Row {
-            Spacer(
-                Modifier
-                    .width(16.dp)
-                    .height(1.dp)
-                    .background(color = MaterialTheme.colorScheme.secondary)
-            )
-            Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
+        Column {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                PgContentTitle(
+                    text = title,
+                    modifier = Modifier.width(70.dp),
+                    color = titleColor
+                )
+                Spacer(Modifier.size(8.dp))
+                trailing()
+            }
+            if (showDivider) {
+                Row {
+                    Spacer(
+                        Modifier
+                            .width(16.dp)
+                            .height(1.dp)
+                            .background(color = MaterialTheme.colorScheme.secondary)
+                    )
+                    Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
+                }
+            }
         }
     }
 }

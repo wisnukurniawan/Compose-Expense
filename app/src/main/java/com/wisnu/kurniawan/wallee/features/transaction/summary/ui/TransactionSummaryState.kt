@@ -16,7 +16,8 @@ import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Currency
-import com.wisnu.kurniawan.wallee.model.Transaction
+import com.wisnu.kurniawan.wallee.model.TopTransaction
+import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -46,13 +47,13 @@ data class LastTransactionItem(
     val date: LocalDateTime,
     val accountName: String,
     val currency: Currency,
-    val note: String
+    val note: String,
+    val type: TransactionType
 )
 
 data class TopExpenseItem(
     val amount: BigDecimal,
     val categoryType: CategoryType,
-    val currency: Currency,
     val progress: Float
 )
 
@@ -89,7 +90,10 @@ fun LastTransactionItem.getAmountDisplay(): String {
 }
 
 fun LastTransactionItem.getAmountColor(defaultColor: Color): Color {
-    return amount.getAmountColor(defaultColor)
+    return when (type) {
+        TransactionType.TRANSFER -> defaultColor
+        else -> amount.getAmountColor(defaultColor)
+    }
 }
 
 fun LastTransactionItem.getDateTimeDisplay(): String {
@@ -102,7 +106,7 @@ fun LastTransactionItem.getTitle(): String {
     return emoji + "   " + stringResource(text) + "・" + accountName
 }
 
-fun TopExpenseItem.getAmountDisplay(): String {
+fun TopExpenseItem.getAmountDisplay(currency: Currency): String {
     return currency.formatAsDisplayNormalize(amount, true)
 }
 
@@ -122,23 +126,27 @@ fun List<TransactionWithAccount>.toLastTransactionItems(): List<LastTransactionI
     return map {
         LastTransactionItem(
             transactionId = it.transaction.id,
-            amount = it.transaction.amount,
+            amount = if (it.transaction.type == TransactionType.EXPENSE) {
+                -it.transaction.amount
+            } else {
+                it.transaction.amount
+            },
             categoryType = it.transaction.categoryType,
             date = it.transaction.date,
             accountName = it.account.name,
             currency = it.transaction.currency,
-            note = it.transaction.note.ifBlank { "-" }
+            note = it.transaction.note.ifBlank { "-" },
+            type = it.transaction.type
         )
     }
 }
 
-fun List<Transaction>.toTopExpenseItems(): List<TopExpenseItem> {
+fun List<TopTransaction>.toTopExpenseItems(): List<TopExpenseItem> {
     val max = maxOfOrNull { it.amount } ?: BigDecimal.ZERO
     return map {
         TopExpenseItem(
             amount = it.amount,
-            categoryType = it.categoryType,
-            currency = it.currency,
+            categoryType = it.type,
             progress = it.amount.percentageOf(max).divide(DEFAULT_AMOUNT_MULTIPLIER).toFloat()
         )
     }
