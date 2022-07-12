@@ -8,7 +8,6 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'com.google.firebase.firebase-perf'
-    id 'de.mannodermaus.android-junit5'
 }
 
 apply from: "$rootDir/gradle/test-report.gradle"
@@ -226,9 +225,8 @@ dependencies {
 
     testImplementation libs.test.androidx.junit
     testImplementation libs.test.robolectric
-    testImplementation libs.test.junit.api
-    testRuntimeOnly libs.test.junit.engine
-    testImplementation libs.test.junit.params
+    testImplementation libs.test.junit.old
+    testImplementation libs.test.junit.oldParams
     testImplementation libs.test.coroutines
     testImplementation libs.test.turbine
 
