@@ -11,7 +11,7 @@ fun Account.toAccountDb(): AccountDb {
         currencyCode = currency.code,
         amount = amount.toLong(),
         name = name,
-        type = type.value,
+        type = type,
         createdAt = createdAt,
         updatedAt = updatedAt
     )
@@ -21,10 +21,10 @@ fun Transaction.toTransactionDb(accountId: String, transferAccountId: String?): 
     return TransactionDb(
         id = id,
         accountId = accountId,
-        categoryName = categoryType.value,
+        categoryType = categoryType,
         currencyCode = currency.code,
         amount = amount.toLong(),
-        type = type.value,
+        type = type,
         date = date,
         createdAt = createdAt,
         updatedAt = updatedAt,

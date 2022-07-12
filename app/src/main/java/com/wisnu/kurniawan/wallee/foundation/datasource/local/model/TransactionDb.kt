@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.wisnu.kurniawan.wallee.model.CategoryType
+import com.wisnu.kurniawan.wallee.model.TransactionType
 import java.time.LocalDateTime
 
 @Entity(
@@ -26,17 +28,17 @@ data class TransactionDb(
     val id: String,
     @ColumnInfo(name = "transaction_accountId")
     val accountId: String,
-    @ColumnInfo(name = "transaction_categoryName")
-    val categoryName: String? = null,
+    @ColumnInfo(name = "transaction_categoryType")
+    val categoryType: CategoryType,
     @ColumnInfo(name = "transaction_currencyCode")
     val currencyCode: String,
     @ColumnInfo(name = "transaction_amount")
     val amount: Long,
     @ColumnInfo(name = "transaction_type")
-    val type: String,
+    val type: TransactionType,
     @ColumnInfo(name = "transaction_date")
     val date: LocalDateTime,
-    @ColumnInfo(name = "account_createdAt")
+    @ColumnInfo(name = "transaction_createdAt")
     val createdAt: LocalDateTime,
     @ColumnInfo(name = "transaction_updatedAt")
     val updatedAt: LocalDateTime? = null,

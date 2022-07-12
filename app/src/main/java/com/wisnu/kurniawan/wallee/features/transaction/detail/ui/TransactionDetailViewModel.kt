@@ -3,6 +3,7 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionDetailEnvironment
+import com.wisnu.kurniawan.wallee.features.transaction.detail.data.TransactionDetail
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed

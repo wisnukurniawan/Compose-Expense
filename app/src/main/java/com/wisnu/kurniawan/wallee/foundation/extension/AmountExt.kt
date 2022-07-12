@@ -19,3 +19,7 @@ fun BigDecimal.getAmountColor(defaultColor: Color): Color {
 fun BigDecimal.normalize(): BigDecimal {
     return setScale(2) / "100".toBigDecimal()
 }
+
+fun BigDecimal.percentageOf(value: BigDecimal): BigDecimal {
+    return this * "100".toBigDecimal() / value
+}

@@ -1,4 +1,4 @@
-package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
+package com.wisnu.kurniawan.wallee.features.transaction.detail.data
 
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.CategoryType

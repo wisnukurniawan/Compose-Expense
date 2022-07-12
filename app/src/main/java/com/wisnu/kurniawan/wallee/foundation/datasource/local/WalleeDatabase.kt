@@ -72,7 +72,7 @@ abstract class WalleeDatabase : RoomDatabase() {
                 currencyCode = Currency.INDONESIA.code,
                 amount = 0,
                 name = context.getString(AccountType.CASH.getLabel()),
-                type = AccountType.CASH.value,
+                type = AccountType.CASH,
                 createdAt = currentDate
             )
             val writeDao = getInstance(context).walleeWriteDao()

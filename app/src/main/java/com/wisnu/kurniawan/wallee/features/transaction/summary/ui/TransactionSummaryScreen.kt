@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
+import com.wisnu.kurniawan.wallee.features.transaction.summary.data.CashFlow
 import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
 import com.wisnu.kurniawan.wallee.foundation.extension.getColor
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
@@ -447,7 +448,7 @@ private inline fun LazyListScope.TopExpenseCell(
     if (data.isEmpty()) {
         item {
             Empty(
-                title = stringResource(R.string.transaction_this_month),
+                title = stringResource(R.string.transaction_last_no_data_title),
                 message = stringResource(R.string.transaction_top_expenses_no_data_message)
             )
         }

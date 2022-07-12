@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.wisnu.kurniawan.wallee.model.AccountType
 import java.time.LocalDateTime
 
 @Entity(
@@ -22,7 +23,7 @@ data class AccountDb(
     @ColumnInfo(name = "account_name")
     val name: String,
     @ColumnInfo(name = "account_type")
-    val type: String,
+    val type: AccountType,
     @ColumnInfo(name = "account_createdAt")
     val createdAt: LocalDateTime,
     @ColumnInfo(name = "account_updatedAt")

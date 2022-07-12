@@ -74,3 +74,12 @@ fun LocalDate.toLocalDateTime(): LocalDateTime {
 fun LocalDateTime.isFriday(): Boolean {
     return dayOfWeek == DayOfWeek.FRIDAY
 }
+
+fun LocalDateTime.generateThisMonthDateRange(): Pair<LocalDate, LocalDate> {
+    return Pair(toLocalDate().withDayOfMonth(1), this.toLocalDate())
+}
+
+fun LocalDateTime.generateThisMonthDateTimeRange(): Pair<LocalDateTime, LocalDateTime> {
+    val dateRange = generateThisMonthDateRange()
+    return Pair(dateRange.first.toLocalDateTime(), dateRange.second.toLocalDateTime())
+}

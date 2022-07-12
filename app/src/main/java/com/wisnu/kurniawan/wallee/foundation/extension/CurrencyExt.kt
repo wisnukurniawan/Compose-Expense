@@ -58,7 +58,7 @@ fun Currency.formatAsDisplayNormalize(
     amount: BigDecimal,
     withSymbol: Boolean = false
 ): String {
-    return formatAsDisplay(amount.normalize(), true)
+    return formatAsDisplay(amount.normalize(), withSymbol)
 }
 
 fun Currency.formatAsDisplay(

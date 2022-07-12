@@ -85,7 +85,7 @@
     <string name="transaction_last_no_data_title">Terus Catat Transaksi</string>
     <string name="transaction_last_no_data_message">Ini akan menampilkan 5 transaksi terakhir.</string>
     <string name="transaction_top_expenses">Pengeluaran Terbanyak</string>
-    <string name="transaction_top_expenses_no_data_message">Ini akan menampilkan pengeluaran terbanyak pada bulan ini berdasarkan kategori.</string>
+    <string name="transaction_top_expenses_no_data_message">Ini akan menampilkan 5 pengeluaran terbanyak pada bulan ini berdasarkan kategori.</string>
 
     <string name="account_edit_add">Tambah akun</string>
     <string name="account_edit_balance">Saldo saat ini</string>

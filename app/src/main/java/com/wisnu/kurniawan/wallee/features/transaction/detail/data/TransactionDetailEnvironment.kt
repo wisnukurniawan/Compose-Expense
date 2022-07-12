@@ -1,6 +1,5 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.data
 
-import com.wisnu.kurniawan.wallee.features.transaction.detail.ui.TransactionDetail
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.foundation.wrapper.IdProvider

@@ -4,15 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import com.wisnu.kurniawan.wallee.features.transaction.summary.data.CashFlow
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.extension.formatMonth
 import com.wisnu.kurniawan.wallee.foundation.extension.getAmountColor
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
+import com.wisnu.kurniawan.wallee.foundation.extension.percentageOf
 import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Currency
+import com.wisnu.kurniawan.wallee.model.Transaction
+import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -33,13 +37,6 @@ data class TransactionSummaryState(
         )
     }
 }
-
-data class CashFlow(
-    val totalAmount: BigDecimal,
-    val totalExpense: BigDecimal,
-    val totalIncome: BigDecimal,
-    val currency: Currency
-)
 
 data class LastTransactionItem(
     val transactionId: String,
@@ -118,3 +115,30 @@ fun TopExpenseItem.getTitle(): String {
     return emoji + "   " + stringResource(text)
 }
 
+// Mapper collections
+
+fun List<TransactionWithAccount>.toLastTransactionItems(): List<LastTransactionItem> {
+    return map {
+        LastTransactionItem(
+            transactionId = it.transaction.id,
+            amount = it.transaction.amount,
+            categoryType = it.transaction.categoryType,
+            date = it.transaction.date,
+            accountName = it.account.name,
+            currency = it.transaction.currency,
+            note = it.transaction.note
+        )
+    }
+}
+
+fun List<Transaction>.toTopExpenseItems(): List<TopExpenseItem> {
+    val max = maxOfOrNull { it.amount } ?: BigDecimal.ZERO
+    return map {
+        TopExpenseItem(
+            amount = it.amount,
+            categoryType = it.categoryType,
+            currency = it.currency,
+            progress = it.amount.percentageOf(max).toFloat()
+        )
+    }
+}

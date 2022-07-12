@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c87d6a7db305e287d23612e17c24f675",
+    "identityHash": "7f54294ab4b15715ba77cf8f5ebe68ec",
     "entities": [
       {
         "tableName": "AccountDb",
@@ -52,10 +52,10 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
           "columnNames": [
             "account_id"
-          ]
+          ],
+          "autoGenerate": false
         },
         "indices": [
           {
@@ -72,7 +72,7 @@
       },
       {
         "tableName": "TransactionDb",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` TEXT NOT NULL, `transaction_accountId` TEXT NOT NULL, `transaction_categoryName` TEXT, `transaction_currencyCode` TEXT NOT NULL, `transaction_amount` INTEGER NOT NULL, `transaction_type` TEXT NOT NULL, `transaction_date` INTEGER NOT NULL, `account_createdAt` INTEGER NOT NULL, `transaction_updatedAt` INTEGER, `transaction_note` TEXT NOT NULL, `transaction_transferAccountId` TEXT, PRIMARY KEY(`transaction_id`), FOREIGN KEY(`transaction_accountId`) REFERENCES `AccountDb`(`account_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` TEXT NOT NULL, `transaction_accountId` TEXT NOT NULL, `transaction_categoryType` TEXT NOT NULL, `transaction_currencyCode` TEXT NOT NULL, `transaction_amount` INTEGER NOT NULL, `transaction_type` TEXT NOT NULL, `transaction_date` INTEGER NOT NULL, `transaction_createdAt` INTEGER NOT NULL, `transaction_updatedAt` INTEGER, `transaction_note` TEXT NOT NULL, `transaction_transferAccountId` TEXT, PRIMARY KEY(`transaction_id`), FOREIGN KEY(`transaction_accountId`) REFERENCES `AccountDb`(`account_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -87,10 +87,10 @@
             "notNull": true
           },
           {
-            "fieldPath": "categoryName",
-            "columnName": "transaction_categoryName",
+            "fieldPath": "categoryType",
+            "columnName": "transaction_categoryType",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "currencyCode",
@@ -118,7 +118,7 @@
           },
           {
             "fieldPath": "createdAt",
-            "columnName": "account_createdAt",
+            "columnName": "transaction_createdAt",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -142,10 +142,10 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
           "columnNames": [
             "transaction_id"
-          ]
+          ],
+          "autoGenerate": false
         },
         "indices": [
           {
@@ -176,7 +176,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c87d6a7db305e287d23612e17c24f675')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7f54294ab4b15715ba77cf8f5ebe68ec')"
     ]
   }
 }
