@@ -46,6 +46,7 @@ data class LastTransactionItem(
     val categoryType: CategoryType,
     val date: LocalDateTime,
     val accountName: String,
+    val transferAccountName: String?,
     val currency: Currency,
     val note: String,
     val type: TransactionType
@@ -103,7 +104,15 @@ fun LastTransactionItem.getDateTimeDisplay(): String {
 @Composable
 fun LastTransactionItem.getTitle(): String {
     val (emoji, text) = categoryType.getEmojiAndText()
-    return emoji + "   " + stringResource(text) + "・" + accountName
+    return stringResource(text) + " " + emoji
+}
+
+fun LastTransactionItem.getAccountDisplay(): String {
+    return if (transferAccountName.isNullOrBlank()) {
+        accountName
+    } else {
+        "$accountName → $transferAccountName"
+    }
 }
 
 fun TopExpenseItem.getAmountDisplay(currency: Currency): String {
@@ -117,7 +126,7 @@ fun TopExpenseItem.getAmountColor(defaultColor: Color): Color {
 @Composable
 fun TopExpenseItem.getTitle(): String {
     val (emoji, text) = categoryType.getEmojiAndText()
-    return emoji + "   " + stringResource(text)
+    return stringResource(text) + " " + emoji
 }
 
 // Mapper collections
@@ -134,6 +143,7 @@ fun List<TransactionWithAccount>.toLastTransactionItems(): List<LastTransactionI
             categoryType = it.transaction.categoryType,
             date = it.transaction.date,
             accountName = it.account.name,
+            transferAccountName = it.transferredAccount?.name,
             currency = it.transaction.currency,
             note = it.transaction.note.ifBlank { "-" },
             type = it.transaction.type

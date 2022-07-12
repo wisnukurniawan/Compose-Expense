@@ -338,6 +338,7 @@ private inline fun LazyListScope.LastTransactionCell(
         ) { index, item ->
             TransactionItemCell(
                 title = item.getTitle(),
+                account = item.getAccountDisplay(),
                 dateTime = item.getDateTimeDisplay(),
                 amount = item.getAmountDisplay(),
                 amountSymbol = item.currency.getSymbol(),
@@ -357,6 +358,7 @@ private inline fun LazyListScope.LastTransactionCell(
 @Composable
 private fun TransactionItemCell(
     title: String,
+    account: String,
     dateTime: String,
     amount: String,
     amountSymbol: String,
@@ -388,6 +390,7 @@ private fun TransactionItemCell(
             ) {
                 PgContentTitle(
                     text = title,
+                    modifier = Modifier.padding(end = 4.dp)
                 )
 
                 PgDateLabel(
@@ -399,6 +402,11 @@ private fun TransactionItemCell(
                 amount = amount,
                 symbol = amountSymbol,
                 color = amountColor,
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
+            )
+
+            PgContentTitle(
+                text = account,
                 modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
             )
 
@@ -566,7 +574,7 @@ private fun PgDivider(
         if (needSpacer) {
             Spacer(
                 Modifier
-                    .width(48.dp)
+                    .width(16.dp)
                     .height(1.dp)
                     .background(color = MaterialTheme.colorScheme.secondary)
             )

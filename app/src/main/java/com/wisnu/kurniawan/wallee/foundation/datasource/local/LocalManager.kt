@@ -17,6 +17,7 @@ import javax.inject.Named
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -98,9 +99,15 @@ class LocalManager @Inject constructor(
             .filterNotNull()
             .map { transactions ->
                 transactions.map {
+                    val transferAccount = if (it.transaction.transferAccountId != null) {
+                       walleeReadDao.getAccount(it.transaction.transferAccountId).firstOrNull()?.toAccount()
+                    } else {
+                        null
+                    }
                     TransactionWithAccount(
                         transaction = it.transaction.toTransaction(),
-                        account = it.account.toAccount()
+                        account = it.account.toAccount(),
+                        transferredAccount = transferAccount
                     )
                 }
             }
