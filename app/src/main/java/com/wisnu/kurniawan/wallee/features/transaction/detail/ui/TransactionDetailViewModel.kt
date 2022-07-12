@@ -34,6 +34,7 @@ class TransactionDetailViewModel @Inject constructor(
             environment.getAccounts()
                 .collect {
                     val selectedAccount = state.value.accountItems.selected()
+                    val selectedTransferAccount = state.value.transferAccountItems.selected()
                     setState {
                         copy(
                             accountItems = it.mapIndexed { index, account ->
@@ -44,7 +45,7 @@ class TransactionDetailViewModel @Inject constructor(
                                 )
                             },
                             transferAccountItems = it.mapIndexed { index, account ->
-                                val defaultSelectedAccount = defaultSelectedAccount(selectedAccount, account, index, SECOND_INDEX)
+                                val defaultSelectedAccount = defaultSelectedAccount(selectedTransferAccount, account, index, SECOND_INDEX)
                                 AccountItem(
                                     account = account,
                                     selected = defaultSelectedAccount

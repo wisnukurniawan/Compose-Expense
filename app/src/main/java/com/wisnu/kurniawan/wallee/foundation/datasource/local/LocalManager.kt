@@ -35,6 +35,7 @@ class LocalManager @Inject constructor(
 
     fun getDefaultAccount(): Flow<Account> {
         return walleeReadDao.getAccount(AccountDb.DEFAULT_ID)
+            .filterNotNull()
             .map { it.toAccount() }
             .flowOn(dispatcher)
     }
