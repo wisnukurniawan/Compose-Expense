@@ -63,6 +63,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
+import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.CategoryType
@@ -282,7 +283,7 @@ private fun AmountSection(
             shape = MaterialTheme.shapes.medium
         )
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .paddingCell()
     ) {
         PgContentTitle(
             text = totalAmountDisplay,
@@ -442,7 +443,7 @@ private fun NoteSection(
             shape = MaterialTheme.shapes.medium
         )
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .paddingCell()
     ) {
         val focusManager = LocalFocusManager.current
         PgBasicTextField(

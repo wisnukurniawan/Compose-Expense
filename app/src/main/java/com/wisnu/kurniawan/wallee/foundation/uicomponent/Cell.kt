@@ -28,6 +28,7 @@ import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
 import com.wisnu.kurniawan.wallee.foundation.theme.Shapes
+import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 
 @Composable
 fun PgModalCell(
@@ -121,7 +122,7 @@ fun ActionContentCell(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .paddingCell()
             ) {
                 PgContentTitle(
                     text = title

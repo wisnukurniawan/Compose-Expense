@@ -41,6 +41,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
+import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Account
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -126,7 +127,7 @@ private fun AllTimeSection(
             shape = MaterialTheme.shapes.medium
         )
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .paddingCell()
     ) {
         PgContentTitle(
             text = stringResource(R.string.balance_all_time),
@@ -200,7 +201,7 @@ private fun AccountCellItem(
         color = MaterialTheme.colorScheme.secondary,
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            modifier = Modifier.paddingCell()
         ) {
             PgContentTitle(
                 text = accountName,

@@ -59,6 +59,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
+import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -306,7 +307,7 @@ private fun ActionContentCell(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .paddingCell()
             ) {
                 PgContentTitle(
                     text = title,

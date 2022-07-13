@@ -56,6 +56,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.RoundedLinearProgressIndicator
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
+import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.runtime.navigation.SettingFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
@@ -226,7 +227,7 @@ private fun CashFlowSection(
                 shape = MaterialTheme.shapes.medium
             )
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .paddingCell()
         ) {
             PgContentTitle(
                 text = stringResource(R.string.transaction_this_month),
@@ -505,7 +506,7 @@ private fun TopExpenseItemCell(
     ) {
         Column(
             Modifier.fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .paddingCell()
         ) {
             PgContentTitle(
                 text = title,

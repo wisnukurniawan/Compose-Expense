@@ -1,6 +1,8 @@
 package com.wisnu.kurniawan.wallee.foundation.uiextension
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -14,6 +16,7 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.unit.dp
 
 fun Modifier.guide() = this.then(
     background(Color.Red)
@@ -53,3 +56,6 @@ fun Modifier.onPositionInParentChanged(
         }
     }
 }
+
+@Stable
+fun Modifier.paddingCell() = this.padding(horizontal = 16.dp, vertical = 8.dp)
