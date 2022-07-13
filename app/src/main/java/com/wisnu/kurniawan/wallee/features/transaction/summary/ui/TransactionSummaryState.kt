@@ -20,6 +20,7 @@ import com.wisnu.kurniawan.wallee.model.TopTransaction
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -157,7 +158,11 @@ fun List<TopTransaction>.toTopExpenseItems(): List<TopExpenseItem> {
         TopExpenseItem(
             amount = it.amount,
             categoryType = it.type,
-            progress = it.amount.percentageOf(max).divide(DEFAULT_AMOUNT_MULTIPLIER).toFloat()
+            progress = it.amount
+                .percentageOf(max)
+                .divide(DEFAULT_AMOUNT_MULTIPLIER)
+                .setScale(1, RoundingMode.CEILING)
+                .toFloat()
         )
     }
 }

@@ -53,7 +53,7 @@ val Typography = Typography(
     ),
     headlineMedium = TextStyle(
         fontFamily = Lato,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
     ),
     headlineSmall = TextStyle(

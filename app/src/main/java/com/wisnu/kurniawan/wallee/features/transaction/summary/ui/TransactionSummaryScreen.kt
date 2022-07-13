@@ -42,7 +42,8 @@ import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.extension.shouldShowDivider
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel2
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabelMedium
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabelSmall
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgDateLabel
@@ -231,7 +232,7 @@ private fun CashFlowSection(
                 text = stringResource(R.string.transaction_this_month),
                 modifier = Modifier.padding(bottom = 2.dp)
             )
-            PgAmountLabel2(
+            PgAmountLabelMedium(
                 amount = cashFlow.getTotalAmountDisplay(),
                 symbol = cashFlow.currency.getSymbol(),
                 color = cashFlow.getTotalAmountColor(
@@ -292,7 +293,7 @@ private fun CashFlowContent(
             text = title,
             modifier = Modifier.padding(bottom = 2.dp)
         )
-        PgAmountLabel2(
+        PgAmountLabelSmall(
             amount = amount,
             color = amountColor,
             symbol = currency.getSymbol()
@@ -398,7 +399,7 @@ private fun TransactionItemCell(
                 )
             }
 
-            PgAmountLabel2(
+            PgAmountLabelMedium(
                 amount = amount,
                 symbol = amountSymbol,
                 color = amountColor,
@@ -407,6 +408,7 @@ private fun TransactionItemCell(
 
             PgContentTitle(
                 text = account,
+                color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
                 modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
             )
 
@@ -510,7 +512,7 @@ private fun TopExpenseItemCell(
                 modifier = Modifier.padding(bottom = 2.dp)
             )
 
-            PgAmountLabel2(
+            PgAmountLabelMedium(
                 amount = amount,
                 symbol = amountSymbol,
                 color = amountColor,

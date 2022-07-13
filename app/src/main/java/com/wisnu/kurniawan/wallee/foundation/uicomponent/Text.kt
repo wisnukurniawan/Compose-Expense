@@ -147,7 +147,7 @@ fun PgTabLabel(
 }
 
 @Composable
-fun PgAmountLabel1(
+fun PgAmountLabelSmall(
     modifier: Modifier = Modifier,
     amount: String,
     symbol: String,
@@ -156,15 +156,15 @@ fun PgAmountLabel1(
     PgAmountLabel(
         modifier = modifier,
         amount = amount,
-        amountFontSize = 24.sp,
+        amountFontSize = 18.sp,
         symbol = symbol,
-        symbolFontSize = 18.sp,
+        symbolFontSize = 12.sp,
         color = color
     )
 }
 
 @Composable
-fun PgAmountLabel2(
+fun PgAmountLabelMedium(
     modifier: Modifier = Modifier,
     amount: String,
     symbol: String,
@@ -176,23 +176,6 @@ fun PgAmountLabel2(
         amountFontSize = 20.sp,
         symbol = symbol,
         symbolFontSize = 14.sp,
-        color = color
-    )
-}
-
-@Composable
-fun PgAmountLabel3(
-    modifier: Modifier = Modifier,
-    amount: String,
-    symbol: String,
-    color: Color = MaterialTheme.colorScheme.onBackground,
-) {
-    PgAmountLabel(
-        modifier = modifier,
-        amount = amount,
-        amountFontSize = 32.sp,
-        symbol = symbol,
-        symbolFontSize = 26.sp,
         color = color
     )
 }

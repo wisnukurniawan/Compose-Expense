@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel1
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabelMedium
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgDateLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
@@ -126,13 +126,13 @@ private fun AllTimeSection(
             shape = MaterialTheme.shapes.medium
         )
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         PgContentTitle(
             text = stringResource(R.string.balance_all_time),
             modifier = Modifier.padding(bottom = 2.dp)
         )
-        PgAmountLabel1(
+        PgAmountLabelMedium(
             modifier = Modifier,
             amount = totalBalance,
             symbol = symbol,
@@ -193,20 +193,20 @@ private fun AccountCellItem(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .size(width = 150.dp, height = 136.dp)
+            .size(width = 150.dp, height = 120.dp)
             .clip(MaterialTheme.shapes.medium)
             .clickable(onClick = onClick),
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.secondary,
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             PgContentTitle(
                 text = accountName,
                 modifier = Modifier.padding(bottom = 2.dp)
             )
-            PgAmountLabel1(
+            PgAmountLabelMedium(
                 modifier = Modifier,
                 amount = totalAmount,
                 symbol = amountSymbol,
