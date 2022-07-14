@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -53,6 +54,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
+import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.ActionContentCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgBasicTextField
@@ -353,6 +355,7 @@ private fun GeneralSection(
     onTransferAccountSectionClick: () -> Unit,
     onDateSectionClick: () -> Unit,
 ) {
+    val alpha = if (isEditMode) AlphaDisabled else AlphaHigh
     PgHeadlineLabel(
         text = stringResource(R.string.transaction_edit_general),
         modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
@@ -369,21 +372,24 @@ private fun GeneralSection(
             topStart = MediumRadius,
             topEnd = MediumRadius
         ),
+        insetSize = 120.dp,
         enabled = !isEditMode,
         onClick = onAccountSectionClick,
         trailing = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 PgContentTitle(
                     text = selectedAccount,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
                 )
                 if (!isEditMode) {
                     Spacer(Modifier.width(8.dp))
                     PgIcon(
                         imageVector = Icons.Rounded.ChevronRight,
-                        tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                        tint = LocalContentColor.current.copy(alpha = alpha)
                     )
                 }
             }
@@ -396,20 +402,23 @@ private fun GeneralSection(
             showDivider = true,
             shape = MaterialTheme.shapes.extraSmall,
             enabled = !isEditMode,
+            insetSize = 120.dp,
             onClick = onTransferAccountSectionClick,
             trailing = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     PgContentTitle(
                         text = selectedTransferAccount,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
                     )
                     if (!isEditMode) {
                         Spacer(Modifier.width(8.dp))
                         PgIcon(
                             imageVector = Icons.Rounded.ChevronRight,
-                            tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                            tint = LocalContentColor.current.copy(alpha = alpha)
                         )
                     }
                 }
@@ -422,20 +431,21 @@ private fun GeneralSection(
             title = stringResource(R.string.category),
             showDivider = true,
             shape = MaterialTheme.shapes.extraSmall,
+            insetSize = 120.dp,
             onClick = onCategorySectionClick,
             trailing = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     val (emoji, name) = selectedCategoryType.getEmojiAndText()
                     PgContentTitle(
                         text = stringResource(name) + " " + emoji,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled),
                     )
                     Spacer(Modifier.width(8.dp))
                     PgIcon(
                         imageVector = Icons.Rounded.ChevronRight,
-                        tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
                     )
                 }
             }
@@ -449,19 +459,20 @@ private fun GeneralSection(
             bottomStart = MediumRadius,
             bottomEnd = MediumRadius
         ),
+        insetSize = 120.dp,
         onClick = onDateSectionClick,
         trailing = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 PgContentTitle(
                     text = transactionDate,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
                 )
                 Spacer(Modifier.width(8.dp))
                 PgIcon(
                     imageVector = Icons.Rounded.ChevronRight,
-                    tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
                 )
             }
         }

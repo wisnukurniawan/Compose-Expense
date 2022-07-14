@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
@@ -151,3 +152,58 @@ fun ActionContentCell(
         }
     }
 }
+
+@Composable
+fun ActionContentCell(
+    title: String,
+    titleColor: Color = MaterialTheme.colorScheme.onBackground,
+    showDivider: Boolean,
+    shape: Shape,
+    enabled: Boolean = true,
+    insetSize: Dp,
+    onClick: (() -> Unit) = {},
+    trailing: @Composable () -> Unit
+) {
+    val clickModifier = if (enabled) {
+        Modifier.clickable(onClick = onClick)
+    } else {
+        Modifier
+    }
+
+    Surface(
+        modifier = clickModifier
+            .fillMaxWidth()
+            .clip(shape),
+        color = MaterialTheme.colorScheme.secondary,
+        shape = shape,
+    ) {
+        Column {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .paddingCell()
+            ) {
+                PgContentTitle(
+                    text = title,
+                    modifier = Modifier.width(insetSize),
+                    color = titleColor
+                )
+                Spacer(Modifier.size(8.dp))
+                trailing()
+            }
+            if (showDivider) {
+                Row {
+                    Spacer(
+                        Modifier
+                            .width(16.dp)
+                            .height(1.dp)
+                            .background(color = MaterialTheme.colorScheme.secondary)
+                    )
+                    Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
+                }
+            }
+        }
+    }
+}
+

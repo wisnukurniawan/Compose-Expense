@@ -2,10 +2,8 @@ package com.wisnu.kurniawan.wallee.features.account.detail.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,19 +19,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material3.Divider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -51,8 +43,8 @@ import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
-import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.ActionContentCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgBasicTextField
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgErrorLabel
@@ -214,6 +206,7 @@ private fun NameSection(
         title = stringResource(R.string.account_edit_name),
         titleColor = titleColor,
         showDivider = true,
+        insetSize = 70.dp,
         shape = RoundedCornerShape(
             topStart = MediumRadius,
             topEnd = MediumRadius
@@ -248,6 +241,7 @@ private fun CategorySection(
             bottomStart = MediumRadius,
             bottomEnd = MediumRadius
         ),
+        insetSize = 70.dp,
         onClick = onCategorySectionClick,
         trailing = {
             Row(
@@ -288,7 +282,7 @@ private fun AmountSection(
             shape = MaterialTheme.shapes.medium
         )
             .fillMaxWidth()
-            .padding(all = 16.dp)
+            .paddingCell()
     ) {
         PgContentTitle(
             text = amountSymbol,
@@ -318,52 +312,5 @@ private fun AmountSection(
             ),
             enabled = enabled
         )
-    }
-}
-
-@Composable
-private fun ActionContentCell(
-    title: String,
-    titleColor: Color = MaterialTheme.colorScheme.onBackground,
-    showDivider: Boolean,
-    shape: Shape,
-    onClick: (() -> Unit) = {},
-    trailing: @Composable () -> Unit
-) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(shape)
-            .clickable(onClick = onClick),
-        color = MaterialTheme.colorScheme.secondary,
-        shape = shape,
-    ) {
-        Column {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .paddingCell()
-            ) {
-                PgContentTitle(
-                    text = title,
-                    modifier = Modifier.width(70.dp),
-                    color = titleColor
-                )
-                Spacer(Modifier.size(8.dp))
-                trailing()
-            }
-            if (showDivider) {
-                Row {
-                    Spacer(
-                        Modifier
-                            .width(16.dp)
-                            .height(1.dp)
-                            .background(color = MaterialTheme.colorScheme.secondary)
-                    )
-                    Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
-                }
-            }
-        }
     }
 }
