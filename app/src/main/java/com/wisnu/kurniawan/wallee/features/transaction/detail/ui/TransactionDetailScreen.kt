@@ -155,17 +155,19 @@ private fun TransactionDetailScreen(
     ) {
         PgHeaderEditMode(
             isAllowToSave = state.isValid(),
-            title = stringResource(R.string.transaction_edit_add),
+            title = state.getTitle(),
             onSaveClick = onSaveClick,
             onCancelClick = onCancelClick,
         )
 
-        TransactionTypeSection(
-            transactionTypes = state.transactionTypeItems,
-            onSelected = onTransactionTypeSelected
-        )
+        if (!state.isEditMode) {
+            TransactionTypeSection(
+                transactionTypes = state.transactionTypeItems,
+                onSelected = onTransactionTypeSelected
+            )
 
-        Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(16.dp))
+        }
 
         LazyColumn(
             modifier = Modifier
@@ -179,6 +181,7 @@ private fun TransactionDetailScreen(
                     totalAmount = state.totalAmount,
                     totalAmountDisplay = state.getCurrencySymbol() + " ",
                     amountColor = state.getAmountColor(MaterialTheme.colorScheme.onSurface),
+                    enabled = !state.isEditMode,
                     onTotalAmountChange = onTotalAmountChange,
                     onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
@@ -195,6 +198,7 @@ private fun TransactionDetailScreen(
                     selectedCategoryType = state.selectedCategoryType(),
                     selectedTransferAccount = state.selectedAccountTransferName(),
                     transactionDate = state.transactionDateDisplayable(),
+                    isEditMode = state.isEditMode,
                     onAccountSectionClick = onAccountSectionClick,
                     onCategorySectionClick = onCategorySectionClick,
                     onTransferAccountSectionClick = onTransferAccountSectionClick,
@@ -271,6 +275,7 @@ private fun AmountSection(
     totalAmount: TextFieldValue,
     totalAmountDisplay: String,
     amountColor: Color,
+    enabled: Boolean,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
@@ -296,7 +301,9 @@ private fun AmountSection(
             value = totalAmount,
             onValueChange = onTotalAmountChange,
             modifier = Modifier.onFocusChanged {
-                onTotalAmountFocusChange(it.isFocused)
+                if (enabled) {
+                    onTotalAmountFocusChange(it.isFocused)
+                }
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
             singleLine = true,
@@ -305,7 +312,8 @@ private fun AmountSection(
                     localFocusManager.clearFocus()
                 }
             ),
-            textStyle = MaterialTheme.typography.titleSmall.copy(color = amountColor)
+            textStyle = MaterialTheme.typography.titleSmall.copy(color = amountColor),
+            enabled = enabled
         )
     }
 }
@@ -317,6 +325,7 @@ private fun GeneralSection(
     selectedCategoryType: CategoryType,
     selectedTransferAccount: String,
     transactionDate: String,
+    isEditMode: Boolean,
     onAccountSectionClick: () -> Unit,
     onCategorySectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
@@ -338,6 +347,7 @@ private fun GeneralSection(
             topStart = MediumRadius,
             topEnd = MediumRadius
         ),
+        enabled = !isEditMode,
         onClick = onAccountSectionClick,
         trailing = {
             Row(
@@ -347,11 +357,13 @@ private fun GeneralSection(
                     text = selectedAccount,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
                 )
-                Spacer(Modifier.width(8.dp))
-                PgIcon(
-                    imageVector = Icons.Rounded.ChevronRight,
-                    tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
-                )
+                if (!isEditMode) {
+                    Spacer(Modifier.width(8.dp))
+                    PgIcon(
+                        imageVector = Icons.Rounded.ChevronRight,
+                        tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                    )
+                }
             }
         }
     )
@@ -361,6 +373,7 @@ private fun GeneralSection(
             title = stringResource(R.string.transaction_edit_account_to),
             showDivider = true,
             shape = Shapes.None,
+            enabled = !isEditMode,
             onClick = onTransferAccountSectionClick,
             trailing = {
                 Row(
@@ -370,11 +383,13 @@ private fun GeneralSection(
                         text = selectedTransferAccount,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDisabled)
                     )
-                    Spacer(Modifier.width(8.dp))
-                    PgIcon(
-                        imageVector = Icons.Rounded.ChevronRight,
-                        tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
-                    )
+                    if (!isEditMode) {
+                        Spacer(Modifier.width(8.dp))
+                        PgIcon(
+                            imageVector = Icons.Rounded.ChevronRight,
+                            tint = LocalContentColor.current.copy(alpha = AlphaDisabled)
+                        )
+                    }
                 }
             }
         )

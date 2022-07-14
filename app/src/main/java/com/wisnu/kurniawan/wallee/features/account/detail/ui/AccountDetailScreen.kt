@@ -126,7 +126,7 @@ private fun AccountDetailScreen(
     ) {
         PgHeaderEditMode(
             isAllowToSave = state.isValid(),
-            title = stringResource(R.string.account_edit_add),
+            title = state.getTitle(),
             onSaveClick = onSaveClick,
             onCancelClick = onCancelClick,
         )
@@ -164,8 +164,9 @@ private fun AccountDetailScreen(
 
             item {
                 AmountSection(
-                    amountItem = state.amountItem,
+                    totalAmount = state.totalAmount,
                     amountSymbol = state.currency.getSymbol() + " ",
+                    enabled = !state.isEditMode,
                     onTotalAmountChange = onTotalAmountChange,
                     onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
@@ -247,8 +248,9 @@ private fun CategorySection(
 
 @Composable
 private fun AmountSection(
-    amountItem: AmountItem,
+    totalAmount: TextFieldValue,
     amountSymbol: String,
+    enabled: Boolean,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
@@ -268,7 +270,7 @@ private fun AmountSection(
         PgContentTitle(
             text = amountSymbol,
             color = MaterialTheme.colorScheme.onBackground.copy(
-                alpha = if (amountItem.isEditable) {
+                alpha = if (enabled) {
                     AlphaHigh
                 } else {
                     AlphaDisabled
@@ -277,10 +279,10 @@ private fun AmountSection(
         )
         val localFocusManager = LocalFocusManager.current
         PgBasicTextField(
-            value = amountItem.totalAmount,
+            value = totalAmount,
             onValueChange = onTotalAmountChange,
             modifier = Modifier.onFocusChanged {
-                if (amountItem.isEditable) {
+                if (enabled) {
                     onTotalAmountFocusChange(it.isFocused)
                 }
             },
@@ -291,7 +293,7 @@ private fun AmountSection(
                     localFocusManager.clearFocus()
                 }
             ),
-            enabled = amountItem.isEditable
+            enabled = enabled
         )
     }
 }

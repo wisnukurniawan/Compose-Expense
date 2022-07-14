@@ -69,4 +69,16 @@ interface WalleeReadDao {
         limit: Int
     ): Flow<List<TransactionWithAccountDb>>
 
+    @Query(
+        """
+            SELECT * FROM TransactionDb
+            LEFT JOIN AccountDb ON TransactionDb.transaction_accountId = AccountDb.account_id
+            WHERE TransactionDb.transaction_id = :id
+        """
+    )
+    fun getTransactionWithAccount(
+        id: String
+    ): Flow<TransactionWithAccountDb>
+
+
 }

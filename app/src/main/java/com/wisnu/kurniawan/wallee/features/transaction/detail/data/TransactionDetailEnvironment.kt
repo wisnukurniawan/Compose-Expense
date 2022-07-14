@@ -5,11 +5,14 @@ import com.wisnu.kurniawan.wallee.foundation.extension.asData
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.foundation.wrapper.IdProvider
 import com.wisnu.kurniawan.wallee.model.Account
-import com.wisnu.kurniawan.wallee.model.Transaction
+import com.wisnu.kurniawan.wallee.model.TransactionType
+import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
@@ -24,77 +27,55 @@ class TransactionDetailEnvironment @Inject constructor(
         return localManager.getAccounts()
     }
 
-    override suspend fun saveTransaction(transactionDetail: TransactionDetail): Flow<Boolean> {
-        val (transaction, transferAccountId) = when (transactionDetail) {
-            is TransactionDetail.Expense -> {
-                Pair(
-                    Transaction(
-                        id = idProvider.generate(),
-                        currency = transactionDetail.currency,
-                        categoryType = transactionDetail.categoryType,
-                        amount = transactionDetail.amount.asData(),
-                        type = transactionDetail.type,
-                        date = transactionDetail.date,
-                        createdAt = dateTimeProvider.now(),
-                        updatedAt = null,
-                        note = transactionDetail.note
-                    ),
-                    null
-                )
-            }
-            is TransactionDetail.Income -> {
-                Pair(
-                    Transaction(
-                        id = idProvider.generate(),
-                        currency = transactionDetail.currency,
-                        categoryType = transactionDetail.categoryType,
-                        amount = transactionDetail.amount.asData(),
-                        type = transactionDetail.type,
-                        date = transactionDetail.date,
-                        createdAt = dateTimeProvider.now(),
-                        updatedAt = null,
-                        note = transactionDetail.note
-                    ),
-                    null
-                )
-            }
-            is TransactionDetail.Transfer -> {
-                Pair(
-                    Transaction(
-                        id = idProvider.generate(),
-                        currency = transactionDetail.currency,
-                        categoryType = transactionDetail.categoryType,
-                        amount = transactionDetail.amount.asData(),
-                        type = transactionDetail.type,
-                        date = transactionDetail.date,
-                        createdAt = dateTimeProvider.now(),
-                        updatedAt = null,
-                        note = transactionDetail.note
-                    ),
-                    transactionDetail.transferAccount.id
-                )
-            }
-        }
+    override fun getTransaction(id: String): Flow<TransactionWithAccount> {
+        return localManager.getTransactionWithAccount(id)
+    }
 
-        localManager.insertTransaction(transactionDetail.account.id, transferAccountId, transaction)
+    override fun getCurrentDate(): LocalDateTime {
+        return dateTimeProvider.now()
+    }
 
-        return when (transactionDetail) {
-            is TransactionDetail.Expense -> {
-                reduceAccountAmount(transactionDetail.account, transaction.amount)
-                    .map { true }
-            }
-            is TransactionDetail.Income -> {
-                transferAccountAmount(transactionDetail.account, transaction.amount)
-                    .map { true }
-            }
-            is TransactionDetail.Transfer -> {
-                combine(
-                    reduceAccountAmount(transactionDetail.account, transaction.amount),
-                    transferAccountAmount(transactionDetail.transferAccount, transaction.amount)
-                ) { _, _ ->
-                    true
+    override suspend fun saveTransaction(transactionWithAccount: TransactionWithAccount): Flow<Boolean> {
+        return if (transactionWithAccount.transaction.id.isEmpty()) {
+            localManager.insertTransaction(
+                transactionWithAccount.account.id,
+                transactionWithAccount.transferredAccount?.id,
+                transactionWithAccount.transaction.copy(
+                    id = idProvider.generate(),
+                    amount = transactionWithAccount.transaction.amount.asData(),
+                    createdAt = dateTimeProvider.now()
+                )
+            )
+
+            when (transactionWithAccount.transaction.type) {
+                TransactionType.EXPENSE -> {
+                    reduceAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount)
+                        .map { true }
+                }
+                TransactionType.INCOME -> {
+                    transferAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount)
+                        .map { true }
+                }
+                TransactionType.TRANSFER -> {
+                    combine(
+                        reduceAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount),
+                        transferAccountAmount(transactionWithAccount.transferredAccount, transactionWithAccount.transaction.amount)
+                    ) { _, _ ->
+                        true
+                    }
                 }
             }
+        } else {
+            localManager.updateTransaction(
+                transactionWithAccount.account.id,
+                transactionWithAccount.transferredAccount?.id,
+                transactionWithAccount.transaction.copy(
+                    amount = transactionWithAccount.transaction.amount.asData(),
+                    updatedAt = dateTimeProvider.now()
+                )
+            )
+
+            flowOf(true)
         }
     }
 
@@ -106,7 +87,8 @@ class TransactionDetailEnvironment @Inject constructor(
         }
     }
 
-    private fun transferAccountAmount(account: Account, amount: BigDecimal): Flow<Account> {
+    private fun transferAccountAmount(account: Account?, amount: BigDecimal): Flow<Account> {
+        require(account != null)
         return updateAccount(account).onEach {
             localManager.updateAccount(
                 it.copy(amount = it.amount + amount)

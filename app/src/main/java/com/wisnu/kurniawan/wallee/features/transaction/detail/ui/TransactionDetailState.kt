@@ -1,13 +1,17 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
+import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
+import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.Expense
 import com.wisnu.kurniawan.wallee.foundation.theme.Income
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
@@ -27,7 +31,10 @@ data class TransactionState(
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val note: TextFieldValue = TextFieldValue(),
     val currency: Currency = Currency.INDONESIA,
-    val transactionDate: LocalDateTime = DateTimeProviderImpl().now()
+    val transactionDate: LocalDateTime = DateTimeProviderImpl().now(),
+    val transactionCreatedAt: LocalDateTime = DateTimeProviderImpl().now(),
+    val transactionUpdatedAt: LocalDateTime? = null,
+    val isEditMode: Boolean = false
 )
 
 data class AccountItem(
@@ -47,6 +54,18 @@ data class CategoryItem(
 )
 
 // Collections
+@Composable
+fun TransactionState.getTitle(): String {
+    return if (isEditMode) {
+        when (selectedTransactionType()) {
+            TransactionType.INCOME -> stringResource(R.string.transaction_edit_income)
+            TransactionType.EXPENSE -> stringResource(R.string.transaction_edit_expense)
+            TransactionType.TRANSFER -> stringResource(R.string.transaction_edit_transfer)
+        }
+    } else {
+        stringResource(R.string.transaction_edit_add)
+    }
+}
 
 fun TransactionState.isValid(): Boolean {
     val isTotalAmountNotZero = totalAmount.formatAsBigDecimal() > BigDecimal.ZERO
@@ -87,10 +106,14 @@ fun TransactionState.getCurrencySymbol() = when (selectedTransactionType()) {
     TransactionType.TRANSFER -> currency.getSymbol()
 }
 
-fun TransactionState.getAmountColor(defaultColor: Color) = when (selectedTransactionType()) {
-    TransactionType.INCOME -> Income
-    TransactionType.EXPENSE -> Expense
-    TransactionType.TRANSFER -> defaultColor
+fun TransactionState.getAmountColor(defaultColor: Color): Color {
+    val alpha = if (isEditMode) AlphaDisabled else AlphaHigh
+
+    return when (selectedTransactionType()) {
+        TransactionType.INCOME -> Income
+        TransactionType.EXPENSE -> Expense
+        TransactionType.TRANSFER -> defaultColor
+    }.copy(alpha)
 }
 
 fun List<TransactionTypeItem>.select(selectedTransactionTypeItem: TransactionTypeItem): List<TransactionTypeItem> {

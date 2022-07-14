@@ -16,6 +16,7 @@ import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_ACCOUNT_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -30,6 +31,7 @@ class AccountDetailViewModel @Inject constructor(
         viewModelScope.launch {
             if (accountId.isNotBlank()) {
                 environment.getAccount(accountId)
+                    .onStart { setState { copy(isEditMode = true) } }
                     .collect {
                         setState {
                             val name = it.name
@@ -37,10 +39,7 @@ class AccountDetailViewModel @Inject constructor(
                             copy(
                                 accountTypeItems = initialAccountTypeItems(it.type),
                                 name = TextFieldValue(name, TextRange(name.length)),
-                                amountItem = AmountItem(
-                                    totalAmount = TextFieldValue(totalAmount, TextRange(totalAmount.length)),
-                                    isEditable = false
-                                ),
+                                totalAmount = TextFieldValue(totalAmount, TextRange(totalAmount.length)),
                                 currency = it.currency,
                                 createdAt = it.createdAt
                             )
@@ -65,7 +64,7 @@ class AccountDetailViewModel @Inject constructor(
                         val account = AccountBalance(
                             id = accountId,
                             currency = state.value.currency,
-                            amount = state.value.amountItem.totalAmount.formatAsBigDecimal(),
+                            amount = state.value.totalAmount.formatAsBigDecimal(),
                             name = state.value.name.text.trim(),
                             type = state.value.selectedAccountType(),
                             createdAt = state.value.createdAt
@@ -90,7 +89,7 @@ class AccountDetailViewModel @Inject constructor(
                     runCatching {
                         action.totalAmount.formatAsDecimal().apply {
                             if (this.isDecimalNotExceed()) {
-                                setState { copy(amountItem = amountItem.copy(totalAmount = this@apply)) }
+                                setState { copy(totalAmount = this@apply) }
                             }
                         }
                     }
@@ -98,9 +97,9 @@ class AccountDetailViewModel @Inject constructor(
             }
             is AccountDetailAction.TotalAmountAction.FocusChange -> {
                 viewModelScope.launch {
-                    val totalAmountText = state.value.amountItem.totalAmount.text
+                    val totalAmountText = state.value.totalAmount.text
                     val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmountText)
-                    setState { copy(amountItem = amountItem.copy(totalAmount = amountItem.totalAmount.copy(text = totalAmountFormatted))) }
+                    setState { copy(totalAmount = totalAmount.copy(text = totalAmountFormatted)) }
                 }
             }
         }

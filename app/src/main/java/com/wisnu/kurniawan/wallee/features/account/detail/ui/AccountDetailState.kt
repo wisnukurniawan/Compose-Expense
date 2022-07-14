@@ -1,7 +1,10 @@
 package com.wisnu.kurniawan.wallee.features.account.detail.ui
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.AccountType
@@ -12,20 +15,16 @@ import java.time.LocalDateTime
 data class AccountDetailState(
     val name: TextFieldValue = TextFieldValue(""),
     val accountTypeItems: List<AccountTypeItem> = listOf(),
-    val amountItem: AmountItem = AmountItem(),
+    val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val currency: Currency = Currency.INDONESIA,
     val shouldShowDuplicateNameError: Boolean = false,
     val createdAt: LocalDateTime = DateTimeProviderImpl().now(),
+    val isEditMode: Boolean = false
 )
 
 data class AccountTypeItem(
     val type: AccountType,
     val selected: Boolean
-)
-
-data class AmountItem(
-    val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
-    val isEditable: Boolean = true
 )
 
 // Collections
@@ -39,4 +38,9 @@ fun List<AccountTypeItem>.select(selectedAccountType: AccountType): List<Account
 
 fun List<AccountTypeItem>.selected(): AccountTypeItem? {
     return find { it.selected }
+}
+
+@Composable
+fun AccountDetailState.getTitle(): String {
+    return if (isEditMode) stringResource(R.string.account_edit_edit) else stringResource(R.string.account_edit_add)
 }

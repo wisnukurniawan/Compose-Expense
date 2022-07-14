@@ -105,14 +105,21 @@ fun ActionContentCell(
     title: String,
     showDivider: Boolean,
     shape: Shape,
+    enabled: Boolean = true,
     onClick: (() -> Unit),
     trailing: @Composable () -> Unit
 ) {
+
+    val clickModifier = if (enabled) {
+        Modifier.clickable(onClick = onClick)
+    } else {
+        Modifier
+    }
+
     Surface(
-        modifier = Modifier
+        modifier = clickModifier
             .fillMaxWidth()
-            .clip(shape)
-            .clickable(onClick = onClick),
+            .clip(shape),
         color = MaterialTheme.colorScheme.secondary,
         shape = shape,
     ) {

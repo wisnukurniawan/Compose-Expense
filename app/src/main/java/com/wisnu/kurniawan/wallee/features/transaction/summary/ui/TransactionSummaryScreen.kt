@@ -77,7 +77,7 @@ fun TransactionSummaryScreen(
             // TODO open all transaction items
         },
         onLastTransactionItemClick = {
-            // TODO open transaction detail pass trx id
+            mainNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId))
         },
         onSeeMoreTopExpenseClick = {
             // TODO open all top expense

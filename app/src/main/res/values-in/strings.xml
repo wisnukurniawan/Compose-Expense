@@ -68,7 +68,9 @@
     <string name="transaction_edit_save">Simpan</string>
     <string name="transaction_edit_cancel">Batal</string>
     <string name="transaction_edit_add">Tambah Transaksi</string>
-    <string name="transaction_edit_edit">Edit Transaksi</string>
+    <string name="transaction_edit_expense">Edit Pengeluaran</string>
+    <string name="transaction_edit_income">Edit Pemasukan</string>
+    <string name="transaction_edit_transfer">Edit Transfer</string>
     <string name="transaction_edit_total">Jumlah</string>
     <string name="transaction_edit_general">Rincian tambahan</string>
     <string name="transaction_edit_account">Akun</string>
@@ -88,6 +90,7 @@
     <string name="transaction_top_expenses_no_data_message">Ini akan menampilkan 5 pengeluaran terbanyak pada bulan ini berdasarkan kategori.</string>
 
     <string name="account_edit_add">Tambah akun</string>
+    <string name="account_edit_edit">Edit akun</string>
     <string name="account_edit_balance">Saldo saat ini</string>
     <string name="account_edit_select_category">Pilih Kategori</string>
     <string name="account_edit_name">Nama</string>

@@ -6,6 +6,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.toAccount
 import com.wisnu.kurniawan.wallee.foundation.extension.toAccountDb
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransaction
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionDb
+import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionWithAccount
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.TopTransaction
 import com.wisnu.kurniawan.wallee.model.Transaction
@@ -108,17 +109,18 @@ class LocalManager @Inject constructor(
         )
             .filterNotNull()
             .map { transactions ->
-                transactions.map {
-                    val transferAccount = if (it.transaction.transferAccountId != null) {
-                        walleeReadDao.getAccount(it.transaction.transferAccountId).firstOrNull()?.toAccount()
-                    } else {
-                        null
-                    }
-                    TransactionWithAccount(
-                        transaction = it.transaction.toTransaction(),
-                        account = it.account.toAccount(),
-                        transferredAccount = transferAccount
-                    )
+                transactions.toTransactionWithAccount { accountId ->
+                    walleeReadDao.getAccount(accountId).firstOrNull()?.toAccount()
+                }
+            }
+            .flowOn(dispatcher)
+    }
+
+    fun getTransactionWithAccount(id: String): Flow<TransactionWithAccount> {
+        return walleeReadDao.getTransactionWithAccount(id)
+            .map {
+                it.toTransactionWithAccount { accountId ->
+                    walleeReadDao.getAccount(accountId).firstOrNull()?.toAccount()
                 }
             }
             .flowOn(dispatcher)
@@ -139,6 +141,12 @@ class LocalManager @Inject constructor(
     suspend fun insertTransaction(accountId: String, transferAccountId: String?, transaction: Transaction) {
         withContext(dispatcher) {
             walleeWriteDao.insertTransaction(transaction.toTransactionDb(accountId, transferAccountId))
+        }
+    }
+
+    suspend fun updateTransaction(accountId: String, transferAccountId: String?, transaction: Transaction) {
+        withContext(dispatcher) {
+            walleeWriteDao.updateTransaction(transaction.toTransactionDb(accountId, transferAccountId))
         }
     }
 

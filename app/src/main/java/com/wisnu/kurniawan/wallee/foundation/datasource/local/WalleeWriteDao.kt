@@ -24,4 +24,7 @@ abstract class WalleeWriteDao {
     @Insert
     abstract suspend fun insertTransaction(data: TransactionDb)
 
+    @Update
+    abstract suspend fun updateTransaction(data: TransactionDb)
+
 }
