@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 data class AccountDetailState(
     val name: TextFieldValue = TextFieldValue(""),
     val accountTypeItems: List<AccountTypeItem> = listOf(),
-    val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
+    val amountItem: AmountItem = AmountItem(),
     val currency: Currency = Currency.INDONESIA,
     val shouldShowDuplicateNameError: Boolean = false,
     val createdAt: LocalDateTime = DateTimeProviderImpl().now(),
@@ -21,6 +21,11 @@ data class AccountDetailState(
 data class AccountTypeItem(
     val type: AccountType,
     val selected: Boolean
+)
+
+data class AmountItem(
+    val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
+    val isEditable: Boolean = true
 )
 
 // Collections

@@ -37,7 +37,10 @@ class AccountDetailViewModel @Inject constructor(
                             copy(
                                 accountTypeItems = initialAccountTypeItems(it.type),
                                 name = TextFieldValue(name, TextRange(name.length)),
-                                totalAmount = TextFieldValue(totalAmount, TextRange(totalAmount.length)),
+                                amountItem = AmountItem(
+                                    totalAmount = TextFieldValue(totalAmount, TextRange(totalAmount.length)),
+                                    isEditable = false
+                                ),
                                 currency = it.currency,
                                 createdAt = it.createdAt
                             )
@@ -62,7 +65,7 @@ class AccountDetailViewModel @Inject constructor(
                         val account = AccountBalance(
                             id = accountId.orEmpty(),
                             currency = state.value.currency,
-                            amount = state.value.totalAmount.formatAsBigDecimal(),
+                            amount = state.value.amountItem.totalAmount.formatAsBigDecimal(),
                             name = state.value.name.text.trim(),
                             type = state.value.selectedAccountType(),
                             createdAt = state.value.createdAt
@@ -87,7 +90,7 @@ class AccountDetailViewModel @Inject constructor(
                     runCatching {
                         action.totalAmount.formatAsDecimal().apply {
                             if (this.isDecimalNotExceed()) {
-                                setState { copy(totalAmount = this@apply) }
+                                setState { copy(amountItem = amountItem.copy(totalAmount = this@apply)) }
                             }
                         }
                     }
@@ -95,9 +98,9 @@ class AccountDetailViewModel @Inject constructor(
             }
             is AccountDetailAction.TotalAmountAction.FocusChange -> {
                 viewModelScope.launch {
-                    val totalAmountText = state.value.totalAmount.text
+                    val totalAmountText = state.value.amountItem.totalAmount.text
                     val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmountText)
-                    setState { copy(totalAmount = totalAmount.copy(text = totalAmountFormatted)) }
+                    setState { copy(amountItem = amountItem.copy(totalAmount = amountItem.totalAmount.copy(text = totalAmountFormatted))) }
                 }
             }
         }

@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
+import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.Shapes
 
 const val MAX_TEXT_FIELD_CHARACTER = 255
@@ -200,10 +201,15 @@ fun PgBasicTextField(
         @Composable { innerTextField -> innerTextField() }
 ) {
     Box {
+        val alpha = if (enabled) {
+            AlphaHigh
+        } else {
+            AlphaDisabled
+        }
         BasicTextField(
             value = value,
             onValueChange = { if (it.text.length <= MAX_TEXT_FIELD_CHARACTER) onValueChange(it) },
-            textStyle = textStyle,
+            textStyle = textStyle.copy(color = textStyle.color.copy(alpha = alpha)),
             modifier = modifier.fillMaxWidth(),
             enabled = enabled,
             readOnly = readOnly,

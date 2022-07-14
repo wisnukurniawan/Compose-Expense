@@ -49,6 +49,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
+import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgBasicTextField
@@ -163,8 +164,8 @@ private fun AccountDetailScreen(
 
             item {
                 AmountSection(
-                    totalAmount = state.totalAmount,
-                    totalAmountDisplay = state.currency.getSymbol() + " ",
+                    amountItem = state.amountItem,
+                    amountSymbol = state.currency.getSymbol() + " ",
                     onTotalAmountChange = onTotalAmountChange,
                     onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
@@ -246,8 +247,8 @@ private fun CategorySection(
 
 @Composable
 private fun AmountSection(
-    totalAmount: TextFieldValue,
-    totalAmountDisplay: String,
+    amountItem: AmountItem,
+    amountSymbol: String,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
@@ -265,14 +266,23 @@ private fun AmountSection(
             .padding(all = 16.dp)
     ) {
         PgContentTitle(
-            text = totalAmountDisplay,
+            text = amountSymbol,
+            color = MaterialTheme.colorScheme.onBackground.copy(
+                alpha = if (amountItem.isEditable) {
+                    AlphaHigh
+                } else {
+                    AlphaDisabled
+                }
+            )
         )
         val localFocusManager = LocalFocusManager.current
         PgBasicTextField(
-            value = totalAmount,
+            value = amountItem.totalAmount,
             onValueChange = onTotalAmountChange,
             modifier = Modifier.onFocusChanged {
-                onTotalAmountFocusChange(it.isFocused)
+                if (amountItem.isEditable) {
+                    onTotalAmountFocusChange(it.isFocused)
+                }
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
             singleLine = true,
@@ -280,7 +290,8 @@ private fun AmountSection(
                 onDone = {
                     localFocusManager.clearFocus()
                 }
-            )
+            ),
+            enabled = amountItem.isEditable
         )
     }
 }
