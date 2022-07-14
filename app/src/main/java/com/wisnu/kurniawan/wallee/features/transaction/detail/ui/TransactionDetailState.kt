@@ -77,7 +77,11 @@ fun TransactionState.isValid(): Boolean {
             isTotalAmountNotZero
         }
         TransactionType.TRANSFER -> {
-            val isTransferAccountNotEmpty = transferAccountItems.selected() != null
+            val isTransferAccountNotEmpty = if (isEditMode) {
+                true
+            } else {
+                transferAccountItems.selected() != null
+            }
 
             isTotalAmountNotZero && isTransferAccountNotEmpty
         }
@@ -88,7 +92,14 @@ fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.
 
 fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.name
 
-fun TransactionState.selectedAccountTransferName() = transferAccountItems.selected()?.account?.name.orEmpty()
+fun TransactionState.selectedAccountTransferName(): String {
+    val selectedAccount = transferAccountItems.selected()?.account
+    return if (isEditMode) {
+        selectedAccount?.name ?: stringResource(R.string.transaction_account_deleted)
+    } else {
+        selectedAccount?.name.orEmpty()
+    }
+}
 
 fun TransactionState.selectedCategoryType() = categoryItems.selected()?.type ?: CategoryType.OTHERS
 

@@ -64,7 +64,7 @@ class TransactionDetailViewModel @Inject constructor(
                             selectedTransactionType = it.transaction.type,
                             selectedCategoryType = it.transaction.categoryType,
                             selectedAccount = it.account,
-                            selectedTransferAccount = it.transferredAccount,
+                            selectedTransferAccount = it.transferAccount,
                             initialNote = note,
                             initialCurrency = it.transaction.currency,
                             initialTotalAmount = totalAmount,
@@ -154,10 +154,18 @@ class TransactionDetailViewModel @Inject constructor(
                             updatedAt = state.value.transactionUpdatedAt,
                         ),
                         account = state.value.accountItems.selected()?.account!!,
-                        transferredAccount = state.value.transferAccountItems.selected()?.account,
+                        transferAccount = state.value.transferAccountItems.selected()?.account,
                     )
 
                     environment.saveTransaction(transactionWithAccount)
+                        .collect {
+                            setEffect(TransactionEffect.ClosePage)
+                        }
+                }
+            }
+            TransactionAction.Delete -> {
+                viewModelScope.launch {
+                    environment.deleteTransaction(transactionId)
                         .collect {
                             setEffect(TransactionEffect.ClosePage)
                         }

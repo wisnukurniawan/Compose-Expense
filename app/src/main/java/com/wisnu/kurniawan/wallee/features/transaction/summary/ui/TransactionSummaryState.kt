@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.summary.data.CashFlow
 import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_AMOUNT_MULTIPLIER
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
@@ -110,11 +111,17 @@ fun LastTransactionItem.getTitle(): String {
     return stringResource(text) + " " + emoji
 }
 
+@Composable
 fun LastTransactionItem.getAccountDisplay(): String {
-    return if (transferAccountName.isNullOrBlank()) {
-        accountName
-    } else {
-        "$accountName → $transferAccountName"
+    return when (type) {
+        TransactionType.TRANSFER -> {
+            if (transferAccountName.isNullOrBlank()) {
+                "$accountName → ${stringResource(R.string.transaction_account_deleted)}"
+            } else {
+                "$accountName → $transferAccountName"
+            }
+        }
+        else -> accountName
     }
 }
 
@@ -142,7 +149,7 @@ fun List<TransactionWithAccount>.toLastTransactionItems(): List<LastTransactionI
             categoryType = it.transaction.categoryType,
             date = it.transaction.date,
             accountName = it.account.name,
-            transferAccountName = it.transferredAccount?.name,
+            transferAccountName = it.transferAccount?.name,
             currency = it.transaction.currency,
             note = it.transaction.note.ifBlank { "-" },
             type = it.transaction.type

@@ -50,7 +50,7 @@ suspend fun TransactionWithAccountDb.toTransactionWithAccount(
     return TransactionWithAccount(
         transaction = transaction.toTransaction(),
         account = account.toAccount(),
-        transferredAccount = transferAccount
+        transferAccount = transferAccount
     )
 }
 

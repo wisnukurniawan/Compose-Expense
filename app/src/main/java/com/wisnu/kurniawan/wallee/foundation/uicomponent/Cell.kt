@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
-import com.wisnu.kurniawan.wallee.foundation.theme.Shapes
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 
 @Composable
@@ -56,7 +55,7 @@ fun PgModalCell(
         null
     }
 
-    val shape = Shapes.medium
+    val shape = MaterialTheme.shapes.medium
     Surface(
         modifier = Modifier
             .fillMaxWidth()

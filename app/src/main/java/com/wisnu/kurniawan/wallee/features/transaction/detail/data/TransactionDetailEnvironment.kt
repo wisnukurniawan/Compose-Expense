@@ -39,7 +39,7 @@ class TransactionDetailEnvironment @Inject constructor(
         return if (transactionWithAccount.transaction.id.isEmpty()) {
             localManager.insertTransaction(
                 transactionWithAccount.account.id,
-                transactionWithAccount.transferredAccount?.id,
+                transactionWithAccount.transferAccount?.id,
                 transactionWithAccount.transaction.copy(
                     id = idProvider.generate(),
                     amount = transactionWithAccount.transaction.amount.asData(),
@@ -59,7 +59,11 @@ class TransactionDetailEnvironment @Inject constructor(
                 TransactionType.TRANSFER -> {
                     combine(
                         reduceAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount),
-                        transferAccountAmount(transactionWithAccount.transferredAccount, transactionWithAccount.transaction.amount)
+                        if (transactionWithAccount.transferAccount != null) {
+                            transferAccountAmount(transactionWithAccount.transferAccount, transactionWithAccount.transaction.amount)
+                        } else {
+                            flowOf(true)
+                        }
                     ) { _, _ ->
                         true
                     }
@@ -68,7 +72,7 @@ class TransactionDetailEnvironment @Inject constructor(
         } else {
             localManager.updateTransaction(
                 transactionWithAccount.account.id,
-                transactionWithAccount.transferredAccount?.id,
+                transactionWithAccount.transferAccount?.id,
                 transactionWithAccount.transaction.copy(
                     amount = transactionWithAccount.transaction.amount.asData(),
                     updatedAt = dateTimeProvider.now()
@@ -79,6 +83,38 @@ class TransactionDetailEnvironment @Inject constructor(
         }
     }
 
+    override suspend fun deleteTransaction(id: String): Flow<Boolean> {
+        return localManager.getTransactionWithAccount(id).take(1)
+            .onEach { transactionWithAccount ->
+                when (transactionWithAccount.transaction.type) {
+                    TransactionType.EXPENSE -> {
+                        transferAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount)
+                            .map { true }
+                    }
+                    TransactionType.INCOME -> {
+                        reduceAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount)
+                            .map { true }
+                    }
+                    TransactionType.TRANSFER -> {
+                        combine(
+                            if (transactionWithAccount.transferAccount != null) {
+                                reduceAccountAmount(transactionWithAccount.transferAccount, transactionWithAccount.transaction.amount)
+                            } else {
+                                flowOf(true)
+                            },
+                            transferAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount),
+                        ) { _, _ ->
+                            true
+                        }
+                    }
+                }
+            }
+            .onEach {
+                localManager.deleteTransaction(id)
+            }
+            .map { true }
+    }
+
     private fun reduceAccountAmount(account: Account, amount: BigDecimal): Flow<Account> {
         return updateAccount(account).onEach {
             localManager.updateAccount(
@@ -87,8 +123,7 @@ class TransactionDetailEnvironment @Inject constructor(
         }
     }
 
-    private fun transferAccountAmount(account: Account?, amount: BigDecimal): Flow<Account> {
-        require(account != null)
+    private fun transferAccountAmount(account: Account, amount: BigDecimal): Flow<Account> {
         return updateAccount(account).onEach {
             localManager.updateAccount(
                 it.copy(amount = it.amount + amount)

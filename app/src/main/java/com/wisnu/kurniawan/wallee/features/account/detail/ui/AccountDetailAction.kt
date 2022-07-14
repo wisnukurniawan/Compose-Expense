@@ -5,6 +5,7 @@ import com.wisnu.kurniawan.wallee.model.AccountType
 
 sealed interface AccountDetailAction {
     object Save : AccountDetailAction
+    object Delete : AccountDetailAction
     sealed interface TotalAmountAction : AccountDetailAction {
         data class Change(val totalAmount: TextFieldValue) : TotalAmountAction
         data class FocusChange(val isFocused: Boolean) : TotalAmountAction

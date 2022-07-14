@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.account.detail.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -59,6 +60,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeaderEditMode
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
@@ -93,6 +95,10 @@ fun AccountDetailScreen(
             localFocusManager.clearFocus()
             navController.navigateUp()
         },
+        onDeleteClick = {
+            localFocusManager.clearFocus()
+            viewModel.dispatch(AccountDetailAction.Delete)
+        },
         onCategorySectionClick = {
             localFocusManager.clearFocus()
             navController.navigate(AccountDetailFlow.SelectCategory.route)
@@ -108,6 +114,7 @@ private fun AccountDetailScreen(
     state: AccountDetailState,
     onSaveClick: () -> Unit,
     onCancelClick: () -> Unit,
+    onDeleteClick: () -> Unit,
     onNameChange: (TextFieldValue) -> Unit,
     onCategorySectionClick: () -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
@@ -170,6 +177,22 @@ private fun AccountDetailScreen(
                     onTotalAmountChange = onTotalAmountChange,
                     onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
+            }
+
+            if (state.isEditMode) {
+                item {
+                    Spacer(Modifier.height(32.dp))
+                    PgSecondaryButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.error
+                        ),
+                        onClick = onDeleteClick
+                    ) {
+                        PgContentTitle(text = stringResource(R.string.transaction_edit_delete), color = MaterialTheme.colorScheme.error)
+                    }
+                }
             }
         }
     }

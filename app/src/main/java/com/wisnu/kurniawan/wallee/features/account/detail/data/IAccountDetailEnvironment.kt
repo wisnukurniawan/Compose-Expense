@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface IAccountDetailEnvironment {
     fun getAccount(id: String): Flow<Account>
     suspend fun saveAccount(account: AccountBalance)
+    suspend fun deleteAccount(id: String)
 }

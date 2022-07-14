@@ -2,10 +2,10 @@ package com.wisnu.kurniawan.wallee.foundation.uicomponent
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -29,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
-import com.wisnu.kurniawan.wallee.foundation.theme.Shapes
 
 @Composable
 fun PgModalBackButton(
@@ -75,10 +74,10 @@ fun PgButton(
     content: @Composable RowScope.() -> Unit
 ) {
     Button(
-        modifier = modifier.height(56.dp),
+        modifier = modifier,
         enabled = enabled,
         onClick = onClick,
-        shape = Shapes.small,
+        shape = MaterialTheme.shapes.medium,
         content = content,
         colors = ButtonDefaults.buttonColors(
             disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = AlphaDisabled)
@@ -90,12 +89,14 @@ fun PgButton(
 fun PgSecondaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    border: BorderStroke? = ButtonDefaults.outlinedButtonBorder,
     content: @Composable RowScope.() -> Unit
 ) {
     OutlinedButton(
-        modifier = modifier.height(56.dp),
+        modifier = modifier,
         onClick = onClick,
-        shape = Shapes.small,
+        border = border,
+        shape = MaterialTheme.shapes.medium,
         content = content
     )
 }

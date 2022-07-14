@@ -138,6 +138,12 @@ class LocalManager @Inject constructor(
         }
     }
 
+    suspend fun deleteAccount(id: String) {
+        withContext(dispatcher) {
+            walleeWriteDao.deleteAccount(id)
+        }
+    }
+
     suspend fun insertTransaction(accountId: String, transferAccountId: String?, transaction: Transaction) {
         withContext(dispatcher) {
             walleeWriteDao.insertTransaction(transaction.toTransactionDb(accountId, transferAccountId))
@@ -147,6 +153,12 @@ class LocalManager @Inject constructor(
     suspend fun updateTransaction(accountId: String, transferAccountId: String?, transaction: Transaction) {
         withContext(dispatcher) {
             walleeWriteDao.updateTransaction(transaction.toTransactionDb(accountId, transferAccountId))
+        }
+    }
+
+    suspend fun deleteTransaction(id: String) {
+        withContext(dispatcher) {
+            walleeWriteDao.deleteTransaction(id)
         }
     }
 

@@ -47,4 +47,8 @@ class AccountDetailEnvironment @Inject constructor(
         }
     }
 
+    override suspend fun deleteAccount(id: String) {
+        localManager.deleteAccount(id)
+    }
+
 }

@@ -30,7 +30,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
-import com.wisnu.kurniawan.wallee.foundation.theme.Shapes
 
 const val MAX_TEXT_FIELD_CHARACTER = 255
 
@@ -46,7 +45,7 @@ fun PgTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    shape: Shape = Shapes.small,
+    shape: Shape = MaterialTheme.shapes.small,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     textStyle: TextStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
     errorLabel: @Composable (() -> Unit)? = null,
@@ -90,7 +89,7 @@ fun PgTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    shape: Shape = Shapes.small,
+    shape: Shape = MaterialTheme.shapes.small,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     textStyle: TextStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
     errorLabel: @Composable (() -> Unit)? = null,

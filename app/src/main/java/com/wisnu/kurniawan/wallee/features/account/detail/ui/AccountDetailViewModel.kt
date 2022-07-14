@@ -79,6 +79,12 @@ class AccountDetailViewModel @Inject constructor(
                     }
                 }
             }
+            AccountDetailAction.Delete -> {
+                viewModelScope.launch {
+                    environment.deleteAccount(accountId)
+                    setEffect(AccountDetailEffect.ClosePage)
+                }
+            }
             is AccountDetailAction.SelectAccountType -> {
                 viewModelScope.launch {
                     setState { copy(accountTypeItems = accountTypeItems.select(action.selectedAccountType)) }

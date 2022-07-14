@@ -1,6 +1,7 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -28,7 +29,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -61,6 +61,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeaderEditMode
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
@@ -118,6 +119,10 @@ fun TransactionDetailScreen(
                 viewModel.dispatch(TransactionAction.SelectDate(selectedDate))
             }
         },
+        onDeleteClick = {
+            localFocusManager.clearFocus()
+            viewModel.dispatch(TransactionAction.Delete)
+        },
         onTransactionTypeSelected = {
             localFocusManager.clearFocus()
             viewModel.dispatch(TransactionAction.SelectTransactionType(it))
@@ -137,6 +142,7 @@ private fun TransactionDetailScreen(
     onCategorySectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
     onDateSectionClick: () -> Unit,
+    onDeleteClick: () -> Unit,
     onTransactionTypeSelected: (TransactionTypeItem) -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
@@ -216,6 +222,22 @@ private fun TransactionDetailScreen(
                     hint = stringResource(state.noteHintDisplayable()),
                     onNoteChange = onNoteChange
                 )
+            }
+
+            if (state.isEditMode) {
+                item {
+                    Spacer(Modifier.height(32.dp))
+                    PgSecondaryButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.error
+                        ),
+                        onClick = {}
+                    ) {
+                        PgContentTitle(text = stringResource(R.string.transaction_edit_delete), color = MaterialTheme.colorScheme.error)
+                    }
+                }
             }
         }
     }
@@ -372,7 +394,7 @@ private fun GeneralSection(
         ActionContentCell(
             title = stringResource(R.string.transaction_edit_account_to),
             showDivider = true,
-            shape = Shapes.None,
+            shape = MaterialTheme.shapes.extraSmall,
             enabled = !isEditMode,
             onClick = onTransferAccountSectionClick,
             trailing = {
@@ -399,7 +421,7 @@ private fun GeneralSection(
         ActionContentCell(
             title = stringResource(R.string.category),
             showDivider = true,
-            shape = Shapes.None,
+            shape = MaterialTheme.shapes.extraSmall,
             onClick = onCategorySectionClick,
             trailing = {
                 Row(
