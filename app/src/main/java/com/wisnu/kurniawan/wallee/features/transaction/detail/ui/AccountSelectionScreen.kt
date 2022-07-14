@@ -26,7 +26,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
-import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -39,11 +38,6 @@ fun AccountSelectionScreen(
 
     AccountSelectionScreen(
         accountItems = state.accountItems,
-        disabledAccount = if (state.selectedTransactionType() == TransactionType.TRANSFER) {
-            state.transferAccountItems.selected()
-        } else {
-            null
-        },
         onClick = {
             viewModel.dispatch(TransactionAction.SelectAccount(it.account))
             navController.navigateUp()
@@ -64,7 +58,6 @@ fun TransferAccountSelectionScreen(
 
     AccountSelectionScreen(
         accountItems = state.transferAccountItems,
-        disabledAccount = state.accountItems.selected(),
         onClick = {
             viewModel.dispatch(TransactionAction.SelectTransferAccount(it.account))
             navController.navigateUp()
@@ -78,7 +71,6 @@ fun TransferAccountSelectionScreen(
 @Composable
 private fun AccountSelectionScreen(
     accountItems: List<AccountItem>,
-    disabledAccount: AccountItem?,
     onClick: (AccountItem) -> Unit,
     onAddAccountClick: () -> Unit,
 ) {
@@ -113,7 +105,6 @@ private fun AccountSelectionScreen(
                         onClick(item)
                     },
                     item = item,
-                    enabled = disabledAccount?.account != item.account
                 )
                 Spacer(Modifier.height(8.dp))
             }
@@ -125,7 +116,6 @@ private fun AccountSelectionScreen(
 private fun AccountItem(
     onClick: () -> Unit,
     item: AccountItem,
-    enabled: Boolean
 ) {
     PgModalCell(
         onClick = onClick,
@@ -140,7 +130,6 @@ private fun AccountItem(
         } else {
             MaterialTheme.colorScheme.onSurfaceVariant
         },
-        enabled = enabled,
         rightIcon = if (item.selected) {
             @Composable {
                 Icon(

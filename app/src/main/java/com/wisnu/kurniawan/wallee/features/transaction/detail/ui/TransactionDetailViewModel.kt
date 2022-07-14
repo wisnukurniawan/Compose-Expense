@@ -155,11 +155,17 @@ class TransactionDetailViewModel @Inject constructor(
             is TransactionAction.SelectAccount -> {
                 viewModelScope.launch {
                     setState { copy(accountItems = accountItems.select(action.selectedAccount)) }
+                    updateSelection(action.selectedAccount, state.value.transferAccountItems) {
+                        setState { copy(transferAccountItems = transferAccountItems.select(it)) }
+                    }
                 }
             }
             is TransactionAction.SelectTransferAccount -> {
                 viewModelScope.launch {
                     setState { copy(transferAccountItems = transferAccountItems.select(action.selectedAccount)) }
+                    updateSelection(action.selectedAccount, state.value.accountItems) {
+                        setState { copy(accountItems = accountItems.select(it)) }
+                    }
                 }
             }
             is TransactionAction.SelectDate -> {
@@ -171,6 +177,14 @@ class TransactionDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     setState { copy(categoryItems = categoryItems.select(action.selectedCategoryType)) }
                 }
+            }
+        }
+    }
+
+    private fun updateSelection(selectedAccount: Account, accountItems: List<AccountItem>, newSelectedAccount: (Account) -> Unit) {
+        if (selectedAccount == accountItems.selected()?.account) {
+            accountItems.notSelected()?.account?.let {
+                newSelectedAccount(it)
             }
         }
     }

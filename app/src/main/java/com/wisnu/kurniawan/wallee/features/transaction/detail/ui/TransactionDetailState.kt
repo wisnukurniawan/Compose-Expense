@@ -107,6 +107,10 @@ fun List<AccountItem>.selected(): AccountItem? {
     return find { it.selected }
 }
 
+fun List<AccountItem>.notSelected(): AccountItem? {
+    return find { !it.selected }
+}
+
 fun List<CategoryItem>.select(selectedCategoryType: CategoryType): List<CategoryItem> {
     return map { it.copy(selected = it.type == selectedCategoryType) }
 }
