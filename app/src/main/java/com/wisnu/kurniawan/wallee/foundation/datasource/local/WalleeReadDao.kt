@@ -56,6 +56,16 @@ interface WalleeReadDao {
 
     @Query(
         """
+            SELECT TransactionDb.transaction_categoryType as type, SUM(TransactionDb.transaction_amount) AS amount FROM TransactionDb
+            WHERE TransactionDb.transaction_type = :type
+            GROUP BY type
+            ORDER BY amount DESC
+        """
+    )
+    fun getTopTransactions(type: TransactionType): Flow<List<TopTransactionDb>>
+
+    @Query(
+        """
             SELECT * FROM TransactionDb
             LEFT JOIN AccountDb ON TransactionDb.transaction_accountId = AccountDb.account_id
             WHERE TransactionDb.transaction_date BETWEEN :startDate AND :endDate

@@ -1,6 +1,5 @@
 package com.wisnu.kurniawan.wallee.features.transaction.all.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -202,24 +200,6 @@ private fun TransactionItemCell(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha)
             )
         }
-    }
-}
-
-@Composable
-private fun PgDivider(
-    needSpacer: Boolean,
-    color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha),
-) {
-    Row {
-        if (needSpacer) {
-            Spacer(
-                Modifier
-                    .width(16.dp)
-                    .height(1.dp)
-                    .background(color = MaterialTheme.colorScheme.secondary)
-            )
-        }
-        Divider(color = color)
     }
 }
 

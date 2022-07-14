@@ -100,6 +100,24 @@ class LocalManager @Inject constructor(
             .flowOn(dispatcher)
     }
 
+    fun getTopTransactions(
+        type: TransactionType,
+    ): Flow<List<TopTransaction>> {
+        return walleeReadDao.getTopTransactions(
+            type = type,
+        )
+            .filterNotNull()
+            .map { transaction ->
+                transaction.map {
+                    TopTransaction(
+                        amount = it.amount.toBigDecimal(),
+                        type = it.type
+                    )
+                }
+            }
+            .flowOn(dispatcher)
+    }
+
     fun getTransactionWithAccounts(
         startDate: LocalDateTime,
         endDate: LocalDateTime,

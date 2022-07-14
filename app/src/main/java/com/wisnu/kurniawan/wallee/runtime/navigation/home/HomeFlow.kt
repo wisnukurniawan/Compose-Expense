@@ -33,6 +33,10 @@ sealed class TransactionSummaryFlow(val name: String) {
     object AllTransactionScreen : TransactionSummaryFlow("all-transaction-screen") {
         val route = name
     }
+
+    object TopExpenseScreen : TransactionSummaryFlow("top-expense-screen") {
+        val route = name
+    }
 }
 
 

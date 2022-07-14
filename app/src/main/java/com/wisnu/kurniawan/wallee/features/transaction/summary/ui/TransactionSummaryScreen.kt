@@ -75,12 +75,8 @@ fun TransactionSummaryScreen(
         onSettingClick = { mainNavController.navigate(SettingFlow.Root.route) },
         onClickAddTransaction = { mainNavController.navigate(TransactionDetailFlow.Root.route()) },
         onSeeMoreLastTransactionClick = { navController.navigate(TransactionSummaryFlow.AllTransactionScreen.route) },
-        onLastTransactionItemClick = {
-            mainNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId))
-        },
-        onSeeMoreTopExpenseClick = {
-            // TODO open all top expense
-        }
+        onLastTransactionItemClick = { mainNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId)) },
+        onSeeMoreTopExpenseClick = { navController.navigate(TransactionSummaryFlow.TopExpenseScreen.route) }
     )
 }
 

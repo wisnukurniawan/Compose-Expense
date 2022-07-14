@@ -9,6 +9,8 @@ import com.wisnu.kurniawan.wallee.features.transaction.all.ui.AllTransactionScre
 import com.wisnu.kurniawan.wallee.features.transaction.all.ui.AllTransactionViewModel
 import com.wisnu.kurniawan.wallee.features.transaction.summary.ui.TransactionSummaryScreen
 import com.wisnu.kurniawan.wallee.features.transaction.summary.ui.TransactionSummaryViewModel
+import com.wisnu.kurniawan.wallee.features.transaction.topexpense.ui.TopExpenseScreen
+import com.wisnu.kurniawan.wallee.features.transaction.topexpense.ui.TopExpenseViewModel
 
 fun NavGraphBuilder.TransactionSummaryNavHost(
     mainNavController: NavController,
@@ -30,6 +32,12 @@ fun NavGraphBuilder.TransactionSummaryNavHost(
             val viewModel = hiltViewModel<AllTransactionViewModel>()
             AllTransactionScreen(
                 mainNavController = mainNavController,
+                viewModel = viewModel
+            )
+        }
+        composable(TransactionSummaryFlow.TopExpenseScreen.route) {
+            val viewModel = hiltViewModel<TopExpenseViewModel>()
+            TopExpenseScreen(
                 viewModel = viewModel
             )
         }
