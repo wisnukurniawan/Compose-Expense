@@ -16,6 +16,9 @@ import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_ACCOUNT_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -26,8 +29,16 @@ class AccountDetailViewModel @Inject constructor(
 ) : StatefulViewModel<AccountDetailState, AccountDetailEffect, AccountDetailAction, IAccountDetailEnvironment>(AccountDetailState(), accountDetailEnvironment) {
 
     private val accountId = savedStateHandle.get<String>(ARG_ACCOUNT_ID).orEmpty()
+    private val isDeleteInProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val isSaveInProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     init {
+        initLoad()
+        initSaveAction()
+        initDeleteAction()
+    }
+
+    private fun initLoad() {
         viewModelScope.launch {
             if (accountId.isNotBlank()) {
                 environment.getAccount(accountId)
@@ -52,15 +63,12 @@ class AccountDetailViewModel @Inject constructor(
         }
     }
 
-    override fun dispatch(action: AccountDetailAction) {
-        when (action) {
-            is AccountDetailAction.NameChange -> {
-                viewModelScope.launch {
-                    setState { copy(name = action.name) }
-                }
-            }
-            AccountDetailAction.Save -> {
-                viewModelScope.launch {
+    private fun initSaveAction() {
+        viewModelScope.launch {
+            isSaveInProgress
+                .filter { it }
+                .distinctUntilChanged { old, new -> old != new }
+                .collect {
                     try {
                         val account = AccountBalance(
                             id = accountId,
@@ -76,15 +84,37 @@ class AccountDetailViewModel @Inject constructor(
                         setState { copy(shouldShowDuplicateNameError = false) }
                         setEffect(AccountDetailEffect.ClosePage)
                     } catch (e: Exception) {
+                        isSaveInProgress.value = false
                         setState { copy(shouldShowDuplicateNameError = true) }
                     }
                 }
-            }
-            AccountDetailAction.Delete -> {
-                viewModelScope.launch {
+        }
+    }
+
+    private fun initDeleteAction() {
+        viewModelScope.launch {
+            isDeleteInProgress
+                .filter { it }
+                .distinctUntilChanged { old, new -> old != new }
+                .collect {
                     environment.deleteAccount(accountId)
                     setEffect(AccountDetailEffect.ClosePage)
                 }
+        }
+    }
+
+    override fun dispatch(action: AccountDetailAction) {
+        when (action) {
+            is AccountDetailAction.NameChange -> {
+                viewModelScope.launch {
+                    setState { copy(name = action.name) }
+                }
+            }
+            AccountDetailAction.Save -> {
+                isSaveInProgress.value = true
+            }
+            AccountDetailAction.Delete -> {
+                isDeleteInProgress.value = true
             }
             is AccountDetailAction.SelectAccountType -> {
                 viewModelScope.launch {

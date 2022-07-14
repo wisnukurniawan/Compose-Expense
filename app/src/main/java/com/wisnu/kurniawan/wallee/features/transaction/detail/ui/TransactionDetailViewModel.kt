@@ -24,6 +24,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -34,9 +37,13 @@ class TransactionDetailViewModel @Inject constructor(
 ) : StatefulViewModel<TransactionState, TransactionEffect, TransactionAction, ITransactionDetailEnvironment>(TransactionState(), transactionEnvironment) {
 
     private val transactionId = savedStateHandle.get<String>(ARG_TRANSACTION_ID).orEmpty()
+    private val isDeleteInProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val isSaveInProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     init {
         initLoad()
+        initSaveAction()
+        initDeleteAction()
     }
 
     private fun initLoad() {
@@ -137,10 +144,12 @@ class TransactionDetailViewModel @Inject constructor(
         itemIndex == index
     }
 
-    override fun dispatch(action: TransactionAction) {
-        when (action) {
-            TransactionAction.Save -> {
-                viewModelScope.launch {
+    private fun initSaveAction() {
+        viewModelScope.launch {
+            isSaveInProgress
+                .filter { it }
+                .distinctUntilChanged { old, new -> old != new }
+                .collect {
                     val transactionWithAccount = TransactionWithAccount(
                         transaction = Transaction(
                             id = transactionId,
@@ -162,14 +171,30 @@ class TransactionDetailViewModel @Inject constructor(
                             setEffect(TransactionEffect.ClosePage)
                         }
                 }
-            }
-            TransactionAction.Delete -> {
-                viewModelScope.launch {
+        }
+    }
+
+    private fun initDeleteAction() {
+        viewModelScope.launch {
+            isDeleteInProgress
+                .filter { it }
+                .distinctUntilChanged { old, new -> old != new }
+                .collect {
                     environment.deleteTransaction(transactionId)
                         .collect {
                             setEffect(TransactionEffect.ClosePage)
                         }
                 }
+        }
+    }
+
+    override fun dispatch(action: TransactionAction) {
+        when (action) {
+            TransactionAction.Save -> {
+                isSaveInProgress.value = true
+            }
+            TransactionAction.Delete -> {
+                isDeleteInProgress.value = true
             }
             is TransactionAction.SelectTransactionType -> {
                 viewModelScope.launch {
