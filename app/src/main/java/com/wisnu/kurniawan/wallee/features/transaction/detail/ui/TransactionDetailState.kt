@@ -1,11 +1,15 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
+import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
+import com.wisnu.kurniawan.wallee.foundation.theme.Expense
+import com.wisnu.kurniawan.wallee.foundation.theme.Income
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.CategoryType
@@ -75,6 +79,18 @@ fun TransactionState.noteHintDisplayable() = when (selectedTransactionType()) {
     TransactionType.INCOME -> R.string.transaction_edit_note_income_hint
     TransactionType.EXPENSE -> R.string.transaction_edit_note_expense_hint
     TransactionType.TRANSFER -> R.string.transaction_edit_note_transfer_hint
+}
+
+fun TransactionState.getCurrencySymbol() = when (selectedTransactionType()) {
+    TransactionType.INCOME -> currency.getSymbol()
+    TransactionType.EXPENSE -> "-" + currency.getSymbol()
+    TransactionType.TRANSFER -> currency.getSymbol()
+}
+
+fun TransactionState.getAmountColor(defaultColor: Color) = when (selectedTransactionType()) {
+    TransactionType.INCOME -> Income
+    TransactionType.EXPENSE -> Expense
+    TransactionType.TRANSFER -> defaultColor
 }
 
 fun List<TransactionTypeItem>.select(selectedTransactionTypeItem: TransactionTypeItem): List<TransactionTypeItem> {

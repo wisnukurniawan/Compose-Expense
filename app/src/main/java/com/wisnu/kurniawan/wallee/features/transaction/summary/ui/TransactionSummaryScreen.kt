@@ -476,9 +476,6 @@ private inline fun LazyListScope.TopExpenseCell(
                 title = item.getTitle(),
                 amount = item.getAmountDisplay(currency),
                 amountSymbol = currency.getSymbol(),
-                amountColor = item.getAmountColor(
-                    MaterialTheme.colorScheme.onBackground
-                ),
                 progress = item.progress,
                 progressColor = item.categoryType.getColor(),
                 shape = cellShape(index, size),
@@ -492,7 +489,6 @@ private fun TopExpenseItemCell(
     title: String,
     amount: String,
     amountSymbol: String,
-    amountColor: Color,
     progress: Float,
     progressColor: Color,
     shape: Shape
@@ -517,7 +513,7 @@ private fun TopExpenseItemCell(
             PgAmountLabel(
                 amount = amount,
                 symbol = amountSymbol,
-                color = amountColor,
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
             )
 

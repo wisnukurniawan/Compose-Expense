@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -51,7 +52,6 @@ import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
-import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.ActionContentCell
@@ -177,7 +177,8 @@ private fun TransactionDetailScreen(
             item {
                 AmountSection(
                     totalAmount = state.totalAmount,
-                    totalAmountDisplay = state.currency.getSymbol() + " ",
+                    totalAmountDisplay = state.getCurrencySymbol() + " ",
+                    amountColor = state.getAmountColor(MaterialTheme.colorScheme.onSurface),
                     onTotalAmountChange = onTotalAmountChange,
                     onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
@@ -269,6 +270,7 @@ private fun TransactionTypeSection(
 private fun AmountSection(
     totalAmount: TextFieldValue,
     totalAmountDisplay: String,
+    amountColor: Color,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
@@ -287,6 +289,7 @@ private fun AmountSection(
     ) {
         PgContentTitle(
             text = totalAmountDisplay,
+            color = amountColor
         )
         val localFocusManager = LocalFocusManager.current
         PgBasicTextField(
@@ -301,7 +304,8 @@ private fun AmountSection(
                 onDone = {
                     localFocusManager.clearFocus()
                 }
-            )
+            ),
+            textStyle = MaterialTheme.typography.titleSmall.copy(color = amountColor)
         )
     }
 }

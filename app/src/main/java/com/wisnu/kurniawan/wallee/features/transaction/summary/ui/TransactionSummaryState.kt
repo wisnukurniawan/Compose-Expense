@@ -122,10 +122,6 @@ fun TopExpenseItem.getAmountDisplay(currency: Currency): String {
     return currency.formatAsDisplayNormalize(amount, true)
 }
 
-fun TopExpenseItem.getAmountColor(defaultColor: Color): Color {
-    return amount.getAmountColor(defaultColor)
-}
-
 @Composable
 fun TopExpenseItem.getTitle(): String {
     val (emoji, text) = categoryType.getEmojiAndText()

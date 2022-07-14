@@ -24,11 +24,11 @@ class AccountDetailViewModel @Inject constructor(
     accountDetailEnvironment: IAccountDetailEnvironment
 ) : StatefulViewModel<AccountDetailState, AccountDetailEffect, AccountDetailAction, IAccountDetailEnvironment>(AccountDetailState(), accountDetailEnvironment) {
 
-    private val accountId = savedStateHandle.get<String>(ARG_ACCOUNT_ID)
+    private val accountId = savedStateHandle.get<String>(ARG_ACCOUNT_ID).orEmpty()
 
     init {
         viewModelScope.launch {
-            if (accountId != null) {
+            if (accountId.isNotBlank()) {
                 environment.getAccount(accountId)
                     .collect {
                         setState {
@@ -63,7 +63,7 @@ class AccountDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     try {
                         val account = AccountBalance(
-                            id = accountId.orEmpty(),
+                            id = accountId,
                             currency = state.value.currency,
                             amount = state.value.amountItem.totalAmount.formatAsBigDecimal(),
                             name = state.value.name.text.trim(),
