@@ -29,6 +29,7 @@ class TransactionSummaryViewModel @Inject constructor(
 
                     setState {
                         copy(
+                            isLoading = false,
                             cashFlow = CashFlow(
                                 totalAmount = totalAmount,
                                 totalIncome = totalIncome,

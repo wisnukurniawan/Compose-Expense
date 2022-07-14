@@ -94,19 +94,21 @@ private fun TransactionSummaryScreen(
     onLastTransactionItemClick: (LastTransactionItem) -> Unit,
     onSeeMoreTopExpenseClick: () -> Unit,
 ) {
-    PgPageLayout(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Header(
-            onSettingClick = onSettingClick,
-            onClickAddTransaction = onClickAddTransaction
-        )
-        Content(
-            state = state,
-            onSeeMoreLastTransactionClick = onSeeMoreLastTransactionClick,
-            onLastTransactionItemClick = onLastTransactionItemClick,
-            onSeeMoreTopExpenseClick = onSeeMoreTopExpenseClick
-        )
+    if (!state.isLoading) {
+        PgPageLayout(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Header(
+                onSettingClick = onSettingClick,
+                onClickAddTransaction = onClickAddTransaction
+            )
+            Content(
+                state = state,
+                onSeeMoreLastTransactionClick = onSeeMoreLastTransactionClick,
+                onLastTransactionItemClick = onLastTransactionItemClick,
+                onSeeMoreTopExpenseClick = onSeeMoreTopExpenseClick
+            )
+        }
     }
 }
 

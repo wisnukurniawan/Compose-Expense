@@ -26,6 +26,7 @@ import java.time.LocalDateTime
 
 @Immutable
 data class TransactionSummaryState(
+    val isLoading: Boolean,
     val currentMonth: LocalDate,
     val cashFlow: CashFlow,
     val lastTransactionItems: List<LastTransactionItem>,
@@ -33,6 +34,7 @@ data class TransactionSummaryState(
 ) {
     companion object {
         fun initial() = TransactionSummaryState(
+            isLoading = true,
             currentMonth = DateTimeProviderImpl().now().toLocalDate(),
             cashFlow = CashFlow(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, Currency.INDONESIA),
             lastTransactionItems = listOf(),
