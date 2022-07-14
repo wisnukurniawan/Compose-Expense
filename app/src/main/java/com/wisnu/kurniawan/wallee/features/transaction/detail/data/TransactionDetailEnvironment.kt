@@ -10,8 +10,10 @@ import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -84,18 +86,17 @@ class TransactionDetailEnvironment @Inject constructor(
         }
     }
 
+    @OptIn(FlowPreview::class)
     override suspend fun deleteTransaction(id: String): Flow<Boolean> {
         return localManager.getTransactionWithAccount(id)
             .take(1)
-            .onEach { transactionWithAccount ->
+            .flatMapConcat { transactionWithAccount ->
                 when (transactionWithAccount.transaction.type) {
                     TransactionType.EXPENSE -> {
                         transferAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount)
-                            .map { true }
                     }
                     TransactionType.INCOME -> {
                         reduceAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount)
-                            .map { true }
                     }
                     TransactionType.TRANSFER -> {
                         combine(
