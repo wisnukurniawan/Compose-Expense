@@ -42,8 +42,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.extension.shouldShowDivider
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.DividerAlpha
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabelMedium
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabelSmall
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgDateLabel
@@ -233,7 +232,7 @@ private fun CashFlowSection(
                 text = stringResource(R.string.transaction_this_month),
                 modifier = Modifier.padding(bottom = 2.dp)
             )
-            PgAmountLabelMedium(
+            PgAmountLabel(
                 amount = cashFlow.getTotalAmountDisplay(),
                 symbol = cashFlow.currency.getSymbol(),
                 color = cashFlow.getTotalAmountColor(
@@ -294,7 +293,7 @@ private fun CashFlowContent(
             text = title,
             modifier = Modifier.padding(bottom = 2.dp)
         )
-        PgAmountLabelSmall(
+        PgAmountLabel(
             amount = amount,
             color = amountColor,
             symbol = currency.getSymbol()
@@ -400,7 +399,7 @@ private fun TransactionItemCell(
                 )
             }
 
-            PgAmountLabelMedium(
+            PgAmountLabel(
                 amount = amount,
                 symbol = amountSymbol,
                 color = amountColor,
@@ -513,7 +512,7 @@ private fun TopExpenseItemCell(
                 modifier = Modifier.padding(bottom = 2.dp)
             )
 
-            PgAmountLabelMedium(
+            PgAmountLabel(
                 amount = amount,
                 symbol = amountSymbol,
                 color = amountColor,

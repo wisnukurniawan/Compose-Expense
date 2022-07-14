@@ -22,11 +22,11 @@ fun TransactionDb.toTransaction() = Transaction(
     note = note
 )
 
-fun List<AccountDb>.toAccount() = map {
-    it.toAccount()
+fun List<AccountDb>.toAccount(transactions: List<Transaction> = listOf()) = map {
+    it.toAccount(transactions)
 }
 
-fun AccountDb.toAccount() = Account(
+fun AccountDb.toAccount(transactions: List<Transaction> = listOf()) = Account(
     id = id,
     currency = currencyCode.toCurrency(),
     name = name,
@@ -34,7 +34,7 @@ fun AccountDb.toAccount() = Account(
     amount = amount.toBigDecimal(),
     createdAt = createdAt,
     updatedAt = updatedAt,
-    transactions = listOf()
+    transactions = transactions
 )
 
 fun String.toCurrency(): Currency {

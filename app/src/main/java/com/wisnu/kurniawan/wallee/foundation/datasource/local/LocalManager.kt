@@ -1,7 +1,7 @@
 package com.wisnu.kurniawan.wallee.foundation.datasource.local
 
-import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
 import com.wisnu.kurniawan.wallee.foundation.di.DiName
+import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.foundation.extension.toAccount
 import com.wisnu.kurniawan.wallee.foundation.extension.toAccountDb
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransaction
@@ -34,8 +34,18 @@ class LocalManager @Inject constructor(
             .flowOn(dispatcher)
     }
 
+    fun getAccountWithTransactions(): Flow<List<Account>> {
+        return walleeReadDao.getAccountWithTransactions()
+            .map {
+                it.map { data ->
+                    data.account.toAccount(data.transactions.toTransaction())
+                }
+            }
+            .flowOn(dispatcher)
+    }
+
     fun getDefaultAccount(): Flow<Account> {
-        return walleeReadDao.getAccount(AccountDb.DEFAULT_ID)
+        return walleeReadDao.getAccount(DEFAULT_ACCOUNT_ID)
             .filterNotNull()
             .map { it.toAccount() }
             .flowOn(dispatcher)
@@ -100,7 +110,7 @@ class LocalManager @Inject constructor(
             .map { transactions ->
                 transactions.map {
                     val transferAccount = if (it.transaction.transferAccountId != null) {
-                       walleeReadDao.getAccount(it.transaction.transferAccountId).firstOrNull()?.toAccount()
+                        walleeReadDao.getAccount(it.transaction.transferAccountId).firstOrNull()?.toAccount()
                     } else {
                         null
                     }

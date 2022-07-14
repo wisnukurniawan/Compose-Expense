@@ -1,6 +1,7 @@
 package com.wisnu.kurniawan.wallee.foundation.extension
 
 import com.wisnu.kurniawan.wallee.R
+import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.AccountType
 
 fun AccountType.getLabel(): Int {
@@ -11,4 +12,8 @@ fun AccountType.getLabel(): Int {
         AccountType.INVESTMENT -> R.string.account_investment
         AccountType.OTHERS -> R.string.account_others
     }
+}
+
+fun List<Account>.getDefaultAccount(): Account {
+    return find { it.id == DEFAULT_ACCOUNT_ID }!!
 }

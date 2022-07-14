@@ -59,7 +59,7 @@ fun Account.getTotalBalanceColor(defaultColor: Color): Color {
 
 @Composable
 fun Account.getDateTimeDisplay(currentDate: LocalDateTime = DateTimeProviderImpl().now()): String {
-    if (updatedAt == null) return ""
+    if (updatedAt == null) return "-"
     return when {
         updatedAt.isSameDay(currentDate) -> {
             when {
@@ -78,5 +78,14 @@ fun Account.getDateTimeDisplay(currentDate: LocalDateTime = DateTimeProviderImpl
         }
         createdAt.isYesterday(currentDate) -> stringResource(R.string.balance_account_updated_at_date, createdAt.formatDateTime())
         else -> stringResource(R.string.balance_account_updated_at_yesterday)
+    }
+}
+
+fun List<Account>.toAccountItem(): List<AccountItem> {
+    return map {
+        AccountItem(
+            totalTransaction = it.transactions.count(),
+            account = it
+        )
     }
 }

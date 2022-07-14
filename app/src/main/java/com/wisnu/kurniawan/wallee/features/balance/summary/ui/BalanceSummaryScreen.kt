@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabelMedium
+import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgAmountLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgContentTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgDateLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
@@ -133,7 +133,7 @@ private fun AllTimeSection(
             text = stringResource(R.string.balance_all_time),
             modifier = Modifier.padding(bottom = 2.dp)
         )
-        PgAmountLabelMedium(
+        PgAmountLabel(
             modifier = Modifier,
             amount = totalBalance,
             symbol = symbol,
@@ -193,7 +193,6 @@ private fun AccountCellItem(
 ) {
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
             .size(width = 150.dp, height = 120.dp)
             .clip(MaterialTheme.shapes.medium)
             .clickable(onClick = onClick),
@@ -201,27 +200,34 @@ private fun AccountCellItem(
         color = MaterialTheme.colorScheme.secondary,
     ) {
         Column(
-            modifier = Modifier.paddingCell()
+            modifier = Modifier
+                .paddingCell()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            PgContentTitle(
-                text = accountName,
-                modifier = Modifier.padding(bottom = 2.dp)
-            )
-            PgAmountLabelMedium(
-                modifier = Modifier,
-                amount = totalAmount,
-                symbol = amountSymbol,
-                color = amountColor
-            )
-            PgContentTitle(
-                text = totalTransaction,
-                color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
-                modifier = Modifier.padding(bottom = 2.dp)
-            )
-            PgDateLabel(
-                text = updatedAt,
-                modifier = Modifier.padding(bottom = 2.dp)
-            )
+            Column {
+                PgContentTitle(
+                    text = accountName,
+                    modifier = Modifier.padding(bottom = 2.dp)
+                )
+                PgAmountLabel(
+                    modifier = Modifier,
+                    amount = totalAmount,
+                    symbol = amountSymbol,
+                    color = amountColor
+                )
+            }
+
+            Column {
+                PgContentTitle(
+                    text = totalTransaction,
+                    color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
+                    modifier = Modifier.padding(bottom = 2.dp)
+                )
+                PgDateLabel(
+                    text = updatedAt,
+                )
+            }
         }
     }
 }

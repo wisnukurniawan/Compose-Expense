@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
+import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.AccountType
@@ -68,7 +69,7 @@ abstract class WalleeDatabase : RoomDatabase() {
         private suspend fun initPrePopulateDefaultAccount(context: Context) {
             val currentDate = DateTimeProviderImpl().now()
             val defaultAccount = AccountDb(
-                id = AccountDb.DEFAULT_ID,
+                id = DEFAULT_ACCOUNT_ID,
                 currencyCode = Currency.INDONESIA.code,
                 amount = 0,
                 name = context.getString(AccountType.CASH.getLabel()),

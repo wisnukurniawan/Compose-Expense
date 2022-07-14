@@ -123,7 +123,7 @@ class TransactionDetailViewModel @Inject constructor(
                         val selectedAccount = state.value.transferAccountItems.selected()
                         if (selectedAccount == null) {
                             state.value.accountItems.find { !it.selected }?.let {
-                                setState { copy(transferAccountItems = state.value.transferAccountItems.select(it.account)) }
+                                setState { copy(transferAccountItems = transferAccountItems.select(it.account)) }
                             }
                         }
                     }
@@ -142,9 +142,9 @@ class TransactionDetailViewModel @Inject constructor(
             }
             is TransactionAction.TotalAmountAction.FocusChange -> {
                 viewModelScope.launch {
-                    val totalAmount = state.value.totalAmount.text
-                    val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmount)
-                    setState { copy(totalAmount = state.value.totalAmount.copy(text = totalAmountFormatted)) }
+                    val totalAmountText = state.value.totalAmount.text
+                    val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmountText)
+                    setState { copy(totalAmount = totalAmount.copy(text = totalAmountFormatted)) }
                 }
             }
             is TransactionAction.ChangeNote -> {
@@ -154,12 +154,12 @@ class TransactionDetailViewModel @Inject constructor(
             }
             is TransactionAction.SelectAccount -> {
                 viewModelScope.launch {
-                    setState { copy(accountItems = state.value.accountItems.select(action.selectedAccount)) }
+                    setState { copy(accountItems = accountItems.select(action.selectedAccount)) }
                 }
             }
             is TransactionAction.SelectTransferAccount -> {
                 viewModelScope.launch {
-                    setState { copy(transferAccountItems = state.value.transferAccountItems.select(action.selectedAccount)) }
+                    setState { copy(transferAccountItems = transferAccountItems.select(action.selectedAccount)) }
                 }
             }
             is TransactionAction.SelectDate -> {
@@ -169,7 +169,7 @@ class TransactionDetailViewModel @Inject constructor(
             }
             is TransactionAction.SelectCategory -> {
                 viewModelScope.launch {
-                    setState { copy(categoryItems = state.value.categoryItems.select(action.selectedCategoryType)) }
+                    setState { copy(categoryItems = categoryItems.select(action.selectedCategoryType)) }
                 }
             }
         }

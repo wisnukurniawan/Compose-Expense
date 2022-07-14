@@ -3,6 +3,7 @@ package com.wisnu.kurniawan.wallee.foundation.datasource.local
 import androidx.room.Dao
 import androidx.room.Query
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountWithTransaction
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TopTransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionWithAccountDb
@@ -15,6 +16,9 @@ interface WalleeReadDao {
 
     @Query("SELECT * FROM AccountDb")
     fun getAccounts(): Flow<List<AccountDb>>
+
+    @Query("SELECT * FROM AccountDb")
+    fun getAccountWithTransactions(): Flow<List<AccountWithTransaction>>
 
     @Query("SELECT * FROM AccountDb WHERE account_id = :id")
     fun getAccount(id: String): Flow<AccountDb>

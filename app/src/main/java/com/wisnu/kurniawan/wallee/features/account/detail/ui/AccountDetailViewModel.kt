@@ -48,7 +48,7 @@ class AccountDetailViewModel @Inject constructor(
             }
             is AccountDetailAction.SelectAccountType -> {
                 viewModelScope.launch {
-                    setState { copy(accountTypeItems = state.value.accountTypeItems.select(action.selectedAccountType)) }
+                    setState { copy(accountTypeItems = accountTypeItems.select(action.selectedAccountType)) }
                 }
             }
             is AccountDetailAction.TotalAmountAction.Change -> {
@@ -64,9 +64,9 @@ class AccountDetailViewModel @Inject constructor(
             }
             is AccountDetailAction.TotalAmountAction.FocusChange -> {
                 viewModelScope.launch {
-                    val totalAmount = state.value.totalAmount.text
-                    val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmount)
-                    setState { copy(totalAmount = state.value.totalAmount.copy(text = totalAmountFormatted)) }
+                    val totalAmountText = state.value.totalAmount.text
+                    val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmountText)
+                    setState { copy(totalAmount = totalAmount.copy(text = totalAmountFormatted)) }
                 }
             }
         }
