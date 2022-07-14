@@ -31,12 +31,14 @@ class LocalManager @Inject constructor(
 
     fun getAccounts(): Flow<List<Account>> {
         return walleeReadDao.getAccounts()
+            .filterNotNull()
             .map { it.toAccount() }
             .flowOn(dispatcher)
     }
 
     fun getAccountWithTransactions(): Flow<List<Account>> {
         return walleeReadDao.getAccountWithTransactions()
+            .filterNotNull()
             .map {
                 it.map { data ->
                     data.account.toAccount(data.transactions.toTransaction())
@@ -54,6 +56,7 @@ class LocalManager @Inject constructor(
 
     fun getAccount(id: String): Flow<Account> {
         return walleeReadDao.getAccount(id)
+            .filterNotNull()
             .map { it.toAccount() }
             .flowOn(dispatcher)
     }
@@ -118,6 +121,7 @@ class LocalManager @Inject constructor(
 
     fun getTransactionWithAccount(id: String): Flow<TransactionWithAccount> {
         return walleeReadDao.getTransactionWithAccount(id)
+            .filterNotNull()
             .map {
                 it.toTransactionWithAccount { accountId ->
                     walleeReadDao.getAccount(accountId).firstOrNull()?.toAccount()

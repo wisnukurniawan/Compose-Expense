@@ -41,7 +41,8 @@ class AccountDetailViewModel @Inject constructor(
                                 name = TextFieldValue(name, TextRange(name.length)),
                                 totalAmount = TextFieldValue(totalAmount, TextRange(totalAmount.length)),
                                 currency = it.currency,
-                                createdAt = it.createdAt
+                                createdAt = it.createdAt,
+                                id = it.id
                             )
                         }
                     }

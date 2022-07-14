@@ -36,31 +36,32 @@ class TransactionDetailEnvironment @Inject constructor(
     }
 
     override suspend fun saveTransaction(transactionWithAccount: TransactionWithAccount): Flow<Boolean> {
+        val transactionAmount = transactionWithAccount.transaction.amount.asData()
         return if (transactionWithAccount.transaction.id.isEmpty()) {
             localManager.insertTransaction(
                 transactionWithAccount.account.id,
                 transactionWithAccount.transferAccount?.id,
                 transactionWithAccount.transaction.copy(
                     id = idProvider.generate(),
-                    amount = transactionWithAccount.transaction.amount.asData(),
+                    amount = transactionAmount,
                     createdAt = dateTimeProvider.now()
                 )
             )
 
             when (transactionWithAccount.transaction.type) {
                 TransactionType.EXPENSE -> {
-                    reduceAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount)
+                    reduceAccountAmount(transactionWithAccount.account, transactionAmount)
                         .map { true }
                 }
                 TransactionType.INCOME -> {
-                    transferAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount)
+                    transferAccountAmount(transactionWithAccount.account, transactionAmount)
                         .map { true }
                 }
                 TransactionType.TRANSFER -> {
                     combine(
-                        reduceAccountAmount(transactionWithAccount.account, transactionWithAccount.transaction.amount),
+                        reduceAccountAmount(transactionWithAccount.account, transactionAmount),
                         if (transactionWithAccount.transferAccount != null) {
-                            transferAccountAmount(transactionWithAccount.transferAccount, transactionWithAccount.transaction.amount)
+                            transferAccountAmount(transactionWithAccount.transferAccount, transactionAmount)
                         } else {
                             flowOf(true)
                         }
@@ -74,7 +75,7 @@ class TransactionDetailEnvironment @Inject constructor(
                 transactionWithAccount.account.id,
                 transactionWithAccount.transferAccount?.id,
                 transactionWithAccount.transaction.copy(
-                    amount = transactionWithAccount.transaction.amount.asData(),
+                    amount = transactionAmount,
                     updatedAt = dateTimeProvider.now()
                 )
             )
@@ -84,7 +85,8 @@ class TransactionDetailEnvironment @Inject constructor(
     }
 
     override suspend fun deleteTransaction(id: String): Flow<Boolean> {
-        return localManager.getTransactionWithAccount(id).take(1)
+        return localManager.getTransactionWithAccount(id)
+            .take(1)
             .onEach { transactionWithAccount ->
                 when (transactionWithAccount.transaction.type) {
                     TransactionType.EXPENSE -> {

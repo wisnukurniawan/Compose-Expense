@@ -233,7 +233,7 @@ private fun TransactionDetailScreen(
                             width = 1.dp,
                             color = MaterialTheme.colorScheme.error
                         ),
-                        onClick = {}
+                        onClick = onDeleteClick
                     ) {
                         PgContentTitle(text = stringResource(R.string.transaction_edit_delete), color = MaterialTheme.colorScheme.error)
                     }

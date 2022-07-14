@@ -179,7 +179,7 @@ private fun AccountDetailScreen(
                 )
             }
 
-            if (state.isEditMode) {
+            if (state.canDelete()) {
                 item {
                     Spacer(Modifier.height(32.dp))
                     PgSecondaryButton(
@@ -190,7 +190,7 @@ private fun AccountDetailScreen(
                         ),
                         onClick = onDeleteClick
                     ) {
-                        PgContentTitle(text = stringResource(R.string.transaction_edit_delete), color = MaterialTheme.colorScheme.error)
+                        PgContentTitle(text = stringResource(R.string.account_edit_delete), color = MaterialTheme.colorScheme.error)
                     }
                 }
             }

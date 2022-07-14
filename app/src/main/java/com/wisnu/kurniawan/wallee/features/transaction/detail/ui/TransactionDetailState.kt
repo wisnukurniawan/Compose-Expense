@@ -92,6 +92,7 @@ fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.
 
 fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.name
 
+@Composable
 fun TransactionState.selectedAccountTransferName(): String {
     val selectedAccount = transferAccountItems.selected()?.account
     return if (isEditMode) {

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.R
+import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.AccountType
@@ -13,13 +14,14 @@ import java.time.LocalDateTime
 
 @Immutable
 data class AccountDetailState(
+    val id: String = "",
     val name: TextFieldValue = TextFieldValue(""),
     val accountTypeItems: List<AccountTypeItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val currency: Currency = Currency.INDONESIA,
     val shouldShowDuplicateNameError: Boolean = false,
     val createdAt: LocalDateTime = DateTimeProviderImpl().now(),
-    val isEditMode: Boolean = false
+    val isEditMode: Boolean = false,
 )
 
 data class AccountTypeItem(
@@ -29,6 +31,8 @@ data class AccountTypeItem(
 
 // Collections
 fun AccountDetailState.isValid() = name.text.isNotBlank()
+
+fun AccountDetailState.canDelete() = isEditMode && id != DEFAULT_ACCOUNT_ID
 
 fun AccountDetailState.selectedAccountType() = accountTypeItems.selected()?.type ?: AccountType.CASH
 
