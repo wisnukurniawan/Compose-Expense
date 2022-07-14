@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 
 class TransactionDetailEnvironment @Inject constructor(
     private val localManager: LocalManager,
@@ -115,7 +116,7 @@ class TransactionDetailEnvironment @Inject constructor(
 
     private fun updateAccount(account: Account): Flow<Account> {
         return localManager.getAccount(account.id)
-
+            .take(1)
     }
 
 }
