@@ -119,6 +119,17 @@ class LocalManager @Inject constructor(
             .flowOn(dispatcher)
     }
 
+    fun getTransactionWithAccounts(): Flow<List<TransactionWithAccount>> {
+        return walleeReadDao.getTransactionWithAccounts()
+            .filterNotNull()
+            .map { transactions ->
+                transactions.toTransactionWithAccount { accountId ->
+                    walleeReadDao.getAccount(accountId).firstOrNull()?.toAccount()
+                }
+            }
+            .flowOn(dispatcher)
+    }
+
     fun getTransactionWithAccount(id: String): Flow<TransactionWithAccount> {
         return walleeReadDao.getTransactionWithAccount(id)
             .filterNotNull()

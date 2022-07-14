@@ -1,7 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 
 import androidx.lifecycle.viewModelScope
-import com.wisnu.kurniawan.wallee.features.transaction.summary.data.CashFlow
 import com.wisnu.kurniawan.wallee.features.transaction.summary.data.ITransactionSummaryEnvironment
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +45,7 @@ class TransactionSummaryViewModel @Inject constructor(
         viewModelScope.launch {
             environment.getLastTransaction()
                 .collect {
-                    setState { copy(lastTransactionItems = it.toLastTransactionItems()) }
+                    setState { copy(transactionItems = it.toLastTransactionItems()) }
                 }
         }
     }

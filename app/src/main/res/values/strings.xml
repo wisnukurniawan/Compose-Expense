@@ -96,6 +96,9 @@
     <string name="transaction_edit_delete">Delete Transaction</string>
     <string name="transaction_account_deleted">[Account deleted]</string>
 
+    <string name="all_transaction_headline">Transactions</string>
+    <string name="all_transaction_empty">No transactions</string>
+
     <string name="account_edit_add">Add Account</string>
     <string name="account_edit_edit">Edit Account</string>
     <string name="account_edit_balance">Current balance</string>

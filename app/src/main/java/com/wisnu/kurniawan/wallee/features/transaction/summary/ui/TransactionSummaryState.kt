@@ -5,7 +5,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.features.transaction.summary.data.CashFlow
 import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_AMOUNT_MULTIPLIER
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
@@ -30,7 +29,7 @@ data class TransactionSummaryState(
     val isLoading: Boolean,
     val currentMonth: LocalDate,
     val cashFlow: CashFlow,
-    val lastTransactionItems: List<LastTransactionItem>,
+    val transactionItems: List<TransactionItem>,
     val topExpenseItems: List<TopExpenseItem>
 ) {
     companion object {
@@ -38,13 +37,20 @@ data class TransactionSummaryState(
             isLoading = true,
             currentMonth = DateTimeProviderImpl().now().toLocalDate(),
             cashFlow = CashFlow(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, Currency.INDONESIA),
-            lastTransactionItems = listOf(),
+            transactionItems = listOf(),
             topExpenseItems = listOf()
         )
     }
 }
 
-data class LastTransactionItem(
+data class CashFlow(
+    val totalAmount: BigDecimal,
+    val totalExpense: BigDecimal,
+    val totalIncome: BigDecimal,
+    val currency: Currency
+)
+
+data class TransactionItem(
     val transactionId: String,
     val amount: BigDecimal,
     val categoryType: CategoryType,
@@ -90,29 +96,29 @@ fun CashFlow.getTotalExpenseColor(defaultColor: Color): Color {
     return totalExpense.getAmountColor(defaultColor)
 }
 
-fun LastTransactionItem.getAmountDisplay(): String {
+fun TransactionItem.getAmountDisplay(): String {
     return currency.formatAsDisplayNormalize(amount, true)
 }
 
-fun LastTransactionItem.getAmountColor(defaultColor: Color): Color {
+fun TransactionItem.getAmountColor(defaultColor: Color): Color {
     return when (type) {
         TransactionType.TRANSFER -> defaultColor
         else -> amount.getAmountColor(defaultColor)
     }
 }
 
-fun LastTransactionItem.getDateTimeDisplay(): String {
+fun TransactionItem.getDateTimeDisplay(): String {
     return date.formatDateTime()
 }
 
 @Composable
-fun LastTransactionItem.getTitle(): String {
+fun TransactionItem.getTitle(): String {
     val (emoji, text) = categoryType.getEmojiAndText()
     return stringResource(text) + " " + emoji
 }
 
 @Composable
-fun LastTransactionItem.getAccountDisplay(): String {
+fun TransactionItem.getAccountDisplay(): String {
     return when (type) {
         TransactionType.TRANSFER -> {
             if (transferAccountName.isNullOrBlank()) {
@@ -137,9 +143,9 @@ fun TopExpenseItem.getTitle(): String {
 
 // Mapper collections
 
-fun List<TransactionWithAccount>.toLastTransactionItems(): List<LastTransactionItem> {
+fun List<TransactionWithAccount>.toLastTransactionItems(): List<TransactionItem> {
     return map {
-        LastTransactionItem(
+        TransactionItem(
             transactionId = it.transaction.id,
             amount = if (it.transaction.type == TransactionType.EXPENSE) {
                 -it.transaction.amount

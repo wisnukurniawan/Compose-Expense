@@ -35,7 +35,6 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.features.transaction.summary.data.CashFlow
 import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
 import com.wisnu.kurniawan.wallee.foundation.extension.getColor
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
@@ -59,11 +58,13 @@ import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.runtime.navigation.SettingFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TransactionSummaryScreen(
     mainNavController: NavController,
+    navController: NavController,
     viewModel: TransactionSummaryViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -73,9 +74,7 @@ fun TransactionSummaryScreen(
         state = state,
         onSettingClick = { mainNavController.navigate(SettingFlow.Root.route) },
         onClickAddTransaction = { mainNavController.navigate(TransactionDetailFlow.Root.route()) },
-        onSeeMoreLastTransactionClick = {
-            // TODO open all transaction items
-        },
+        onSeeMoreLastTransactionClick = { navController.navigate(TransactionSummaryFlow.AllTransactionScreen.route) },
         onLastTransactionItemClick = {
             mainNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId))
         },
@@ -91,7 +90,7 @@ private fun TransactionSummaryScreen(
     onSettingClick: () -> Unit,
     onClickAddTransaction: () -> Unit,
     onSeeMoreLastTransactionClick: () -> Unit,
-    onLastTransactionItemClick: (LastTransactionItem) -> Unit,
+    onLastTransactionItemClick: (TransactionItem) -> Unit,
     onSeeMoreTopExpenseClick: () -> Unit,
 ) {
     if (!state.isLoading) {
@@ -138,7 +137,7 @@ private fun Header(
 private fun Content(
     state: TransactionSummaryState,
     onSeeMoreLastTransactionClick: () -> Unit,
-    onLastTransactionItemClick: (LastTransactionItem) -> Unit,
+    onLastTransactionItemClick: (TransactionItem) -> Unit,
     onSeeMoreTopExpenseClick: () -> Unit,
 ) {
     LazyColumn(
@@ -165,7 +164,7 @@ private fun Content(
         }
 
         LastTransactionCell(
-            data = state.lastTransactionItems,
+            data = state.transactionItems,
             onSeeMoreClick = onSeeMoreLastTransactionClick,
             onItemClick = onLastTransactionItemClick,
         )
@@ -304,9 +303,9 @@ private fun CashFlowContent(
 }
 
 private inline fun LazyListScope.LastTransactionCell(
-    data: List<LastTransactionItem>,
+    data: List<TransactionItem>,
     noinline onSeeMoreClick: () -> Unit,
-    noinline onItemClick: (LastTransactionItem) -> Unit,
+    noinline onItemClick: (TransactionItem) -> Unit,
 ) {
     item {
         Row(

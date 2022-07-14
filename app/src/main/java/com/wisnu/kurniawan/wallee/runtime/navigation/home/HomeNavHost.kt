@@ -86,6 +86,7 @@ private fun SmallScreenNavHost(
     ) {
         TransactionSummaryNavHost(
             mainNavController = mainNavController,
+            navController = navController,
         )
 
         BalanceSummaryNavHost(

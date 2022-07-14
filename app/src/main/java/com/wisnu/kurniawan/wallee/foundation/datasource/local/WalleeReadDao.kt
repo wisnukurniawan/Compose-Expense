@@ -73,6 +73,15 @@ interface WalleeReadDao {
         """
             SELECT * FROM TransactionDb
             LEFT JOIN AccountDb ON TransactionDb.transaction_accountId = AccountDb.account_id
+            ORDER BY TransactionDb.transaction_date DESC
+        """
+    )
+    fun getTransactionWithAccounts(): Flow<List<TransactionWithAccountDb>>
+
+    @Query(
+        """
+            SELECT * FROM TransactionDb
+            LEFT JOIN AccountDb ON TransactionDb.transaction_accountId = AccountDb.account_id
             WHERE TransactionDb.transaction_id = :id
         """
     )

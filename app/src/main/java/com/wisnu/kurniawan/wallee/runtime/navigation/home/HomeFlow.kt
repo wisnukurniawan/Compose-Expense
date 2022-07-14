@@ -29,6 +29,10 @@ sealed class TransactionSummaryFlow(val name: String) {
     object TransactionSummaryScreen : TransactionSummaryFlow("transaction-summary-screen") {
         val route = name
     }
+
+    object AllTransactionScreen : TransactionSummaryFlow("all-transaction-screen") {
+        val route = name
+    }
 }
 
 
