@@ -1,9 +1,10 @@
 package com.wisnu.kurniawan.wallee.features.account.detail.data
 
-import com.wisnu.kurniawan.wallee.model.AccountType
-import com.wisnu.kurniawan.wallee.model.Currency
-import java.math.BigDecimal
+import com.wisnu.kurniawan.wallee.features.balance.summary.data.AccountBalance
+import com.wisnu.kurniawan.wallee.model.Account
+import kotlinx.coroutines.flow.Flow
 
 interface IAccountDetailEnvironment {
-    suspend fun saveAccount(currency: Currency, amount: BigDecimal, name: String, type: AccountType)
+    fun getAccount(id: String): Flow<Account>
+    suspend fun saveAccount(account: AccountBalance)
 }

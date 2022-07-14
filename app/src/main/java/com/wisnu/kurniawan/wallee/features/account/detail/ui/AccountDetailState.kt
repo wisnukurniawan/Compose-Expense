@@ -3,8 +3,10 @@ package com.wisnu.kurniawan.wallee.features.account.detail.ui
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
+import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.Currency
+import java.time.LocalDateTime
 
 @Immutable
 data class AccountDetailState(
@@ -12,7 +14,8 @@ data class AccountDetailState(
     val accountTypeItems: List<AccountTypeItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val currency: Currency = Currency.INDONESIA,
-    val shouldShowDuplicateNameError: Boolean = false
+    val shouldShowDuplicateNameError: Boolean = false,
+    val createdAt: LocalDateTime = DateTimeProviderImpl().now(),
 )
 
 data class AccountTypeItem(

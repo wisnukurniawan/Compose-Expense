@@ -43,6 +43,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Account
+import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -56,7 +57,10 @@ fun BalanceSummaryScreen(
     BalanceSummaryScreen(
         state = state,
         onClickAccount = {
-            // TODO open specific account, pass account id
+            mainNavController.navigate(AccountDetailFlow.Root.route(it.id))
+        },
+        onClickAddAccount = {
+            mainNavController.navigate(AccountDetailFlow.Root.route())
         }
     )
 }
@@ -64,7 +68,8 @@ fun BalanceSummaryScreen(
 @Composable
 private fun BalanceSummaryScreen(
     state: BalanceSummaryState,
-    onClickAccount: (Account) -> Unit
+    onClickAccount: (Account) -> Unit,
+    onClickAddAccount: () -> Unit,
 ) {
     PgPageLayout(
         modifier = Modifier.fillMaxSize()
@@ -96,7 +101,8 @@ private fun BalanceSummaryScreen(
 
             AccountCell(
                 accountItems = state.accountItems,
-                onClickAccount = onClickAccount
+                onClickAccount = onClickAccount,
+                onClickAddAccount = onClickAddAccount
             )
 
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -144,7 +150,8 @@ private fun AllTimeSection(
 
 private inline fun LazyGridScope.AccountCell(
     accountItems: List<AccountItem>,
-    noinline onClickAccount: (Account) -> Unit
+    noinline onClickAccount: (Account) -> Unit,
+    noinline onClickAddAccount: () -> Unit,
 ) {
     item(span = { GridItemSpan(maxLineSpan) }) {
         Row(
@@ -156,9 +163,7 @@ private inline fun LazyGridScope.AccountCell(
             PgTextButton(
                 text = stringResource(R.string.add),
                 modifier = Modifier.align(Alignment.Bottom),
-                onClick = {
-
-                }
+                onClick = onClickAddAccount
             )
         }
     }
