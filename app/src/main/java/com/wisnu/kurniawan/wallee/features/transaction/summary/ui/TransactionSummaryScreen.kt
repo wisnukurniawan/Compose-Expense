@@ -22,6 +22,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
 import com.wisnu.kurniawan.wallee.foundation.extension.getColor
@@ -89,14 +91,35 @@ fun TransactionSummaryLeftScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val navBackStackEntry by rightNavController.currentBackStackEntryAsState()
+
+    LaunchedEffect(navBackStackEntry) {
+        viewModel.dispatch(TransactionSummaryAction.NavBackStackEntryChanged(navBackStackEntry?.destination?.route, navBackStackEntry?.arguments))
+    }
 
     TransactionSummaryScreen(
         state = state,
         onSettingClick = { mainNavController.navigate(SettingFlow.Root.route) },
-        onClickAddTransaction = { rightNavController.navigate(TransactionDetailFlow.Root.route()) },
-        onSeeMoreLastTransactionClick = { rightNavController.navigate(TransactionSummaryFlow.RootAllTransaction.route) },
-        onLastTransactionItemClick = { rightNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId)) },
-        onSeeMoreTopExpenseClick = { rightNavController.navigate(TransactionSummaryFlow.RootTopExpense.route) }
+        onClickAddTransaction = {
+            rightNavController.navigate(TransactionDetailFlow.Root.route()) {
+                popUpTo(TransactionSummaryFlow.RootEmpty.route)
+            }
+        },
+        onSeeMoreLastTransactionClick = {
+            rightNavController.navigate(TransactionSummaryFlow.RootAllTransaction.route) {
+                popUpTo(TransactionSummaryFlow.RootEmpty.route)
+            }
+        },
+        onLastTransactionItemClick = {
+            rightNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId)) {
+                popUpTo(TransactionSummaryFlow.RootEmpty.route)
+            }
+        },
+        onSeeMoreTopExpenseClick = {
+            rightNavController.navigate(TransactionSummaryFlow.RootTopExpense.route) {
+                popUpTo(TransactionSummaryFlow.RootEmpty.route)
+            }
+        }
     )
 }
 
@@ -366,8 +389,9 @@ private inline fun LazyListScope.LastTransactionCell(
                 note = item.note,
                 shape = cellShape(index, size),
                 shouldShowDivider = shouldShowDivider(index, size),
-                isSelected = false,
-                onClick = { onItemClick(item) }
+                isSelected = item.isSelected,
+                onClick = { onItemClick(item) },
+                textColor = item.getTextColor()
             )
         }
     }
@@ -380,8 +404,9 @@ private fun TransactionItemCell(
     dateTime: String,
     amount: String,
     amountSymbol: String,
-    amountColor: Color,
     note: String,
+    textColor: Color,
+    amountColor: Color,
     shape: Shape,
     shouldShowDivider: Boolean,
     isSelected: Boolean,
@@ -408,11 +433,13 @@ private fun TransactionItemCell(
             ) {
                 PgContentTitle(
                     text = title,
-                    modifier = Modifier.padding(end = 4.dp)
+                    modifier = Modifier.padding(end = 4.dp),
+                    color = textColor
                 )
 
                 PgDateLabel(
                     text = dateTime,
+                    color = textColor
                 )
             }
 
@@ -425,13 +452,13 @@ private fun TransactionItemCell(
 
             PgContentTitle(
                 text = account,
-                color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
+                color = textColor.copy(AlphaDisabled),
                 modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
             )
 
             PgContentTitle(
                 text = note,
-                color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
+                color = textColor.copy(AlphaDisabled),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)

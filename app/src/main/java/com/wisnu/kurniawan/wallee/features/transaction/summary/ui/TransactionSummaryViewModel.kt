@@ -3,6 +3,8 @@ package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.features.transaction.summary.data.ITransactionSummaryEnvironment
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
+import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_TRANSACTION_ID
+import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -60,7 +62,33 @@ class TransactionSummaryViewModel @Inject constructor(
     }
 
     override fun dispatch(action: TransactionSummaryAction) {
-
+        when (action) {
+            is TransactionSummaryAction.NavBackStackEntryChanged -> {
+                viewModelScope.launch {
+                    when (action.route) {
+                        TransactionDetailFlow.TransactionDetail.route -> {
+                            val transactionId = action.arguments?.getString(ARG_TRANSACTION_ID)
+                            setState {
+                                copy(
+                                    transactionItems = transactionItems.map {
+                                        it.copy(isSelected = it.transactionId == transactionId)
+                                    }
+                                )
+                            }
+                        }
+                        else -> {
+                            setState {
+                                copy(
+                                    transactionItems = transactionItems.map {
+                                        it.copy(isSelected = false)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

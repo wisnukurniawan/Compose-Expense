@@ -168,6 +168,7 @@ fun PgAmountLabel(
 }
 
 private const val TEXT_SCALE_REDUCTION_INTERVAL = 0.9f
+
 @Composable
 fun PgAmountLabel(
     modifier: Modifier = Modifier,
@@ -221,9 +222,10 @@ fun PgErrorLabel(
 fun PgDateLabel(
     modifier: Modifier = Modifier,
     text: String,
+    color: Color = MaterialTheme.colorScheme.onBackground,
 ) {
     Text(
-        style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaMedium)),
+        style = MaterialTheme.typography.bodySmall.copy(color = color.copy(alpha = AlphaMedium)),
         text = text,
         modifier = modifier
     )

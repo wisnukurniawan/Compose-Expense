@@ -20,8 +20,8 @@ fun NavGraphBuilder.TransactionDetailNavHost(
     bottomSheetConfig: MutableState<BottomSheetConfig>
 ) {
     navigation(
+        route = TransactionDetailFlow.Root.route,
         startDestination = TransactionDetailFlow.TransactionDetail.route,
-        route = TransactionDetailFlow.Root.route
     ) {
         composable(
             route = TransactionDetailFlow.TransactionDetail.route,

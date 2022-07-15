@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
@@ -59,7 +60,8 @@ data class TransactionItem(
     val transferAccountName: String?,
     val currency: Currency,
     val note: String,
-    val type: TransactionType
+    val type: TransactionType,
+    val isSelected: Boolean = false
 )
 
 data class TopExpenseItem(
@@ -109,6 +111,15 @@ fun TransactionItem.getAmountColor(defaultColor: Color): Color {
 
 fun TransactionItem.getDateTimeDisplay(): String {
     return date.formatDateTime()
+}
+
+@Composable
+fun TransactionItem.getTextColor(): Color {
+    return if (isSelected) {
+        MaterialTheme.colorScheme.onPrimary
+    } else {
+        MaterialTheme.colorScheme.onBackground
+    }
 }
 
 @Composable

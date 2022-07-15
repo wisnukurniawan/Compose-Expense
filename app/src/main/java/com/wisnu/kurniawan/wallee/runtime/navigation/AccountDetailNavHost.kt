@@ -18,8 +18,8 @@ fun NavGraphBuilder.AccountDetailNavHost(
     bottomSheetConfig: MutableState<BottomSheetConfig>
 ) {
     navigation(
-        startDestination = AccountDetailFlow.AccountDetail.route,
-        route = AccountDetailFlow.Root.route
+        route = AccountDetailFlow.Root.route,
+        startDestination = AccountDetailFlow.AccountDetail.route
     ) {
         composable(
             route = AccountDetailFlow.AccountDetail.route,
