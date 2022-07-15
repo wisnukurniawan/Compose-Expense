@@ -1,12 +1,25 @@
 package com.wisnu.kurniawan.wallee.runtime.navigation.home
 
+import androidx.navigation.navArgument
+import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_IS_DUAL_PORTRAIT
+
 sealed class HomeFlow(val name: String) {
     object Root : HomeFlow("home-root") {
-        val route = name
+        val route = "$name?$ARG_IS_DUAL_PORTRAIT={$ARG_IS_DUAL_PORTRAIT}"
+
+        fun route(isDualPortrait: String): String {
+            return "$name?$ARG_IS_DUAL_PORTRAIT=${isDualPortrait}"
+        }
     }
 
     object DashboardScreen : HomeFlow("dashboard-screen") {
-        val route = name
+        val arguments = listOf(
+            navArgument(ARG_IS_DUAL_PORTRAIT) {
+                defaultValue = ""
+            }
+        )
+
+        val route = "$name?$ARG_IS_DUAL_PORTRAIT={$ARG_IS_DUAL_PORTRAIT}"
     }
 }
 

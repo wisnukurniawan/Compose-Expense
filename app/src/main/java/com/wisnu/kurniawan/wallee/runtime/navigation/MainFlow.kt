@@ -98,6 +98,7 @@ sealed class SettingFlow(val name: String) {
 
 const val ARG_TRANSACTION_ID = "transactionId"
 const val ARG_ACCOUNT_ID = "accountId"
+const val ARG_IS_DUAL_PORTRAIT = "isDualPortrait"
 
 // Problem
 // a lot of nav, how to prevent duplication aka idempotency

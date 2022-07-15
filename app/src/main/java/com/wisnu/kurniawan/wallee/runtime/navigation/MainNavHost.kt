@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.wisnu.kurniawan.wallee.features.splash.ui.SplashLargeScreen
 import com.wisnu.kurniawan.wallee.features.splash.ui.SplashScreen
 import com.wisnu.kurniawan.wallee.features.splash.ui.SplashViewModel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
@@ -93,12 +94,12 @@ private fun LargeScreenNavHost(
     ) {
         composable(route = MainFlow.Root.route) {
             val viewModel = hiltViewModel<SplashViewModel>()
-            SplashScreen(navController = navController, viewModel = viewModel)
+            SplashLargeScreen(navController = navController, viewModel = viewModel, windowState = windowState)
         }
 
         AuthNavHost(navController)
 
-        LargeHomeNavHost(navController, windowState)
+        LargeHomeNavHost(navController)
 
         SettingNavHost(navController, bottomSheetConfig)
     }

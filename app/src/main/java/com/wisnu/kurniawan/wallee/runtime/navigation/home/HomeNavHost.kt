@@ -33,12 +33,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.wisnu.kurniawan.coreLogger.Loggr
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardBottomBar
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardHostViewModel
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardNavRail
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
-import com.wisnu.kurniawan.wallee.foundation.window.WindowState
+import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_IS_DUAL_PORTRAIT
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailNavHost
 import com.wisnu.kurniawan.wallee.runtime.navigation.BottomSheetConfig
 import com.wisnu.kurniawan.wallee.runtime.navigation.DefaultBottomSheetConfig
@@ -47,7 +46,10 @@ import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailNavHost
 fun NavGraphBuilder.HomeNavHost(
     navController: NavHostController,
 ) {
-    navigation(startDestination = HomeFlow.DashboardScreen.route, route = HomeFlow.Root.route) {
+    navigation(
+        route = HomeFlow.Root.route,
+        startDestination = HomeFlow.DashboardScreen.route
+    ) {
         composable(HomeFlow.DashboardScreen.route) {
             SmallScreen(navController)
         }
@@ -56,20 +58,20 @@ fun NavGraphBuilder.HomeNavHost(
 
 fun NavGraphBuilder.LargeHomeNavHost(
     navController: NavHostController,
-    windowState: WindowState
 ) {
-    navigation(startDestination = HomeFlow.DashboardScreen.route, route = HomeFlow.Root.route) {
-        composable(HomeFlow.DashboardScreen.route) {
-            val isDualPortrait = windowState.isDualPortrait()
-            val isDualLandscape = windowState.isDualLandscape()
-            val isDualScreen = windowState.isDualScreen()
-
-            Loggr.debug { "wisnukrn window state ${isDualPortrait} $isDualLandscape $isDualScreen" }
-
+    navigation(
+        route = HomeFlow.Root.route,
+        startDestination = HomeFlow.DashboardScreen.route,
+    ) {
+        composable(
+            route = HomeFlow.DashboardScreen.route,
+            arguments = HomeFlow.DashboardScreen.arguments
+        ) {
+            val isDualPortrait = it.arguments?.getString(ARG_IS_DUAL_PORTRAIT).toBoolean()
             if (isDualPortrait) {
-                LargeScreen(navController, true, 1F, 1F)
+                LargeScreen(navController, 1F, 1F)
             } else {
-                LargeScreen(navController, false, 0.45F, 0.55F)
+                LargeScreen(navController, 0.45F, 0.55F)
             }
         }
     }
@@ -116,7 +118,6 @@ private fun SmallScreen(
 @Composable
 private fun LargeScreen(
     mainNavController: NavHostController,
-    isDualPortrait: Boolean,
     weightLeft: Float,
     weightRight: Float,
 ) {
@@ -144,42 +145,26 @@ private fun LargeScreen(
                     Color.Transparent
                 }
             ) {
-                if (isDualPortrait) {
-                    Box(Modifier.fillMaxSize()) {
-                        NavHostSmall(
-                            mainNavController = mainNavController,
-                            navController = leftNavController,
-                        )
-
-                        DashboardBottomBar(
-                            modifier = Modifier.align(Alignment.BottomStart),
-                            homeNavController = leftNavController,
-                            viewModel = viewModel,
-                            currentDestination = currentDestination
-                        )
-                    }
-                } else {
-                    Row(
-                        Modifier
-                            .fillMaxSize()
-                            .windowInsetsPadding(
-                                WindowInsets.safeDrawing.only(
-                                    WindowInsetsSides.Horizontal
-                                )
+                Row(
+                    Modifier
+                        .fillMaxSize()
+                        .windowInsetsPadding(
+                            WindowInsets.safeDrawing.only(
+                                WindowInsetsSides.Horizontal
                             )
-                    ) {
-                        DashboardNavRail(
-                            homeNavController = leftNavController,
-                            viewModel = viewModel,
-                            currentDestination = currentDestination
                         )
+                ) {
+                    DashboardNavRail(
+                        homeNavController = leftNavController,
+                        viewModel = viewModel,
+                        currentDestination = currentDestination
+                    )
 
-                        NavHostLeft(
-                            mainNavController = mainNavController,
-                            leftNavController = leftNavController,
-                            rightNavController = rightNavController
-                        )
-                    }
+                    NavHostLeft(
+                        mainNavController = mainNavController,
+                        leftNavController = leftNavController,
+                        rightNavController = rightNavController
+                    )
                 }
             }
         }
