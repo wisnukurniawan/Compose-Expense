@@ -80,6 +80,26 @@ fun TransactionSummaryScreen(
     )
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
+@Composable
+fun TransactionSummaryLeftScreen(
+    mainNavController: NavController,
+    rightNavController: NavController,
+    viewModel: TransactionSummaryViewModel
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+
+    TransactionSummaryScreen(
+        state = state,
+        onSettingClick = { mainNavController.navigate(SettingFlow.Root.route) },
+        onClickAddTransaction = { rightNavController.navigate(TransactionDetailFlow.Root.route()) },
+        onSeeMoreLastTransactionClick = { rightNavController.navigate(TransactionSummaryFlow.RootAllTransaction.route) },
+        onLastTransactionItemClick = { rightNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId)) },
+        onSeeMoreTopExpenseClick = { rightNavController.navigate(TransactionSummaryFlow.RootTopExpense.route) }
+    )
+}
+
 @Composable
 private fun TransactionSummaryScreen(
     state: TransactionSummaryState,

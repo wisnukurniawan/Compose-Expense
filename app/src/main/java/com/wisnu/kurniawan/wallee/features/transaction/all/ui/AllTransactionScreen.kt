@@ -62,6 +62,23 @@ fun AllTransactionScreen(
     )
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
+@Composable
+fun AllTransactionRightScreen(
+    rightNavController: NavController,
+    viewModel: AllTransactionViewModel
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+
+    AllTransactionScreen(
+        state = state,
+        onTransactionItemClick = {
+            rightNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId))
+        },
+    )
+}
+
 @Composable
 private fun AllTransactionScreen(
     state: AllTransactionState,

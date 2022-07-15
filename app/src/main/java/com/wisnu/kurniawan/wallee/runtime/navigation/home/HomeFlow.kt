@@ -26,11 +26,23 @@ sealed class TransactionSummaryFlow(val name: String) {
         val route = name
     }
 
+    object RootEmpty : TransactionSummaryFlow("transaction-summary-root-empty") {
+        val route = name
+    }
+
     object TransactionSummaryScreen : TransactionSummaryFlow("transaction-summary-screen") {
         val route = name
     }
 
+    object RootAllTransaction : TransactionSummaryFlow("all-transaction-root") {
+        val route = name
+    }
+
     object AllTransactionScreen : TransactionSummaryFlow("all-transaction-screen") {
+        val route = name
+    }
+
+    object RootTopExpense : TransactionSummaryFlow("top-expense-root") {
         val route = name
     }
 

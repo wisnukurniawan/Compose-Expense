@@ -19,6 +19,7 @@ import com.wisnu.kurniawan.wallee.features.splash.ui.SplashViewModel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
 import com.wisnu.kurniawan.wallee.foundation.window.WindowState
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeNavHost
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.LargeHomeNavHost
 
 const val MinLargeScreenWidth = 585
 const val BASE_DEEPLINK = "wallee://com.wisnu.kurniawan"
@@ -42,7 +43,11 @@ fun MainNavHost(windowState: WindowState) {
             Color.Transparent
         }
     ) {
-        SmallScreenNavHost(bottomSheetNavigator, bottomSheetConfig)
+        if (isLargeScreen) {
+            LargeScreenNavHost(bottomSheetNavigator, bottomSheetConfig, windowState)
+        } else {
+            SmallScreenNavHost(bottomSheetNavigator, bottomSheetConfig)
+        }
     }
 }
 
@@ -69,6 +74,31 @@ private fun SmallScreenNavHost(
         TransactionDetailNavHost(navController, bottomSheetConfig)
 
         AccountDetailNavHost(navController, bottomSheetConfig)
+
+        SettingNavHost(navController, bottomSheetConfig)
+    }
+}
+
+@OptIn(ExperimentalMaterialNavigationApi::class)
+@Composable
+private fun LargeScreenNavHost(
+    bottomSheetNavigator: BottomSheetNavigator,
+    bottomSheetConfig: MutableState<BottomSheetConfig>,
+    windowState: WindowState
+) {
+    val navController = rememberNavController(bottomSheetNavigator)
+    NavHost(
+        navController = navController,
+        startDestination = MainFlow.Root.route
+    ) {
+        composable(route = MainFlow.Root.route) {
+            val viewModel = hiltViewModel<SplashViewModel>()
+            SplashScreen(navController = navController, viewModel = viewModel)
+        }
+
+        AuthNavHost(navController)
+
+        LargeHomeNavHost(navController, windowState)
 
         SettingNavHost(navController, bottomSheetConfig)
     }

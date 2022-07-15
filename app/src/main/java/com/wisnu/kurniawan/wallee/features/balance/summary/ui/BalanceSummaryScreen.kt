@@ -65,6 +65,26 @@ fun BalanceSummaryScreen(
     )
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
+@Composable
+fun BalanceSummaryLeftScreen(
+    rightNavController: NavController,
+    viewModel: BalanceSummaryViewModel
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+
+    BalanceSummaryScreen(
+        state = state,
+        onClickAccount = {
+            rightNavController.navigate(AccountDetailFlow.Root.route(it.id))
+        },
+        onClickAddAccount = {
+            rightNavController.navigate(AccountDetailFlow.Root.route())
+        }
+    )
+}
+
 @Composable
 private fun BalanceSummaryScreen(
     state: BalanceSummaryState,
