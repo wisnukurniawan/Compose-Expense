@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.features.balance.summary.data.IBalanceSummaryEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.getDefaultAccount
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
+import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_ACCOUNT_ID
+import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -33,6 +35,34 @@ class BalanceSummaryViewModel @Inject constructor(
     }
 
     override fun dispatch(action: BalanceSummaryAction) {
+        when(action) {
+            is BalanceSummaryAction.NavBackStackEntryChanged -> {
+                viewModelScope.launch {
+                    when (action.route) {
+                        AccountDetailFlow.AccountDetail.route -> {
+                            val accountId = action.arguments?.getString(ARG_ACCOUNT_ID)
+                            setState {
+                                copy(
+                                    accountItems = accountItems.map {
+                                        it.copy(isSelected = it.account.id == accountId)
+                                    }
+                                )
+                            }
+                        }
+                        else -> {
+                            setState {
+                                copy(
+                                    accountItems = accountItems.map {
+                                        it.copy(isSelected = false)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
     }
 

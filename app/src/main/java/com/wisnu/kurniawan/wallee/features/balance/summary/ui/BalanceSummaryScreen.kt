@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
@@ -44,6 +46,7 @@ import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLife
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -73,14 +76,23 @@ fun BalanceSummaryLeftScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val navBackStackEntry by rightNavController.currentBackStackEntryAsState()
+
+    LaunchedEffect(navBackStackEntry) {
+        viewModel.dispatch(BalanceSummaryAction.NavBackStackEntryChanged(navBackStackEntry?.destination?.route, navBackStackEntry?.arguments))
+    }
 
     BalanceSummaryScreen(
         state = state,
         onClickAccount = {
-            rightNavController.navigate(AccountDetailFlow.Root.route(it.id))
+            rightNavController.navigate(AccountDetailFlow.Root.route(it.id)) {
+                popUpTo(TransactionSummaryFlow.RootEmpty.route)
+            }
         },
         onClickAddAccount = {
-            rightNavController.navigate(AccountDetailFlow.Root.route())
+            rightNavController.navigate(AccountDetailFlow.Root.route()) {
+                popUpTo(TransactionSummaryFlow.RootEmpty.route)
+            }
         }
     )
 }
@@ -201,6 +213,8 @@ private inline fun LazyGridScope.AccountCell(
             ),
             totalTransaction = stringResource(R.string.balance_total_transaction, it.totalTransaction),
             updatedAt = it.account.getDateTimeDisplay(),
+            isSelected = it.isSelected,
+            textColor = it.getTextColor(),
             onClick = { onClickAccount(it.account) }
         )
     }
@@ -211,9 +225,11 @@ private fun AccountCellItem(
     accountName: String,
     totalAmount: String,
     amountSymbol: String,
-    amountColor: Color,
     totalTransaction: String,
     updatedAt: String,
+    amountColor: Color,
+    textColor: Color,
+    isSelected: Boolean,
     onClick: () -> Unit
 ) {
     Surface(
@@ -222,7 +238,11 @@ private fun AccountCellItem(
             .clip(MaterialTheme.shapes.medium)
             .clickable(onClick = onClick),
         shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.secondary,
+        color = if (isSelected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.secondary
+        }
     ) {
         Column(
             modifier = Modifier
@@ -233,7 +253,8 @@ private fun AccountCellItem(
             Column {
                 PgContentTitle(
                     text = accountName,
-                    modifier = Modifier.padding(bottom = 2.dp)
+                    modifier = Modifier.padding(bottom = 2.dp),
+                    color = textColor
                 )
                 PgAmountLabel(
                     modifier = Modifier,
@@ -246,11 +267,12 @@ private fun AccountCellItem(
             Column {
                 PgContentTitle(
                     text = totalTransaction,
-                    color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
+                    color = textColor.copy(AlphaDisabled),
                     modifier = Modifier.padding(bottom = 2.dp)
                 )
                 PgDateLabel(
                     text = updatedAt,
+                    color = textColor
                 )
             }
         }

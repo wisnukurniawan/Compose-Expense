@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.balance.summary.ui
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
@@ -36,7 +37,8 @@ data class BalanceSummaryState(
 
 data class AccountItem(
     val totalTransaction: Int,
-    val account: Account
+    val account: Account,
+    val isSelected: Boolean = false
 )
 
 // Collections
@@ -55,6 +57,15 @@ fun Account.getTotalBalanceDisplay(): String {
 
 fun Account.getTotalBalanceColor(defaultColor: Color): Color {
     return amount.getAmountColor(defaultColor)
+}
+
+@Composable
+fun AccountItem.getTextColor(): Color {
+    return if (isSelected) {
+        MaterialTheme.colorScheme.onPrimary
+    } else {
+        MaterialTheme.colorScheme.onBackground
+    }
 }
 
 @Composable
