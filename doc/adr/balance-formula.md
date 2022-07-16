@@ -12,6 +12,9 @@ PS: why it become 10.000 not 30.000?, because the income is already accumulated 
 
 ### Proposed formula to calculate balance after editing a transaction:
 ```
+balance edited time before
+transaction_amount record
+
 prev_transaction_amount = get_transaction_amount_before_balance_edited
 current_balance = current_balance + (new_transaction_amount - prev_transaction_amount)
 ```

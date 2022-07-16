@@ -4,12 +4,18 @@ import com.wisnu.kurniawan.wallee.foundation.di.DiName
 import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.foundation.extension.toAccount
 import com.wisnu.kurniawan.wallee.foundation.extension.toAccountDb
+import com.wisnu.kurniawan.wallee.foundation.extension.toAccountRecord
+import com.wisnu.kurniawan.wallee.foundation.extension.toAccountRecordDb
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransaction
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionDb
+import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionRecord
+import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionRecordDb
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionWithAccount
 import com.wisnu.kurniawan.wallee.model.Account
+import com.wisnu.kurniawan.wallee.model.AccountRecord
 import com.wisnu.kurniawan.wallee.model.TopTransaction
 import com.wisnu.kurniawan.wallee.model.Transaction
+import com.wisnu.kurniawan.wallee.model.TransactionRecord
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 import java.time.LocalDateTime
@@ -58,6 +64,13 @@ class LocalManager @Inject constructor(
         return walleeReadDao.getAccount(id)
             .filterNotNull()
             .map { it.toAccount() }
+            .flowOn(dispatcher)
+    }
+
+    fun getTransaction(id: String): Flow<Transaction> {
+        return walleeReadDao.getTransaction(id)
+            .filterNotNull()
+            .map { it.toTransaction() }
             .flowOn(dispatcher)
     }
 
@@ -159,6 +172,18 @@ class LocalManager @Inject constructor(
             .flowOn(dispatcher)
     }
 
+    fun getAccountRecord(accountId: String): Flow<AccountRecord?> {
+        return walleeReadDao.getAccountRecord(accountId)
+            .map { it.toAccountRecord() }
+            .flowOn(dispatcher)
+    }
+
+    fun getTransactionRecord(beforeDate: LocalDateTime, transactionId: String): Flow<TransactionRecord?> {
+        return walleeReadDao.getTransactionRecord(beforeDate, transactionId)
+            .map { it.toTransactionRecord() }
+            .flowOn(dispatcher)
+    }
+
     suspend fun insertAccount(account: Account) {
         withContext(dispatcher) {
             walleeWriteDao.insertAccount(account.toAccountDb())
@@ -192,6 +217,18 @@ class LocalManager @Inject constructor(
     suspend fun deleteTransaction(id: String) {
         withContext(dispatcher) {
             walleeWriteDao.deleteTransaction(id)
+        }
+    }
+
+    suspend fun insertAccountRecord(accountRecord: AccountRecord) {
+        withContext(dispatcher) {
+            walleeWriteDao.insertAccountRecord(accountRecord.toAccountRecordDb())
+        }
+    }
+
+    suspend fun insertTransactionRecord(transactionRecord: TransactionRecord) {
+        withContext(dispatcher) {
+            walleeWriteDao.insertTransactionRecord(transactionRecord.toTransactionRecordDb())
         }
     }
 

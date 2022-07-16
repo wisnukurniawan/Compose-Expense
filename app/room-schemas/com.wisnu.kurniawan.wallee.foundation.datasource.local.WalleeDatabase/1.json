@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7f54294ab4b15715ba77cf8f5ebe68ec",
+    "identityHash": "6244620e1804ef6e7f3b53d5240c3b3e",
     "entities": [
       {
         "tableName": "AccountDb",
@@ -171,12 +171,132 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "AccountRecordDb",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`account_record_id` TEXT NOT NULL, `account_record_accountId` TEXT NOT NULL, `account_record_amount` INTEGER NOT NULL, `account_record_createdAt` INTEGER NOT NULL, PRIMARY KEY(`account_record_id`), FOREIGN KEY(`account_record_accountId`) REFERENCES `AccountDb`(`account_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "account_record_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "account_record_accountId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "account_record_amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "account_record_createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "account_record_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_AccountRecordDb_account_record_accountId",
+            "unique": false,
+            "columnNames": [
+              "account_record_accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccountRecordDb_account_record_accountId` ON `${TABLE_NAME}` (`account_record_accountId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountDb",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "account_record_accountId"
+            ],
+            "referencedColumns": [
+              "account_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "TransactionRecordDb",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_record_id` TEXT NOT NULL, `transaction_record_transactionId` TEXT NOT NULL, `transaction_record_amount` INTEGER NOT NULL, `transaction_record_createdAt` INTEGER NOT NULL, PRIMARY KEY(`transaction_record_id`), FOREIGN KEY(`transaction_record_transactionId`) REFERENCES `TransactionDb`(`transaction_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "transaction_record_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionId",
+            "columnName": "transaction_record_transactionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "transaction_record_amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "transaction_record_createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "transaction_record_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_TransactionRecordDb_transaction_record_transactionId",
+            "unique": false,
+            "columnNames": [
+              "transaction_record_transactionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_TransactionRecordDb_transaction_record_transactionId` ON `${TABLE_NAME}` (`transaction_record_transactionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "TransactionDb",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "transaction_record_transactionId"
+            ],
+            "referencedColumns": [
+              "transaction_id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7f54294ab4b15715ba77cf8f5ebe68ec')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6244620e1804ef6e7f3b53d5240c3b3e')"
     ]
   }
 }

@@ -1,11 +1,15 @@
 package com.wisnu.kurniawan.wallee.foundation.extension
 
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountRecordDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionRecordDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionWithAccountDb
 import com.wisnu.kurniawan.wallee.model.Account
+import com.wisnu.kurniawan.wallee.model.AccountRecord
 import com.wisnu.kurniawan.wallee.model.Currency
 import com.wisnu.kurniawan.wallee.model.Transaction
+import com.wisnu.kurniawan.wallee.model.TransactionRecord
 import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 
 fun List<TransactionDb>.toTransaction() = map {
@@ -64,6 +68,32 @@ fun AccountDb.toAccount(transactions: List<Transaction> = listOf()) = Account(
     updatedAt = updatedAt,
     transactions = transactions
 )
+
+fun AccountRecordDb?.toAccountRecord(): AccountRecord? {
+    return if (this != null) {
+        AccountRecord(
+            id = id,
+            amount = amount.toBigDecimal(),
+            createdAt = createdAt,
+            accountId = accountId
+        )
+    } else {
+        null
+    }
+}
+
+fun TransactionRecordDb?.toTransactionRecord(): TransactionRecord? {
+    return if (this != null) {
+        TransactionRecord(
+            id = id,
+            amount = amount.toBigDecimal(),
+            createdAt = createdAt,
+            transactionId = transactionId
+        )
+    } else {
+        null
+    }
+}
 
 fun String.toCurrency(): Currency {
     return when (this) {

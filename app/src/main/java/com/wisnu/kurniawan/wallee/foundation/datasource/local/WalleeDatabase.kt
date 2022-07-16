@@ -7,7 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountRecordDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionRecordDb
 import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
@@ -23,6 +25,8 @@ import kotlinx.coroutines.launch
     entities = [
         AccountDb::class,
         TransactionDb::class,
+        AccountRecordDb::class,
+        TransactionRecordDb::class,
     ],
     version = 1,
 )

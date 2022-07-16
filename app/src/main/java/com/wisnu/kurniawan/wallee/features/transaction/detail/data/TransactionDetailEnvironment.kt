@@ -2,9 +2,13 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.data
 
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
 import com.wisnu.kurniawan.wallee.foundation.extension.asData
+import com.wisnu.kurniawan.wallee.foundation.extension.isAmountChanged
+import com.wisnu.kurniawan.wallee.foundation.extension.isChanged
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.foundation.wrapper.IdProvider
 import com.wisnu.kurniawan.wallee.model.Account
+import com.wisnu.kurniawan.wallee.model.Transaction
+import com.wisnu.kurniawan.wallee.model.TransactionRecord
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 import java.math.BigDecimal
@@ -38,32 +42,37 @@ class TransactionDetailEnvironment @Inject constructor(
     }
 
     override suspend fun saveTransaction(transactionWithAccount: TransactionWithAccount): Flow<Boolean> {
-        val transactionAmount = transactionWithAccount.transaction.amount.asData()
-        return if (transactionWithAccount.transaction.id.isEmpty()) {
+        val newTransaction = transactionWithAccount.transaction.copy(
+            amount = transactionWithAccount.transaction.amount.asData()
+        )
+        val account = transactionWithAccount.account
+        val transferAccount = transactionWithAccount.transferAccount
+
+        return if (newTransaction.id.isEmpty()) {
             localManager.insertTransaction(
-                transactionWithAccount.account.id,
-                transactionWithAccount.transferAccount?.id,
-                transactionWithAccount.transaction.copy(
+                account.id,
+                transferAccount?.id,
+                newTransaction.copy(
                     id = idProvider.generate(),
-                    amount = transactionAmount,
+                    amount = newTransaction.amount,
                     createdAt = dateTimeProvider.now()
                 )
             )
 
-            when (transactionWithAccount.transaction.type) {
+            when (newTransaction.type) {
                 TransactionType.EXPENSE -> {
-                    reduceAccountAmount(transactionWithAccount.account, transactionAmount)
+                    reduceAccountAmount(account, newTransaction.amount)
                         .map { true }
                 }
                 TransactionType.INCOME -> {
-                    transferAccountAmount(transactionWithAccount.account, transactionAmount)
+                    transferAccountAmount(account, newTransaction.amount)
                         .map { true }
                 }
                 TransactionType.TRANSFER -> {
                     combine(
-                        reduceAccountAmount(transactionWithAccount.account, transactionAmount),
-                        if (transactionWithAccount.transferAccount != null) {
-                            transferAccountAmount(transactionWithAccount.transferAccount, transactionAmount)
+                        reduceAccountAmount(account, newTransaction.amount),
+                        if (transferAccount != null) {
+                            transferAccountAmount(transferAccount, newTransaction.amount)
                         } else {
                             flowOf(true)
                         }
@@ -73,16 +82,48 @@ class TransactionDetailEnvironment @Inject constructor(
                 }
             }
         } else {
+            localManager.getTransaction(newTransaction.id)
+                .take(1)
+                .onEach {
+                    update(
+                        accountId = account.id,
+                        transferAccountId = transferAccount?.id,
+                        transaction = it,
+                        newTransaction = newTransaction
+                    )
+                }
+                .map { true }
+        }
+    }
+
+    private suspend fun update(
+        accountId: String,
+        transferAccountId: String?,
+        transaction: Transaction,
+        newTransaction: Transaction
+    ) {
+        if (transaction.isChanged(newTransaction)) {
+            record(transaction, newTransaction)
             localManager.updateTransaction(
-                transactionWithAccount.account.id,
-                transactionWithAccount.transferAccount?.id,
-                transactionWithAccount.transaction.copy(
-                    amount = transactionAmount,
+                accountId,
+                transferAccountId,
+                newTransaction.copy(
                     updatedAt = dateTimeProvider.now()
                 )
             )
+        }
+    }
 
-            flowOf(true)
+    private suspend fun record(transaction: Transaction, newTransaction: Transaction) {
+        if (transaction.isAmountChanged(newTransaction)) {
+            localManager.insertTransactionRecord(
+                TransactionRecord(
+                    id = idProvider.generate(),
+                    transactionId = transaction.id,
+                    amount = transaction.amount,
+                    createdAt = dateTimeProvider.now()
+                )
+            )
         }
     }
 

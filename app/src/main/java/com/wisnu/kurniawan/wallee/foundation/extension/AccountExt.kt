@@ -17,3 +17,13 @@ fun AccountType.getLabel(): Int {
 fun List<Account>.getDefaultAccount(): Account {
     return find { it.id == DEFAULT_ACCOUNT_ID }!!
 }
+
+fun Account.isChanged(newAccount: Account): Boolean {
+    return isAmountChanged(newAccount) ||
+        type != newAccount.type ||
+        name != newAccount.name
+}
+
+fun Account.isAmountChanged(newAccount: Account): Boolean {
+    return amount != newAccount.amount
+}

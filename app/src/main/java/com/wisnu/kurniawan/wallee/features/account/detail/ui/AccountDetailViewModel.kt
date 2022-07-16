@@ -78,11 +78,11 @@ class AccountDetailViewModel @Inject constructor(
                             type = state.value.selectedAccountType(),
                             createdAt = state.value.createdAt
                         )
-                        environment.saveAccount(
-                            account
-                        )
-                        setState { copy(shouldShowDuplicateNameError = false) }
-                        setEffect(AccountDetailEffect.ClosePage)
+                        environment.saveAccount(account)
+                            .collect {
+                                setState { copy(shouldShowDuplicateNameError = false) }
+                                setEffect(AccountDetailEffect.ClosePage)
+                            }
                     } catch (e: Exception) {
                         isSaveInProgress.value = false
                         setState { copy(shouldShowDuplicateNameError = true) }

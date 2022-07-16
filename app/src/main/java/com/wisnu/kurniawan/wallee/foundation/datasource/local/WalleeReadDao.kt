@@ -3,9 +3,11 @@ package com.wisnu.kurniawan.wallee.foundation.datasource.local
 import androidx.room.Dao
 import androidx.room.Query
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountRecordDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountWithTransaction
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TopTransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionRecordDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionWithAccountDb
 import com.wisnu.kurniawan.wallee.model.TransactionType
 import java.time.LocalDateTime
@@ -22,6 +24,16 @@ interface WalleeReadDao {
 
     @Query("SELECT * FROM AccountDb WHERE account_id = :id")
     fun getAccount(id: String): Flow<AccountDb>
+
+    @Query(
+        """
+            SELECT * FROM TransactionDb
+            WHERE TransactionDb.transaction_id = :id
+        """
+    )
+    fun getTransaction(
+        id: String
+    ): Flow<TransactionDb>
 
     @Query(
         """
@@ -99,5 +111,25 @@ interface WalleeReadDao {
         id: String
     ): Flow<TransactionWithAccountDb>
 
+    @Query(
+        """
+            SELECT * FROM AccountRecordDb
+            WHERE AccountRecordDb.account_record_accountId = :accountId
+            ORDER BY AccountRecordDb.account_record_createdAt DESC
+            LIMIT 1
+        """
+    )
+    fun getAccountRecord(accountId: String): Flow<AccountRecordDb?>
+
+    @Query(
+        """
+            SELECT * FROM TransactionRecordDb
+            WHERE TransactionRecordDb.transaction_record_transactionId = :transactionId
+            AND TransactionRecordDb.transaction_record_createdAt <= :beforeDate
+            ORDER BY TransactionRecordDb.transaction_record_createdAt DESC
+            LIMIT 1
+        """
+    )
+    fun getTransactionRecord(beforeDate: LocalDateTime, transactionId: String): Flow<TransactionRecordDb?>
 
 }
