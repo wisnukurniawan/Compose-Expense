@@ -57,9 +57,9 @@ class AccountDetailEnvironment @Inject constructor(
             )
 
             localManager.getAccount(account.id).take(1)
-                .onEach { account ->
-                    record(account, newAccount, changeReason)
-                    update(account, newAccount)
+                .onEach { oldAccount ->
+                    record(oldAccount, newAccount, changeReason)
+                    update(oldAccount, newAccount)
                 }
                 .map { true }
         }
