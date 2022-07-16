@@ -12,32 +12,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalBackHeader
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.Profile
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
-import com.wisnu.kurniawan.wallee.runtime.navigation.MainFlow
-import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun LogoutScreen(
-    navController: NavController,
-    viewModel: LogoutViewModel
+    viewModel: LogoutViewModel,
+    onClickBack: () -> Unit,
+    onLogout: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
 
     if (effect is LogoutEffect.NavigateToSplash) {
         LaunchedEffect(effect) {
-            navController.navigate(MainFlow.Root.route) {
-                popUpTo(HomeFlow.DashboardScreen.route) {
-                    inclusive = true
-                }
-            }
+            onLogout()
         }
     }
 
@@ -45,9 +39,7 @@ fun LogoutScreen(
         title = {
             PgModalBackHeader(
                 text = stringResource(R.string.setting_logout_confirm),
-                onClickBack = {
-                    navController.navigateUp()
-                }
+                onClickBack = onClickBack
             )
         },
         content = {

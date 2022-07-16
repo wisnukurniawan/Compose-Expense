@@ -49,7 +49,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
@@ -71,13 +70,16 @@ import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.TransactionType
-import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TransactionDetailScreen(
-    navController: NavController,
-    viewModel: TransactionDetailViewModel
+    viewModel: TransactionDetailViewModel,
+    onClosePage: () -> Unit,
+    onCancelClick: () -> Unit,
+    onAccountSectionClick: () -> Unit,
+    onCategorySectionClick: () -> Unit,
+    onTransferAccountSectionClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
@@ -88,7 +90,7 @@ fun TransactionDetailScreen(
     when (effect) {
         TransactionEffect.ClosePage -> {
             LaunchedEffect(effect) {
-                navController.navigateUp()
+                onClosePage()
             }
         }
         null -> {}
@@ -102,19 +104,21 @@ fun TransactionDetailScreen(
         },
         onCancelClick = {
             localFocusManager.clearFocus()
-            navController.navigateUp()
+            onCancelClick()
         },
         onAccountSectionClick = {
             localFocusManager.clearFocus()
-            navController.navigate(TransactionDetailFlow.SelectAccount.route)
+            onAccountSectionClick()
+
         },
         onCategorySectionClick = {
             localFocusManager.clearFocus()
-            navController.navigate(TransactionDetailFlow.SelectCategory.route)
+            onCategorySectionClick()
+
         },
         onTransferAccountSectionClick = {
             localFocusManager.clearFocus()
-            navController.navigate(TransactionDetailFlow.SelectTransferAccount.route)
+            onTransferAccountSectionClick()
         },
         onDateSectionClick = {
             activity.showDatePicker(state.transactionDate.toLocalDate()) { selectedDate ->

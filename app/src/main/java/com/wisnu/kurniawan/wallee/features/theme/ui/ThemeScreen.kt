@@ -23,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalBackHeader
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
@@ -33,8 +32,8 @@ import com.wisnu.kurniawan.wallee.model.Theme
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ThemeScreen(
-    navController: NavController,
-    viewModel: ThemeViewModel
+    viewModel: ThemeViewModel,
+    onClickBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -42,9 +41,7 @@ fun ThemeScreen(
         title = {
             PgModalBackHeader(
                 text = stringResource(R.string.setting_theme),
-                onClickBack = {
-                    navController.navigateUp()
-                }
+                onClickBack = onClickBack
             )
         },
         content = {

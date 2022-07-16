@@ -26,7 +26,12 @@ fun NavGraphBuilder.AccountDetailNavHost(
             arguments = AccountDetailFlow.AccountDetail.arguments
         ) {
             val viewModel = hiltViewModel<AccountDetailViewModel>()
-            AccountDetailScreen(navController, viewModel)
+            AccountDetailScreen(
+                viewModel = viewModel,
+                onClosePage = { navController.navigateUp() },
+                onCancelClick = { navController.navigateUp() },
+                onCategorySectionClick = { navController.navigate(AccountDetailFlow.SelectCategory.route) }
+            )
         }
 
         bottomSheet(AccountDetailFlow.SelectCategory.route) {
@@ -40,8 +45,8 @@ fun NavGraphBuilder.AccountDetailNavHost(
             bottomSheetConfig.value = DefaultBottomSheetConfig
 
             AccountTypeSelectionScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClick = { navController.navigateUp() }
             )
         }
     }

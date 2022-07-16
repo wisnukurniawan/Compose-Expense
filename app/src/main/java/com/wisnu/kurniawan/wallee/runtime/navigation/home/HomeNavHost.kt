@@ -36,6 +36,7 @@ import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardBottomBar
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardHostViewModel
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardNavRail
+import com.wisnu.kurniawan.wallee.foundation.uiextension.navigateToTopLevel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_IS_DUAL_PORTRAIT
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailNavHost
@@ -106,9 +107,11 @@ private fun SmallScreen(
 
             DashboardBottomBar(
                 modifier = Modifier.align(Alignment.BottomStart),
-                homeNavController = homeNavController,
                 viewModel = viewModel,
-                currentDestination = currentDestination
+                currentDestination = currentDestination,
+                onTabClick = {
+                    homeNavController.navigateToTopLevel(it)
+                }
             )
         }
     }
@@ -155,9 +158,9 @@ private fun LargeScreen(
                         )
                 ) {
                     DashboardNavRail(
-                        homeNavController = leftNavController,
                         viewModel = viewModel,
-                        currentDestination = currentDestination
+                        currentDestination = currentDestination,
+                        onTabClick = { leftNavController.navigateToTopLevel(it) }
                     )
 
                     NavHostLeft(

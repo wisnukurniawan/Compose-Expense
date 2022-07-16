@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,8 +35,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
 import com.wisnu.kurniawan.wallee.foundation.extension.getColor
@@ -58,68 +57,33 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.RoundedLinearProgressIn
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Currency
-import com.wisnu.kurniawan.wallee.runtime.navigation.SettingFlow
-import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
-import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TransactionSummaryScreen(
-    mainNavController: NavController,
-    navController: NavController,
-    viewModel: TransactionSummaryViewModel
+    viewModel: TransactionSummaryViewModel,
+    route: String?,
+    arguments: Bundle?,
+    onSettingClick: () -> Unit,
+    onClickAddTransaction: () -> Unit,
+    onLastTransactionItemClick: (String) -> Unit,
+    onSeeMoreLastTransactionClick: () -> Unit,
+    onSeeMoreTopExpenseClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
 
-    TransactionSummaryScreen(
-        state = state,
-        onSettingClick = { mainNavController.navigate(SettingFlow.Root.route) },
-        onClickAddTransaction = { mainNavController.navigate(TransactionDetailFlow.Root.route()) },
-        onSeeMoreLastTransactionClick = { navController.navigate(TransactionSummaryFlow.AllTransactionScreen.route) },
-        onLastTransactionItemClick = { mainNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId)) },
-        onSeeMoreTopExpenseClick = { navController.navigate(TransactionSummaryFlow.TopExpenseScreen.route) }
-    )
-}
-
-@OptIn(ExperimentalLifecycleComposeApi::class)
-@Composable
-fun TransactionSummaryLeftScreen(
-    mainNavController: NavController,
-    rightNavController: NavController,
-    viewModel: TransactionSummaryViewModel
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
-    val navBackStackEntry by rightNavController.currentBackStackEntryAsState()
-
-    LaunchedEffect(navBackStackEntry) {
-        viewModel.dispatch(TransactionSummaryAction.NavBackStackEntryChanged(navBackStackEntry?.destination?.route, navBackStackEntry?.arguments))
+    LaunchedEffect(route) {
+        viewModel.dispatch(TransactionSummaryAction.NavBackStackEntryChanged(route, arguments))
     }
 
     TransactionSummaryScreen(
         state = state,
-        onSettingClick = { mainNavController.navigate(SettingFlow.Root.route) },
-        onClickAddTransaction = {
-            rightNavController.navigate(TransactionDetailFlow.Root.route()) {
-                popUpTo(TransactionSummaryFlow.RootEmpty.route)
-            }
-        },
-        onSeeMoreLastTransactionClick = {
-            rightNavController.navigate(TransactionSummaryFlow.RootAllTransaction.route) {
-                popUpTo(TransactionSummaryFlow.RootEmpty.route)
-            }
-        },
-        onLastTransactionItemClick = {
-            rightNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId)) {
-                popUpTo(TransactionSummaryFlow.RootEmpty.route)
-            }
-        },
-        onSeeMoreTopExpenseClick = {
-            rightNavController.navigate(TransactionSummaryFlow.RootTopExpense.route) {
-                popUpTo(TransactionSummaryFlow.RootEmpty.route)
-            }
-        }
+        onSettingClick = onSettingClick,
+        onClickAddTransaction = onClickAddTransaction,
+        onLastTransactionItemClick = { onLastTransactionItemClick(it.transactionId) },
+        onSeeMoreLastTransactionClick = onSeeMoreLastTransactionClick,
+        onSeeMoreTopExpenseClick = onSeeMoreTopExpenseClick
     )
 }
 

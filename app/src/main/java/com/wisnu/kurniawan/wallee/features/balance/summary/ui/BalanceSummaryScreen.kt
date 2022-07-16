@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.balance.summary.ui
 
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
@@ -45,55 +44,29 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Account
-import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
-import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun BalanceSummaryScreen(
-    mainNavController: NavController,
-    viewModel: BalanceSummaryViewModel
+    viewModel: BalanceSummaryViewModel,
+    route: String?,
+    arguments: Bundle?,
+    onClickAccount: (String) -> Unit,
+    onClickAddAccount: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
 
-    BalanceSummaryScreen(
-        state = state,
-        onClickAccount = {
-            mainNavController.navigate(AccountDetailFlow.Root.route(it.id))
-        },
-        onClickAddAccount = {
-            mainNavController.navigate(AccountDetailFlow.Root.route())
-        }
-    )
-}
-
-@OptIn(ExperimentalLifecycleComposeApi::class)
-@Composable
-fun BalanceSummaryLeftScreen(
-    rightNavController: NavController,
-    viewModel: BalanceSummaryViewModel
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
-    val navBackStackEntry by rightNavController.currentBackStackEntryAsState()
-
-    LaunchedEffect(navBackStackEntry) {
-        viewModel.dispatch(BalanceSummaryAction.NavBackStackEntryChanged(navBackStackEntry?.destination?.route, navBackStackEntry?.arguments))
+    LaunchedEffect(route) {
+        viewModel.dispatch(BalanceSummaryAction.NavBackStackEntryChanged(route, arguments))
     }
 
     BalanceSummaryScreen(
         state = state,
         onClickAccount = {
-            rightNavController.navigate(AccountDetailFlow.Root.route(it.id)) {
-                popUpTo(TransactionSummaryFlow.RootEmpty.route)
-            }
+            onClickAccount(it.id)
         },
-        onClickAddAccount = {
-            rightNavController.navigate(AccountDetailFlow.Root.route()) {
-                popUpTo(TransactionSummaryFlow.RootEmpty.route)
-            }
-        }
+        onClickAddAccount = onClickAddAccount
     )
 }
 

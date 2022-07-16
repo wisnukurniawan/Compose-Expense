@@ -37,7 +37,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
@@ -55,13 +54,14 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
-import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AccountDetailScreen(
-    navController: NavController,
-    viewModel: AccountDetailViewModel
+    viewModel: AccountDetailViewModel,
+    onClosePage: () -> Unit,
+    onCancelClick: () -> Unit,
+    onCategorySectionClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
@@ -71,7 +71,7 @@ fun AccountDetailScreen(
     when (effect) {
         AccountDetailEffect.ClosePage -> {
             LaunchedEffect(effect) {
-                navController.navigateUp()
+                onClosePage()
             }
         }
         null -> {}
@@ -85,7 +85,7 @@ fun AccountDetailScreen(
         },
         onCancelClick = {
             localFocusManager.clearFocus()
-            navController.navigateUp()
+            onCancelClick()
         },
         onDeleteClick = {
             localFocusManager.clearFocus()
@@ -93,7 +93,7 @@ fun AccountDetailScreen(
         },
         onCategorySectionClick = {
             localFocusManager.clearFocus()
-            navController.navigate(AccountDetailFlow.SelectCategory.route)
+            onCategorySectionClick()
         },
         onTotalAmountChange = { viewModel.dispatch(AccountDetailAction.TotalAmountAction.Change(it)) },
         onTotalAmountFocusChange = { viewModel.dispatch(AccountDetailAction.TotalAmountAction.FocusChange(it)) },

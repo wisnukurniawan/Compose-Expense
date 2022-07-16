@@ -25,7 +25,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.summary.ui.TransactionItem
 import com.wisnu.kurniawan.wallee.features.transaction.summary.ui.getAccountDisplay
@@ -43,13 +42,12 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgEmpty
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
-import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AllTransactionScreen(
-    mainNavController: NavController,
-    viewModel: AllTransactionViewModel
+    viewModel: AllTransactionViewModel,
+    onTransactionItemClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
@@ -57,24 +55,7 @@ fun AllTransactionScreen(
     AllTransactionScreen(
         state = state,
         onTransactionItemClick = {
-            mainNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId))
-        },
-    )
-}
-
-@OptIn(ExperimentalLifecycleComposeApi::class)
-@Composable
-fun AllTransactionRightScreen(
-    rightNavController: NavController,
-    viewModel: AllTransactionViewModel
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
-
-    AllTransactionScreen(
-        state = state,
-        onTransactionItemClick = {
-            rightNavController.navigate(TransactionDetailFlow.Root.route(it.transactionId))
+            onTransactionItemClick(it.transactionId)
         },
     )
 }

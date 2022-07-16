@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
@@ -34,8 +33,8 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalVerticalGridLayo
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun CategorySelectionScreen(
-    navController: NavController,
-    viewModel: TransactionDetailViewModel
+    viewModel: TransactionDetailViewModel,
+    onClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -43,7 +42,7 @@ fun CategorySelectionScreen(
         categoryItems = state.categoryItems,
         onClick = {
             viewModel.dispatch(TransactionAction.SelectCategory(it.type))
-            navController.navigateUp()
+            onClick()
         }
     )
 }

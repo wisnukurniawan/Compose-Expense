@@ -19,20 +19,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
-import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AccountSelectionScreen(
-    navController: NavController,
     viewModel: TransactionDetailViewModel,
+    onClick: () -> Unit,
+    onAddAccountClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -40,19 +39,18 @@ fun AccountSelectionScreen(
         accountItems = state.accountItems,
         onClick = {
             viewModel.dispatch(TransactionAction.SelectAccount(it.account))
-            navController.navigateUp()
+            onClick()
         },
-        onAddAccountClick = {
-            navController.navigate(AccountDetailFlow.Root.route())
-        }
+        onAddAccountClick = onAddAccountClick
     )
 }
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TransferAccountSelectionScreen(
-    navController: NavController,
     viewModel: TransactionDetailViewModel,
+    onClick: () -> Unit,
+    onAddAccountClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -60,11 +58,9 @@ fun TransferAccountSelectionScreen(
         accountItems = state.transferAccountItems,
         onClick = {
             viewModel.dispatch(TransactionAction.SelectTransferAccount(it.account))
-            navController.navigateUp()
+            onClick()
         },
-        onAddAccountClick = {
-            navController.navigate(AccountDetailFlow.Root.route())
-        }
+        onAddAccountClick = onAddAccountClick
     )
 }
 

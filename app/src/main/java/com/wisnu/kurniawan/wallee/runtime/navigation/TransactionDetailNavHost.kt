@@ -28,7 +28,14 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             arguments = TransactionDetailFlow.TransactionDetail.arguments
         ) {
             val viewModel = hiltViewModel<TransactionDetailViewModel>()
-            TransactionDetailScreen(navController, viewModel)
+            TransactionDetailScreen(
+                viewModel = viewModel,
+                onClosePage = { navController.navigateUp() },
+                onCancelClick = { navController.navigateUp() },
+                onAccountSectionClick = { navController.navigate(TransactionDetailFlow.SelectAccount.route) },
+                onCategorySectionClick = { navController.navigate(TransactionDetailFlow.SelectCategory.route) },
+                onTransferAccountSectionClick = { navController.navigate(TransactionDetailFlow.SelectTransferAccount.route) }
+            )
         }
 
         bottomSheet(TransactionDetailFlow.SelectAccount.route) {
@@ -42,8 +49,9 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             bottomSheetConfig.value = DefaultBottomSheetConfig
 
             AccountSelectionScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClick = { navController.navigateUp() },
+                onAddAccountClick = { navController.navigate(AccountDetailFlow.Root.route()) }
             )
         }
 
@@ -58,8 +66,9 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             bottomSheetConfig.value = DefaultBottomSheetConfig
 
             TransferAccountSelectionScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClick = { navController.navigateUp() },
+                onAddAccountClick = { navController.navigate(AccountDetailFlow.Root.route()) }
             )
         }
 
@@ -74,8 +83,8 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             bottomSheetConfig.value = DefaultBottomSheetConfig
 
             CategorySelectionScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClick = { navController.navigateUp() }
             )
         }
     }

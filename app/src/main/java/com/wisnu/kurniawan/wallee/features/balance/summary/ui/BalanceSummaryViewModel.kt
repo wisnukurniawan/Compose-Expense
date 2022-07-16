@@ -39,6 +39,7 @@ class BalanceSummaryViewModel @Inject constructor(
             is BalanceSummaryAction.NavBackStackEntryChanged -> {
                 viewModelScope.launch {
                     when (action.route) {
+                        null -> {}
                         AccountDetailFlow.AccountDetail.route -> {
                             val accountId = action.arguments?.getString(ARG_ACCOUNT_ID)
                             setState {

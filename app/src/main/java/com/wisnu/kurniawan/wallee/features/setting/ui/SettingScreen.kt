@@ -10,7 +10,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
@@ -20,8 +19,8 @@ import com.wisnu.kurniawan.wallee.runtime.navigation.SettingFlow
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun SettingScreen(
-    navController: NavController,
     viewModel: SettingViewModel,
+    onClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -33,17 +32,19 @@ fun SettingScreen(
             items(state.items) { item ->
                 SettingItem(
                     onClick = {
-                        when (item) {
+                        val route = when (item) {
                             is SettingItem.Logout -> {
-                                navController.navigate(SettingFlow.Logout.route)
+                                SettingFlow.Logout.route
                             }
                             is SettingItem.Theme -> {
-                                navController.navigate(SettingFlow.Theme.route)
+                                SettingFlow.Theme.route
                             }
                             is SettingItem.Language -> {
-                                navController.navigate(SettingFlow.Language.route)
+                                SettingFlow.Language.route
                             }
                         }
+
+                        onClick(route)
                     },
                     stringResource(item.title)
                 )

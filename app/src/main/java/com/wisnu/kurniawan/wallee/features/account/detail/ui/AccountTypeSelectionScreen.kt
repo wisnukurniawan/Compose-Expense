@@ -15,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
@@ -25,8 +24,8 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AccountTypeSelectionScreen(
-    navController: NavController,
     viewModel: AccountDetailViewModel,
+    onClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -34,7 +33,7 @@ fun AccountTypeSelectionScreen(
         accountItems = state.accountTypeItems,
         onClick = {
             viewModel.dispatch(AccountDetailAction.SelectAccountType(it.type))
-            navController.navigateUp()
+            onClick()
         }
     )
 }

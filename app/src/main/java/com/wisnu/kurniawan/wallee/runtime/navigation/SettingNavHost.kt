@@ -15,6 +15,7 @@ import com.wisnu.kurniawan.wallee.features.setting.ui.SettingScreen
 import com.wisnu.kurniawan.wallee.features.setting.ui.SettingViewModel
 import com.wisnu.kurniawan.wallee.features.theme.ui.ThemeScreen
 import com.wisnu.kurniawan.wallee.features.theme.ui.ThemeViewModel
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeFlow
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.SettingNavHost(
@@ -26,32 +27,41 @@ fun NavGraphBuilder.SettingNavHost(
             val viewModel = hiltViewModel<SettingViewModel>()
             bottomSheetConfig.value = DefaultBottomSheetConfig
             SettingScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClick = { navController.navigate(it) }
             )
         }
         bottomSheet(SettingFlow.Theme.route) {
             val viewModel = hiltViewModel<ThemeViewModel>()
             bottomSheetConfig.value = DefaultBottomSheetConfig
             ThemeScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClickBack = { navController.navigateUp() }
             )
         }
         bottomSheet(SettingFlow.Logout.route) {
             val viewModel = hiltViewModel<LogoutViewModel>()
             bottomSheetConfig.value = DefaultBottomSheetConfig
             LogoutScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClickBack = {
+                    navController.navigateUp()
+                },
+                onLogout = {
+                    navController.navigate(MainFlow.Root.route) {
+                        popUpTo(HomeFlow.DashboardScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
         bottomSheet(SettingFlow.Language.route) {
             val viewModel = hiltViewModel<LocalizedViewModel>()
             bottomSheetConfig.value = DefaultBottomSheetConfig
             LanguageScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClickBack = { navController.navigateUp() }
             )
         }
     }
