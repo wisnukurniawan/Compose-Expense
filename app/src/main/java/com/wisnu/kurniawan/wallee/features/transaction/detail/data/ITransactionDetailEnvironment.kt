@@ -9,6 +9,6 @@ interface ITransactionDetailEnvironment {
     fun getAccounts(): Flow<List<Account>>
     fun getTransaction(id: String): Flow<TransactionWithAccount>
     fun getCurrentDate(): LocalDateTime
-    suspend fun saveTransaction(transactionWithAccount: TransactionWithAccount): Flow<Boolean>
+    suspend fun saveTransaction(transactionWithAccount: TransactionWithAccount): Flow<Account>
     suspend fun deleteTransaction(id: String): Flow<Boolean>
 }

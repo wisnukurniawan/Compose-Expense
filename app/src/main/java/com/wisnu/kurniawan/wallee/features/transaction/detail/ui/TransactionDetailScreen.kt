@@ -193,7 +193,6 @@ private fun TransactionDetailScreen(
                     totalAmount = state.totalAmount,
                     totalAmountDisplay = state.getCurrencySymbol() + " ",
                     amountColor = state.getAmountColor(MaterialTheme.colorScheme.onSurface),
-                    enabled = !state.isEditMode,
                     onTotalAmountChange = onTotalAmountChange,
                     onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
@@ -303,7 +302,6 @@ private fun AmountSection(
     totalAmount: TextFieldValue,
     totalAmountDisplay: String,
     amountColor: Color,
-    enabled: Boolean,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
@@ -329,9 +327,7 @@ private fun AmountSection(
             value = totalAmount,
             onValueChange = onTotalAmountChange,
             modifier = Modifier.onFocusChanged {
-                if (enabled) {
-                    onTotalAmountFocusChange(it.isFocused)
-                }
+                onTotalAmountFocusChange(it.isFocused)
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
             singleLine = true,
@@ -341,7 +337,6 @@ private fun AmountSection(
                 }
             ),
             textStyle = MaterialTheme.typography.titleSmall.copy(color = amountColor),
-            enabled = enabled
         )
     }
 }

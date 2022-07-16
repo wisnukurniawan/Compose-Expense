@@ -10,8 +10,6 @@ import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
-import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
-import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.Expense
 import com.wisnu.kurniawan.wallee.foundation.theme.Income
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
@@ -119,13 +117,11 @@ fun TransactionState.getCurrencySymbol() = when (selectedTransactionType()) {
 }
 
 fun TransactionState.getAmountColor(defaultColor: Color): Color {
-    val alpha = if (isEditMode) AlphaDisabled else AlphaHigh
-
     return when (selectedTransactionType()) {
         TransactionType.INCOME -> Income
         TransactionType.EXPENSE -> Expense
         TransactionType.TRANSFER -> defaultColor
-    }.copy(alpha)
+    }
 }
 
 fun List<TransactionTypeItem>.select(selectedTransactionTypeItem: TransactionTypeItem): List<TransactionTypeItem> {

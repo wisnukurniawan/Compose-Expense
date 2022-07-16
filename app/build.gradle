@@ -200,9 +200,6 @@ dependencies {
     // Logger
     implementation projects.coreLogger
 
-    // Money
-    implementation libs.javamoney
-
     // Analytics
     implementation platform(libs.google.firebase)
     implementation 'com.google.firebase:firebase-analytics-ktx'

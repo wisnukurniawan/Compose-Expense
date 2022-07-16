@@ -125,11 +125,10 @@ interface WalleeReadDao {
         """
             SELECT * FROM TransactionRecordDb
             WHERE TransactionRecordDb.transaction_record_transactionId = :transactionId
-            AND TransactionRecordDb.transaction_record_createdAt <= :beforeDate
-            ORDER BY TransactionRecordDb.transaction_record_createdAt DESC
+            AND TransactionRecordDb.transaction_record_createdAt >= :afterDate
             LIMIT 1
         """
     )
-    fun getTransactionRecord(beforeDate: LocalDateTime, transactionId: String): Flow<TransactionRecordDb?>
+    fun getTransactionRecord(afterDate: LocalDateTime, transactionId: String): Flow<TransactionRecordDb?>
 
 }

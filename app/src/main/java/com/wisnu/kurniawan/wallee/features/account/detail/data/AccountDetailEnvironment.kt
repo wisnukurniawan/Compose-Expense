@@ -56,18 +56,17 @@ class AccountDetailEnvironment @Inject constructor(
                 transactions = listOf()
             )
 
-            getAccount(account.id)
-                .take(1)
-                .onEach {
-                    update(it, newAccount, changeReason)
+            localManager.getAccount(account.id).take(1)
+                .onEach { account ->
+                    record(account, newAccount, changeReason)
+                    update(account, newAccount)
                 }
                 .map { true }
         }
     }
 
-    private suspend fun update(account: Account, newAccount: Account, changeReason: AdjustBalanceReason) {
+    private suspend fun update(account: Account, newAccount: Account) {
         if (account.isChanged(newAccount)) {
-            record(account, newAccount, changeReason)
             localManager.updateAccount(newAccount)
         }
     }
@@ -76,24 +75,30 @@ class AccountDetailEnvironment @Inject constructor(
         if (account.isAmountChanged(newAccount)) {
             when (changeReason) {
                 AdjustBalanceReason.FORGOT_FOR_UPDATE -> {
-                    recordTransaction(account, newAccount)
+                    val transaction = buildNewTransaction(account, newAccount)
+                    localManager.insertTransaction(
+                        accountId = account.id,
+                        transferAccountId = null,
+                        transaction = transaction
+                    )
                 }
                 AdjustBalanceReason.LONG_TIME_NOT_UPDATE -> {
+                    val accountRecord = AccountRecord(
+                        id = idProvider.generate(),
+                        accountId = account.id,
+                        amount = account.amount,
+                        createdAt = dateTimeProvider.now()
+                    )
                     localManager.insertAccountRecord(
-                        AccountRecord(
-                            id = idProvider.generate(),
-                            accountId = account.id,
-                            amount = account.amount,
-                            createdAt = dateTimeProvider.now()
-                        )
+                        accountRecord = accountRecord
                     )
                 }
             }
         }
     }
 
-    private suspend fun recordTransaction(account: Account, newAccount: Account) {
-        val transaction = if (account.amount < newAccount.amount) {
+    private fun buildNewTransaction(account: Account, newAccount: Account): Transaction {
+        return if (account.amount < newAccount.amount) {
             // Income
             Transaction(
                 id = idProvider.generate(),
@@ -120,12 +125,6 @@ class AccountDetailEnvironment @Inject constructor(
                 note = ""
             )
         }
-
-        localManager.insertTransaction(
-            account.id,
-            null,
-            transaction
-        )
     }
 
     override suspend fun deleteAccount(id: String) {
