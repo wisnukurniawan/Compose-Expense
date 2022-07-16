@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.R
+import com.wisnu.kurniawan.wallee.features.account.detail.data.AdjustBalanceReason
 import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
@@ -22,11 +23,26 @@ data class AccountDetailState(
     val shouldShowDuplicateNameError: Boolean = false,
     val createdAt: LocalDateTime = DateTimeProviderImpl().now(),
     val isEditMode: Boolean = false,
+    val adjustBalanceReasonItems: List<AdjustBalanceReasonItem> = listOf(
+        AdjustBalanceReasonItem(
+            selected = true,
+            reason = AdjustBalanceReason.FORGOT_FOR_UPDATE
+        ),
+        AdjustBalanceReasonItem(
+            selected = false,
+            reason = AdjustBalanceReason.LONG_TIME_NOT_UPDATE
+        )
+    )
 )
 
 data class AccountTypeItem(
     val type: AccountType,
     val selected: Boolean
+)
+
+data class AdjustBalanceReasonItem(
+    val selected: Boolean,
+    val reason: AdjustBalanceReason,
 )
 
 // Collections
@@ -47,4 +63,28 @@ fun List<AccountTypeItem>.selected(): AccountTypeItem? {
 @Composable
 fun AccountDetailState.getTitle(): String {
     return if (isEditMode) stringResource(R.string.account_edit_edit) else stringResource(R.string.account_edit_add)
+}
+
+fun AdjustBalanceReasonItem.getTitle(): Int {
+    return when (reason) {
+        AdjustBalanceReason.FORGOT_FOR_UPDATE -> R.string.balance_account_amount_change_by_record_reason
+        AdjustBalanceReason.LONG_TIME_NOT_UPDATE -> R.string.balance_account_amount_change_initial_reason
+    }
+}
+
+fun AdjustBalanceReasonItem.getDesc(): Int {
+    return when (reason) {
+        AdjustBalanceReason.FORGOT_FOR_UPDATE -> R.string.balance_account_amount_change_by_record_reason_desc
+        AdjustBalanceReason.LONG_TIME_NOT_UPDATE -> R.string.balance_account_amount_change_initial_reason_desc
+    }
+}
+
+fun List<AdjustBalanceReasonItem>.select(reason: AdjustBalanceReason): List<AdjustBalanceReasonItem> {
+    return map {
+        it.copy(selected = it.reason == reason)
+    }
+}
+
+fun List<AdjustBalanceReasonItem>.selected(): AdjustBalanceReason {
+    return find { it.selected }?.reason ?: AdjustBalanceReason.FORGOT_FOR_UPDATE
 }

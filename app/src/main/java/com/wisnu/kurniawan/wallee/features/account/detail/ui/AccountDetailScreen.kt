@@ -14,10 +14,12 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -38,10 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
+import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
+import com.wisnu.kurniawan.wallee.foundation.extension.shouldShowDivider
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
-import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.ActionContentCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgBasicTextField
@@ -98,6 +102,7 @@ fun AccountDetailScreen(
         onTotalAmountChange = { viewModel.dispatch(AccountDetailAction.TotalAmountAction.Change(it)) },
         onTotalAmountFocusChange = { viewModel.dispatch(AccountDetailAction.TotalAmountAction.FocusChange(it)) },
         onNameChange = { viewModel.dispatch(AccountDetailAction.NameChange(it)) },
+        onAdjustBalanceReasonClick = { viewModel.dispatch(AccountDetailAction.ClickBalanceReason(it.reason)) }
     )
 }
 
@@ -111,6 +116,7 @@ private fun AccountDetailScreen(
     onCategorySectionClick: () -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
+    onAdjustBalanceReasonClick: (AdjustBalanceReasonItem) -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
     PgPageLayout(
@@ -165,11 +171,16 @@ private fun AccountDetailScreen(
                 AmountSection(
                     totalAmount = state.totalAmount,
                     amountSymbol = state.currency.getSymbol() + " ",
-                    enabled = !state.isEditMode,
                     onTotalAmountChange = onTotalAmountChange,
                     onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
             }
+
+            AdjustAmountReasonCell(
+                data = state.adjustBalanceReasonItems,
+                shouldShow = state.isEditMode,
+                onItemClick = onAdjustBalanceReasonClick
+            )
 
             if (state.canDelete()) {
                 item {
@@ -189,7 +200,6 @@ private fun AccountDetailScreen(
         }
     }
 }
-
 
 @Composable
 private fun NameSection(
@@ -267,7 +277,6 @@ private fun CategorySection(
 private fun AmountSection(
     totalAmount: TextFieldValue,
     amountSymbol: String,
-    enabled: Boolean,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
@@ -286,22 +295,13 @@ private fun AmountSection(
     ) {
         PgContentTitle(
             text = amountSymbol,
-            color = MaterialTheme.colorScheme.onBackground.copy(
-                alpha = if (enabled) {
-                    AlphaHigh
-                } else {
-                    AlphaDisabled
-                }
-            )
         )
         val localFocusManager = LocalFocusManager.current
         PgBasicTextField(
             value = totalAmount,
             onValueChange = onTotalAmountChange,
             modifier = Modifier.onFocusChanged {
-                if (enabled) {
-                    onTotalAmountFocusChange(it.isFocused)
-                }
+                onTotalAmountFocusChange(it.isFocused)
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
             singleLine = true,
@@ -310,7 +310,65 @@ private fun AmountSection(
                     localFocusManager.clearFocus()
                 }
             ),
-            enabled = enabled
         )
     }
+}
+
+private inline fun LazyListScope.AdjustAmountReasonCell(
+    data: List<AdjustBalanceReasonItem>,
+    shouldShow: Boolean,
+    noinline onItemClick: (AdjustBalanceReasonItem) -> Unit
+) {
+    if (shouldShow) {
+        item {
+            Spacer(Modifier.height(16.dp))
+        }
+        item {
+            PgHeadlineLabel(
+                text = stringResource(R.string.balance_account_amount_change_title),
+                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
+            )
+
+            val size = data.size
+            data.forEachIndexed { index, adjustBalanceReasonItem ->
+                AmountChangeReasonSection(
+                    title = stringResource(adjustBalanceReasonItem.getTitle()),
+                    desc = stringResource(adjustBalanceReasonItem.getDesc()),
+                    showDivider = shouldShowDivider(index, size),
+                    shape = cellShape(index, size),
+                    isSelected = adjustBalanceReasonItem.selected,
+                    onItemClick = { onItemClick(adjustBalanceReasonItem) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AmountChangeReasonSection(
+    title: String,
+    desc: String,
+    showDivider: Boolean,
+    shape: Shape,
+    isSelected: Boolean,
+    onItemClick: () -> Unit,
+) {
+    ActionContentCell(
+        title = title,
+        desc = desc,
+        showDivider = showDivider,
+        shape = shape,
+        onClick = onItemClick,
+        trailing = {
+            PgIcon(
+                imageVector = Icons.Rounded.Check,
+                tint = if (isSelected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.secondary
+                },
+            )
+
+        },
+    )
 }

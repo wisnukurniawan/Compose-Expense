@@ -4,6 +4,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.wisnu.kurniawan.coreLogger.Loggr
 import com.wisnu.kurniawan.wallee.features.account.detail.data.IAccountDetailEnvironment
 import com.wisnu.kurniawan.wallee.features.balance.summary.data.AccountBalance
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
@@ -78,7 +79,7 @@ class AccountDetailViewModel @Inject constructor(
                             type = state.value.selectedAccountType(),
                             createdAt = state.value.createdAt
                         )
-                        environment.saveAccount(account)
+                        environment.saveAccount(account, state.value.adjustBalanceReasonItems.selected())
                             .collect {
                                 setState { copy(shouldShowDuplicateNameError = false) }
                                 setEffect(AccountDetailEffect.ClosePage)
@@ -123,12 +124,14 @@ class AccountDetailViewModel @Inject constructor(
             }
             is AccountDetailAction.TotalAmountAction.Change -> {
                 viewModelScope.launch {
-                    runCatching {
+                    try {
                         action.totalAmount.formatAsDecimal().apply {
                             if (this.isDecimalNotExceed()) {
                                 setState { copy(totalAmount = this@apply) }
                             }
                         }
+                    } catch (e: Exception) {
+                        Loggr.debug { "wisnukk err $e" }
                     }
                 }
             }
@@ -137,6 +140,11 @@ class AccountDetailViewModel @Inject constructor(
                     val totalAmountText = state.value.totalAmount.text
                     val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmountText)
                     setState { copy(totalAmount = totalAmount.copy(text = totalAmountFormatted)) }
+                }
+            }
+            is AccountDetailAction.ClickBalanceReason -> {
+                viewModelScope.launch {
+                    setState { copy(adjustBalanceReasonItems = adjustBalanceReasonItems.select(action.reason)) }
                 }
             }
         }

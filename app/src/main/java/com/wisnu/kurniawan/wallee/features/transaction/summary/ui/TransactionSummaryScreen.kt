@@ -502,8 +502,7 @@ private fun TopExpenseItemCell(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(shape),
+            .padding(horizontal = 16.dp),
         shape = shape,
         color = MaterialTheme.colorScheme.secondary,
     ) {

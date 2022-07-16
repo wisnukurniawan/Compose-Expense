@@ -115,5 +115,10 @@
     <string name="balance_account_updated_at_hour">Updated %1$s hours ago</string>
     <string name="balance_account_updated_at_yesterday">Updated yesterday</string>
     <string name="balance_account_updated_at_date">Updated %1$s</string>
+    <string name="balance_account_amount_change_title">Reason adjust balance</string>
+    <string name="balance_account_amount_change_initial_reason">Haven\'t tracked for a long time</string>
+    <string name="balance_account_amount_change_initial_reason_desc">Will change the initial balance on your account.</string>
+    <string name="balance_account_amount_change_by_record_reason">Forgot to track a few transactions</string>
+    <string name="balance_account_amount_change_by_record_reason_desc">Will create a correction transaction for it.</string>
 
 </resources>

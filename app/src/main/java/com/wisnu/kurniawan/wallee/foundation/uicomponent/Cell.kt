@@ -103,23 +103,33 @@ fun PgModalCell(
 @Composable
 fun ActionContentCell(
     title: String,
+    desc: String = "",
     showDivider: Boolean,
     shape: Shape,
     enabled: Boolean = true,
     onClick: (() -> Unit),
     trailing: @Composable () -> Unit
 ) {
-
-    val clickModifier = if (enabled) {
-        Modifier.clickable(onClick = onClick)
+    val onClickState = if (enabled) {
+        onClick
     } else {
-        Modifier
+        {}
+    }
+    val indication = if (enabled) {
+        LocalIndication.current
+    } else {
+        null
     }
 
     Surface(
-        modifier = clickModifier
+        modifier = Modifier
             .fillMaxWidth()
-            .clip(shape),
+            .clip(shape)
+            .clickable(
+                onClick = onClickState,
+                indication = indication,
+                interactionSource = remember { MutableInteractionSource() }
+            ),
         color = MaterialTheme.colorScheme.secondary,
         shape = shape,
     ) {
@@ -131,9 +141,17 @@ fun ActionContentCell(
                     .fillMaxWidth()
                     .paddingCell()
             ) {
-                PgContentTitle(
-                    text = title
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    PgContentTitle(
+                        text = title
+                    )
+                    if (desc.isNotBlank()) {
+                        PgContentTitle(
+                            text = desc,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled),
+                        )
+                    }
+                }
                 Spacer(Modifier.size(8.dp))
                 trailing()
             }
@@ -164,16 +182,26 @@ fun ActionContentCell(
     onClick: (() -> Unit) = {},
     trailing: @Composable () -> Unit
 ) {
-    val clickModifier = if (enabled) {
-        Modifier.clickable(onClick = onClick)
+    val onClickState = if (enabled) {
+        onClick
     } else {
-        Modifier
+        {}
+    }
+    val indication = if (enabled) {
+        LocalIndication.current
+    } else {
+        null
     }
 
     Surface(
-        modifier = clickModifier
+        modifier = Modifier
             .fillMaxWidth()
-            .clip(shape),
+            .clip(shape)
+            .clickable(
+                onClick = onClickState,
+                indication = indication,
+                interactionSource = remember { MutableInteractionSource() }
+            ),
         color = MaterialTheme.colorScheme.secondary,
         shape = shape,
     ) {

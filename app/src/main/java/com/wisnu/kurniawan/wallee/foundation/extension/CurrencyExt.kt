@@ -13,12 +13,18 @@ const val MAX_TOTAL_AMOUNT_DIGIT = 12
 const val MAX_SCALE_DIGIT = 2
 const val ZERO_AMOUNT = "0"
 const val FRACTION_SEPARATOR = "."
+const val MINUS_SYMBOL = "-"
 
 fun TextFieldValue.formatAsDecimal(): TextFieldValue {
     val decimal = if (text.isBlank()) {
         TextFieldValue(ZERO_AMOUNT, selection = TextRange(ZERO_AMOUNT.length))
     } else {
-        val totalAmount = text.toBigDecimal()
+        val totalAmount = try {
+            text.toBigDecimal()
+        } catch (e: Exception) {
+            BigDecimal.ZERO
+        }
+
         val scale = totalAmount.scale()
 
         if (scale > 0) {
@@ -30,6 +36,9 @@ fun TextFieldValue.formatAsDecimal(): TextFieldValue {
             } else {
                 copy(text = totalAmount.stripTrailingZeros().toString())
             }
+        } else if (text == MINUS_SYMBOL) {
+            val defaultMinus = MINUS_SYMBOL + "0"
+            copy(text = defaultMinus, TextRange(defaultMinus.length))
         } else {
             this
         }

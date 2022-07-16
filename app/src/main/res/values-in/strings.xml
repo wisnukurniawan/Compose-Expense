@@ -110,4 +110,9 @@
     <string name="balance_account_updated_at_hour">Terakhir diupdate %1$s jam yang lalu</string>
     <string name="balance_account_updated_at_yesterday">Terakhir diupdate kemarin</string>
     <string name="balance_account_updated_at_date">Terakhir diupdate %1$s</string>
+    <string name="balance_account_amount_change_title">Alasan perubahan saldo</string>
+    <string name="balance_account_amount_change_initial_reason">Udah lama tidak mencatat transaksi</string>
+    <string name="balance_account_amount_change_initial_reason_desc">Akan mengubah saldo awal di akun kamu.</string>
+    <string name="balance_account_amount_change_by_record_reason">Lupa mencatat beberapa transaksi</string>
+    <string name="balance_account_amount_change_by_record_reason_desc">Akan membuat catatan transaski otomatis.</string>
 </resources>
