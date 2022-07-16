@@ -17,7 +17,6 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -110,30 +109,36 @@ class TransactionDetailEnvironment @Inject constructor(
         transferAccount: Account?,
         newTransaction: Transaction
     ): Flow<Account> {
-        return combine(
-            localManager.getTransaction(newTransaction.id).take(1),
-            getTransactionAmountRecord(
-                { localManager.getAccountRecord(account.id).take(1) },
-                { localManager.getTransactionRecord(it, newTransaction.id).take(1) }
-            )
-        ) { transaction, transactionAmountRecord ->
-            // Record transaction
-            recordTransaction(
-                transaction = transaction,
-                newTransaction = newTransaction
-            )
+        return localManager.getTransaction(newTransaction.id).take(1)
+            .flatMapConcat { transaction ->
+                getTransactionAmountRecord(
+                    getAccountRecord = { localManager.getAccountRecord(account.id).take(1) },
+                    getTransactionRecord = { localManager.getTransactionRecord(it, newTransaction.id).take(1) },
+                    currentAmount = transaction.amount
+                )
+                    .map {
+                        Pair(
+                            transaction,
+                            it
+                        )
+                    }
+            }
+            .onEach { (transaction, _) ->
+                // Record transaction
+                recordTransaction(
+                    transaction = transaction,
+                    newTransaction = newTransaction
+                )
 
-            // Update transaction
-            updateTransaction(
-                accountId = account.id,
-                transferAccountId = transferAccount?.id,
-                transaction = transaction,
-                newTransaction = newTransaction
-            )
-
-            transactionAmountRecord
-        }
-            .flatMapConcat { transactionAmountRecord ->
+                // Update transaction
+                updateTransaction(
+                    accountId = account.id,
+                    transferAccountId = transferAccount?.id,
+                    transaction = transaction,
+                    newTransaction = newTransaction
+                )
+            }
+            .flatMapConcat { (_, transactionAmountRecord) ->
                 // Adjust amount based on transaction amount
                 updateAccount(
                     account = account,
@@ -211,7 +216,7 @@ class TransactionDetailEnvironment @Inject constructor(
                 )
 
                 // Adjust account amount
-                 updateAccount(
+                updateAccount(
                     account,
                     transferAccount,
                     accountAmount,
@@ -347,6 +352,7 @@ class TransactionDetailEnvironment @Inject constructor(
     private fun getTransactionAmountRecord(
         getAccountRecord: () -> Flow<AccountRecord?>,
         getTransactionRecord: (LocalDateTime) -> Flow<TransactionRecord?>,
+        currentAmount: BigDecimal
     ): Flow<BigDecimal> {
         return getAccountRecord()
             .flatMapConcat {
@@ -356,7 +362,7 @@ class TransactionDetailEnvironment @Inject constructor(
                     flowOf(null)
                 }
             }
-            .map { it?.amount ?: BigDecimal.ZERO }
+            .map { it?.amount ?: currentAmount }
     }
 
 }
