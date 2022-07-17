@@ -74,7 +74,8 @@ abstract class WalleeDatabase : RoomDatabase() {
             val currentDate = DateTimeProviderImpl().now()
             val defaultAccount = AccountDb(
                 id = DEFAULT_ACCOUNT_ID,
-                currencyCode = Currency.INDONESIA.code,
+                currencyCode = Currency.DEFAULT.currencyCode,
+                countryCode = Currency.DEFAULT.countryCode,
                 amount = 0,
                 name = context.getString(AccountType.CASH.getLabel()),
                 type = AccountType.CASH,

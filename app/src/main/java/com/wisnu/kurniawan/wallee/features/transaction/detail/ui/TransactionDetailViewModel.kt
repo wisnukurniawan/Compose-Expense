@@ -55,7 +55,7 @@ class TransactionDetailViewModel @Inject constructor(
                     selectedAccount = state.value.accountItems.selected()?.account,
                     selectedTransferAccount = state.value.transferAccountItems.selected()?.account,
                     initialNote = "",
-                    initialCurrency = Currency.INDONESIA,
+                    initialCurrency = Currency.DEFAULT,
                     initialTotalAmount = ZERO_AMOUNT,
                     initialDate = environment.getCurrentDate(),
                     initialTransactionCreatedAt = environment.getCurrentDate(),

@@ -29,7 +29,7 @@ data class BalanceSummaryState(
     companion object {
         fun initial() = BalanceSummaryState(
             totalBalance = BigDecimal.ZERO,
-            currency = Currency.INDONESIA,
+            currency = Currency.DEFAULT,
             accountItems = listOf()
         )
     }

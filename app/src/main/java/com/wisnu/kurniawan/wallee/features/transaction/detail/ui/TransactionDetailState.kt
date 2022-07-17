@@ -28,7 +28,7 @@ data class TransactionState(
     val categoryItems: List<CategoryItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val note: TextFieldValue = TextFieldValue(),
-    val currency: Currency = Currency.INDONESIA,
+    val currency: Currency = Currency.DEFAULT,
     val transactionDate: LocalDateTime = DateTimeProviderImpl().now(),
     val transactionCreatedAt: LocalDateTime = DateTimeProviderImpl().now(),
     val transactionUpdatedAt: LocalDateTime? = null,

@@ -19,7 +19,7 @@ data class AccountDetailState(
     val name: TextFieldValue = TextFieldValue(""),
     val accountTypeItems: List<AccountTypeItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
-    val currency: Currency = Currency.INDONESIA,
+    val currency: Currency = Currency.DEFAULT,
     val shouldShowDuplicateNameError: Boolean = false,
     val createdAt: LocalDateTime = DateTimeProviderImpl().now(),
     val isEditMode: Boolean = false,

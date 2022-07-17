@@ -37,7 +37,7 @@ data class TransactionSummaryState(
         fun initial() = TransactionSummaryState(
             isLoading = true,
             currentMonth = DateTimeProviderImpl().now().toLocalDate(),
-            cashFlow = CashFlow(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, Currency.INDONESIA),
+            cashFlow = CashFlow(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, Currency.DEFAULT),
             transactionItems = listOf(),
             topExpenseItems = listOf()
         )

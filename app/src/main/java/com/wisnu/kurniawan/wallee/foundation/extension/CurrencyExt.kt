@@ -2,6 +2,8 @@ package com.wisnu.kurniawan.wallee.foundation.extension
 
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.wisnu.kurniawan.wallee.foundation.currency.COUNTRY_DATA
+import com.wisnu.kurniawan.wallee.foundation.currency.CURRENCY_DATA
 import com.wisnu.kurniawan.wallee.model.Currency
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -53,14 +55,20 @@ fun TextFieldValue.isDecimalNotExceed(): Boolean {
 }
 
 fun Currency.getSymbol(): String {
-    return when (this) {
-        Currency.INDONESIA -> "Rp"
-    }
+    return CURRENCY_DATA[currencyCode]?.symbol ?: throw RuntimeException("$this not found!")
+}
+
+fun Currency.getScale(): Int {
+    return CURRENCY_DATA[currencyCode]?.scale ?: throw RuntimeException("$this not found!")
 }
 
 fun Currency.getLocale(): Locale {
-    return when (this) {
-        Currency.INDONESIA -> Locale("ID", "in")
+    val lang = COUNTRY_DATA[countryCode]?.lang
+
+    return if (lang != null) {
+        Locale(lang, countryCode)
+    } else {
+        Locale("en", countryCode)
     }
 }
 
@@ -76,12 +84,12 @@ fun Currency.formatAsDisplay(
     withSymbol: Boolean = false
 ): String {
     val currencyFormat = NumberFormat.getCurrencyInstance(getLocale())
-    val amountCurrency = JavaCurrency.getInstance(code)
+    val amountCurrency = JavaCurrency.getInstance(currencyCode)
     runCatching {
         val decimalFormatSymbols = (currencyFormat as DecimalFormat).decimalFormatSymbols
         decimalFormatSymbols.currency = amountCurrency
         decimalFormatSymbols.currencySymbol = if (withSymbol) getSymbol() else ""
-        currencyFormat.minimumFractionDigits = amount.scale()
+        currencyFormat.minimumFractionDigits = getScale()
         currencyFormat.decimalFormatSymbols = decimalFormatSymbols
     }
     return currencyFormat.format(amount)
@@ -114,7 +122,7 @@ fun Currency.parseAsDecimal(
     currencySymbol: String
 ): BigDecimal {
     val currencyFormat = NumberFormat.getCurrencyInstance(getLocale())
-    val amountCurrency = JavaCurrency.getInstance(code)
+    val amountCurrency = JavaCurrency.getInstance(currencyCode)
     runCatching {
         val amountSplits = amount.split(",")
         val fraction = if (amountSplits.size > 1) {

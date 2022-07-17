@@ -18,6 +18,8 @@ data class AccountDb(
     val id: String,
     @ColumnInfo(name = "account_currencyCode")
     val currencyCode: String,
+    @ColumnInfo(name = "account_countryCode")
+    val countryCode: String,
     @ColumnInfo(name = "account_amount")
     val amount: Long,
     @ColumnInfo(name = "account_name")

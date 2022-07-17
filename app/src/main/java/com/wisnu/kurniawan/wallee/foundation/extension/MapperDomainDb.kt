@@ -12,7 +12,8 @@ import com.wisnu.kurniawan.wallee.model.TransactionRecord
 fun Account.toAccountDb(): AccountDb {
     return AccountDb(
         id = id,
-        currencyCode = currency.code,
+        currencyCode = currency.currencyCode,
+        countryCode = currency.countryCode,
         amount = amount.toLong(),
         name = name,
         type = type,
@@ -26,7 +27,8 @@ fun Transaction.toTransactionDb(accountId: String, transferAccountId: String?): 
         id = id,
         accountId = accountId,
         categoryType = categoryType,
-        currencyCode = currency.code,
+        currencyCode = currency.currencyCode,
+        countryCode = currency.countryCode,
         amount = amount.toLong(),
         type = type,
         date = date,

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6244620e1804ef6e7f3b53d5240c3b3e",
+    "identityHash": "c7461b85a32f3164856cd24fbb176831",
     "entities": [
       {
         "tableName": "AccountDb",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`account_id` TEXT NOT NULL, `account_currencyCode` TEXT NOT NULL, `account_amount` INTEGER NOT NULL, `account_name` TEXT NOT NULL, `account_type` TEXT NOT NULL, `account_createdAt` INTEGER NOT NULL, `account_updatedAt` INTEGER, PRIMARY KEY(`account_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`account_id` TEXT NOT NULL, `account_currencyCode` TEXT NOT NULL, `account_countryCode` TEXT NOT NULL, `account_amount` INTEGER NOT NULL, `account_name` TEXT NOT NULL, `account_type` TEXT NOT NULL, `account_createdAt` INTEGER NOT NULL, `account_updatedAt` INTEGER, PRIMARY KEY(`account_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -17,6 +17,12 @@
           {
             "fieldPath": "currencyCode",
             "columnName": "account_currencyCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryCode",
+            "columnName": "account_countryCode",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -72,7 +78,7 @@
       },
       {
         "tableName": "TransactionDb",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` TEXT NOT NULL, `transaction_accountId` TEXT NOT NULL, `transaction_categoryType` TEXT NOT NULL, `transaction_currencyCode` TEXT NOT NULL, `transaction_amount` INTEGER NOT NULL, `transaction_type` TEXT NOT NULL, `transaction_date` INTEGER NOT NULL, `transaction_createdAt` INTEGER NOT NULL, `transaction_updatedAt` INTEGER, `transaction_note` TEXT NOT NULL, `transaction_transferAccountId` TEXT, PRIMARY KEY(`transaction_id`), FOREIGN KEY(`transaction_accountId`) REFERENCES `AccountDb`(`account_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` TEXT NOT NULL, `transaction_accountId` TEXT NOT NULL, `transaction_categoryType` TEXT NOT NULL, `transaction_currencyCode` TEXT NOT NULL, `transaction_countryCode` TEXT NOT NULL, `transaction_amount` INTEGER NOT NULL, `transaction_type` TEXT NOT NULL, `transaction_date` INTEGER NOT NULL, `transaction_createdAt` INTEGER NOT NULL, `transaction_updatedAt` INTEGER, `transaction_note` TEXT NOT NULL, `transaction_transferAccountId` TEXT, PRIMARY KEY(`transaction_id`), FOREIGN KEY(`transaction_accountId`) REFERENCES `AccountDb`(`account_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -95,6 +101,12 @@
           {
             "fieldPath": "currencyCode",
             "columnName": "transaction_currencyCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryCode",
+            "columnName": "transaction_countryCode",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -296,7 +308,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6244620e1804ef6e7f3b53d5240c3b3e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c7461b85a32f3164856cd24fbb176831')"
     ]
   }
 }

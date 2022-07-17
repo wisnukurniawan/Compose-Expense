@@ -49,6 +49,7 @@ class WalleeWriteDaoTest {
             type = AccountType.CASH,
             createdAt = DateFactory.constantDate,
             updatedAt = DateFactory.constantDate,
+            countryCode = "ID"
         )
         val account2 = AccountDb(
             id = "2",
@@ -58,6 +59,7 @@ class WalleeWriteDaoTest {
             type = AccountType.CASH,
             createdAt = DateFactory.constantDate,
             updatedAt = DateFactory.constantDate,
+            countryCode = "ID"
         )
 
         walleeWriteDao.insertAccount(listOf(account1, account2))

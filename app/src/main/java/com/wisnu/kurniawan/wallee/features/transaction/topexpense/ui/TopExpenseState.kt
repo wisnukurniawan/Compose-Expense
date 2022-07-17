@@ -7,5 +7,5 @@ import com.wisnu.kurniawan.wallee.model.Currency
 @Immutable
 data class TopExpenseState(
     val topExpenseItems: List<TopExpenseItem> = listOf(),
-    val currency: Currency = Currency.INDONESIA
+    val currency: Currency = Currency.DEFAULT
 )

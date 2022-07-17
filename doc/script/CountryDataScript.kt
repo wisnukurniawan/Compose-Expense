@@ -15,59 +15,91 @@ val langs = Locale.getAvailableLocales().map {
 }
     .toMap()
 
+//currdata2().forEach {
+//    println("${it.key} to ${it.value},")
+//}
+currdata().forEach {
+    println("${it.key} to ${it.value.toString().replace("[", "listOf(").replace("]", ")")},")
+//    println(it.toString().replace("[", "listOf(").replace("]", ")") + ",")
+}
 
-val currdata = res().split("\n").map {
+fun currdata() = res().split("\n").map {
     val a = it.split("||")
     val code = a.get(0)
     val num = a.get(1)
     val scale = a.get(2)
     val name = a.get(3)
     val country = a.get(4)
-
     val countries = country.split(",").map {
         val patternCode = "\\((.*?)\\)".toRegex()
         val find = patternCode.find(it)?.value
 
         val cccode = countryCodes.find { code.startsWith(it) }
         val ccds = find?.replace("(", "")?.replace(")", "") ?: cccode
-        Country(
-            code = ccds?.norm() ?: "".norm(),
-            lang = langs.get(ccds)?.norm() ?: "".norm(),
-            name = if (find != null) {
-                it.replace(find, "").trim().norm()
-            } else {
-                it.trim().norm()
-            }
-        )
+
+        ccds?.norm() ?: "".norm()
     }
-    CurrencyData(
-        code = code.norm(),
-        num = num.toInt(),
-        scale = scale.toInt(),
-        name = name.norm(),
-        countries = countries,
-        symbol = symbol.get(code)?.norm() ?: "".norm()
+    Pair(
+        code.norm(),
+        CurrencyData(
+            num = num.toInt(),
+            scale = scale.toInt(),
+            name = name.norm(),
+            countries = countries,
+            symbol = symbol.get(code)?.norm() ?: "".norm()
+        )
     )
-}
+}.toMap()
+
+fun currdata2() = res().split("\n")
+    .map {
+        val a = it.split("||")
+        val code = a.get(0)
+        val country = a.get(4)
+        val countries = country.split(",").map {
+            val patternCode = "\\((.*?)\\)".toRegex()
+            val find = patternCode.find(it)?.value
+
+            val cccode = countryCodes.find { code.startsWith(it) }
+            val ccds = find?.replace("(", "")?.replace(")", "") ?: cccode
+
+            Country3(
+                code = ccds?.norm() ?: "".norm(),
+                lang = langs.get(ccds)?.norm() ?: "".norm(),
+                name = if (find != null) {
+                    it.replace(find, "").trim().norm()
+                } else {
+                    it.trim().norm()
+                }
+            )
+        }
+
+        countries
+    }
+    .flatMap { it }
+    .associateBy { it.code }
+    .mapValues { Country(lang = it.value.lang, name = it.value.name) }
 
 
-currdata.forEach {
-    println(it.toString().replace("[", "listOf(").replace("]", ")") + ",")
-}
+
 
 fun String.norm() = "\"$this\""
 
 data class CurrencyData(
-    val code: String,
     val num: Int,
     val scale: Int,
     val name: String,
     val symbol: String,
-    val countries: List<Country>
+    val countries: List<String>
+)
+
+data class Country3(
+    val code: String,
+    val lang: String,
+    val name: String
 )
 
 data class Country(
-    val code: String,
     val lang: String,
     val name: String
 )
@@ -255,7 +287,7 @@ fun res(): String = """
     ANG||532||2||Netherlands Antillean guilder||Curaçao (CW),Sint Maarten (SX)
     AOA||973||2||Angolan kwanza||Angola
     ARS||032||2||Argentine peso||Argentina
-    AUD||036||2||Australian dollar||Australia,Christmas Island (CX),Cocos (Keeling) Islands (CC),Heard Island and McDonald Islands (HM),Kiribati (KI),Nauru (NR),Norfolk Island (NF),Tuvalu (TV)
+    AUD||036||2||Australian dollar||Australia,Christmas Island (CX),Cocos Keeling Islands (CC),Heard Island and McDonald Islands (HM),Kiribati (KI),Nauru (NR),Norfolk Island (NF),Tuvalu (TV)
     AWG||533||2||Aruban florin||Aruba
     AZN||944||2||Azerbaijani manat||Azerbaijan
     BAM||977||2||Bosnia and Herzegovina convertible mark||Bosnia and Herzegovina
@@ -269,7 +301,7 @@ fun res(): String = """
     BOB||068||2||Boliviano||Bolivia
     BRL||986||2||Brazilian real||Brazil
     BSD||044||2||Bahamian dollar||Bahamas
-    BTN||064||2||Bhutanese ngultrum||Bhutan
+    BTN||064||2||Bhutanese ngultrum||Bhutan (BT)
     BWP||072||2||Botswana pula||Botswana
     BYN||933||2||Belarusian ruble|| Belarus
     BZD||084||2||Belize dollar||Belize
@@ -293,7 +325,7 @@ fun res(): String = """
     EUR||978||2||Euro||Åland Islands (AX),European Union (EU),Andorra (AD), Austria (AT),Belgium (BE),Cyprus (CY),Estonia (EE),Finland (FI),France (FR),French Southern and Antarctic Lands (TF),Germany (DE),Greece (GR),Guadeloupe (GP),Ireland (IE),Italy (IT),Latvia (LV),Lithuania (LT),Luxembourg (LU),Malta (MT),French Guiana (GF),Martinique (MQ),Mayotte (YT),Monaco (MC),Montenegro (ME),Netherlands (NL),Portugal (PT),Réunion (RE),Saint Barthélemy (BL),Saint Martin (MF),Saint Pierre and Miquelon (PM),San Marino (SM),Slovakia (SK),Slovenia (SI),Spain (ES),Vatican City (VA)
     FJD||242||2||Fijian dollar|Fiji dollar||Fiji
     FKP||238||2||Falkland Islands pound||Falkland Islands
-    GBP||826||2||Pound sterling||United Kingdom,Isle of Man (IM),Jersey (JE),Guernsey (GG),Tristan da Cunha (SH-TA)
+    GBP||826||2||Pound sterling||United Kingdom,Isle of Man (IM),Jersey (JE),Guernsey (GG)
     GEL||981||2||Georgian lari||Georgia
     GHS||936||2||Ghanaian cedi||Ghana
     GIP||292||2||Gibraltar pound||Gibraltar
@@ -308,7 +340,7 @@ fun res(): String = """
     HUF||348||2||Hungarian forint||Hungary
     IDR||360||2||Indonesian rupiah||Indonesia
     ILS||376||2||Israeli new shekel||Israel
-    INR||356||2||Indian rupee||India,Bhutan
+    INR||356||2||Indian rupee||India,Bhutan (BT)
     IQD||368||3||Iraqi dinar||Iraq
     IRR||364||2||Iranian rial||Iran
     ISK||352||0||Icelandic króna||Iceland
@@ -328,9 +360,9 @@ fun res(): String = """
     LBP||422||2||Lebanese pound||Lebanon
     LKR||144||2||Sri Lankan rupee||Sri Lanka
     LRD||430||2||Liberian dollar||Liberia
-    LSL||426||2||Lesotho loti||Lesotho
+    LSL||426||2||Lesotho loti||Lesotho (LS)
     LYD||434||3||Libyan dinar||Libya
-    MAD||504||2||Moroccan dirham||Morocco,Western Sahara
+    MAD||504||2||Moroccan dirham||Morocco,Western Sahara (EH)
     MDL||498||2||Moldovan leu||Moldova
     MGA||969||2||Malagasy ariary||Madagascar
     MKD||807||2||Macedonian denar||North Macedonia
@@ -339,12 +371,12 @@ fun res(): String = """
     MOP||446||2||Macanese pataca||Macau
     MRU||929||2||Mauritanian ouguiya||Mauritania
     MUR||480||2||Mauritian rupee||Mauritius
-    MVR||462||2||Maldivian rufiyaa||Maldives
+    MVR||462||2||Maldivian rufiyaa||Maldives (MV)
     MWK||454||2||Malawian kwacha||Malawi
     MXN||484||2||Mexican peso||Mexico
     MYR||458||2||Malaysian ringgit||Malaysia
     MZN||943||2||Mozambican metical||Mozambique
-    NAD||516||2||Namibian dollar||Namibia
+    NAD||516||2||Namibian dollar||Namibia (NA)
     NGN||566||2||Nigerian naira||Nigeria
     NIO||558||2||Nicaraguan córdoba||Nicaragua
     NOK||578||2||Norwegian krone||Norway,Svalbard and Jan Mayen (SJ),Bouvet Island (BV)
@@ -370,7 +402,7 @@ fun res(): String = """
     SDG||938||2||Sudanese pound||Sudan
     SEK||752||2||Swedish krona||Sweden
     SGD||702||2||Singapore dollar||Singapore
-    SHP||654||2||Saint Helena pound||Saint Helena (SH-SH),Ascension Island (SH-AC)
+    SHP||654||2||Saint Helena pound||Saint Helena (SH)
     SLL||694||2||Sierra Leonean leone||Sierra Leone
     SOS||706||2||Somali shilling||Somalia
     SRD||968||2||Surinamese dollar||Suriname
@@ -378,7 +410,7 @@ fun res(): String = """
     STN||930||2||São Tomé and Príncipe dobra||São Tomé and Príncipe
     SVC||222||2||Salvadoran colón||El Salvador
     SYP||760||2||Syrian pound||Syria
-    SZL||748||2||Swazi lilangeni||Swaziland|name=Eswatini
+    SZL||748||2||Swazi lilangeni||Eswatini (SZ)
     THB||764||2||Thai baht||Thailand
     TJS||972||2||Tajikistani somoni||Tajikistan
     TMT||934||2||Turkmenistan manat||Turkmenistan
@@ -403,7 +435,7 @@ fun res(): String = """
     XOF||952||0||West African CFA franc|CFA franc BCEAO||Benin (BJ),Burkina Faso (BF),Côte d'Ivoire (CI),Guinea-Bissau (GW),Mali (ML),Niger (NE),Senegal (SN),Togo (TG)
     XPF||953||0||CFP franc ||French territories of the Pacific Ocean: French Polynesia (PF),New Caledonia (NC),Wallis and Futuna (WF)
     YER||886||2||Yemeni rial||Yemen
-    ZAR||710||2||South African rand||Eswatini,Lesotho,Namibia,South Africa
+    ZAR||710||2||South African rand||Eswatini (SZ),Lesotho,Namibia (NA),South Africa
     ZMW||967||2||Zambian kwacha||Zambia
     ZWL||932||2||Zimbabwean dollar||Zimbabwe
 """.trimIndent()

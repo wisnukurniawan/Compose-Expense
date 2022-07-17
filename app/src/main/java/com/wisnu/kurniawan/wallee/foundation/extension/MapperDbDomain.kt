@@ -18,7 +18,7 @@ fun List<TransactionDb>.toTransaction() = map {
 
 fun TransactionDb.toTransaction() = Transaction(
     id = id,
-    currency = currencyCode.toCurrency(),
+    currency = Currency(currencyCode, countryCode),
     categoryType = categoryType,
     amount = amount.toBigDecimal(),
     type = type,
@@ -60,7 +60,7 @@ suspend fun TransactionWithAccountDb.toTransactionWithAccount(
 
 fun AccountDb.toAccount(transactions: List<Transaction> = listOf()) = Account(
     id = id,
-    currency = currencyCode.toCurrency(),
+    currency = Currency(currencyCode, countryCode),
     name = name,
     type = type,
     amount = amount.toBigDecimal(),
@@ -92,13 +92,6 @@ fun TransactionRecordDb?.toTransactionRecord(): TransactionRecord? {
         )
     } else {
         null
-    }
-}
-
-fun String.toCurrency(): Currency {
-    return when (this) {
-        Currency.INDONESIA.code -> Currency.INDONESIA
-        else -> throw IllegalStateException("Code $this doesn't match!")
     }
 }
 

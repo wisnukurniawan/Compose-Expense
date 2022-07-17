@@ -32,6 +32,8 @@ data class TransactionDb(
     val categoryType: CategoryType,
     @ColumnInfo(name = "transaction_currencyCode")
     val currencyCode: String,
+    @ColumnInfo(name = "transaction_countryCode")
+    val countryCode: String,
     @ColumnInfo(name = "transaction_amount")
     val amount: Long,
     @ColumnInfo(name = "transaction_type")

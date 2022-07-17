@@ -57,58 +57,63 @@ class WalleeReadDaoTest {
             type = AccountType.CASH,
             createdAt = DateFactory.constantDate,
             updatedAt = DateFactory.constantDate,
+            countryCode = "ID"
         )
         val transaction1 = TransactionDb(
             id = "1",
             accountId = "1",
             categoryType = CategoryType.PARKING,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 1000,
             type = TransactionType.EXPENSE,
             date = LocalDate.of(2021, 1, 22).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 1, 22).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
         val transaction2 = TransactionDb(
             id = "2",
             accountId = "1",
             categoryType = CategoryType.ADMIN_FEE,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 1000,
             type = TransactionType.EXPENSE,
             date = LocalDate.of(2021, 2, 1).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 1).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
         val transaction3 = TransactionDb(
             id = "3",
             accountId = "1",
             categoryType = CategoryType.SPORT,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 1000,
             type = TransactionType.INCOME,
             date = LocalDate.of(2021, 2, 22).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 22).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
         val transaction4 = TransactionDb(
             id = "4",
             accountId = "1",
             categoryType = CategoryType.SPORT,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 1000,
             type = TransactionType.TRANSFER,
             date = LocalDate.of(2021, 2, 23).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 23).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
 
         walleeWriteDao.insertAccount(account)
@@ -166,84 +171,91 @@ class WalleeReadDaoTest {
             type = AccountType.CASH,
             createdAt = DateFactory.constantDate,
             updatedAt = DateFactory.constantDate,
+            countryCode = "ID"
         )
         val transaction1 = TransactionDb(
             id = "1",
             accountId = "1",
             categoryType = CategoryType.PARKING,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 1000,
             type = TransactionType.EXPENSE,
             date = LocalDate.of(2021, 2, 22).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 22).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
         val transaction2 = TransactionDb(
             id = "2",
             accountId = "1",
             categoryType = CategoryType.ADMIN_FEE,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 2000,
             type = TransactionType.EXPENSE,
             date = LocalDate.of(2021, 2, 1).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 1).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
         val transaction3 = TransactionDb(
             id = "3",
             accountId = "1",
             categoryType = CategoryType.SPORT,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 1000,
             type = TransactionType.EXPENSE,
             date = LocalDate.of(2021, 2, 22).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 22).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
         val transaction4 = TransactionDb(
             id = "4",
             accountId = "1",
             categoryType = CategoryType.SPORT,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 1000,
             type = TransactionType.EXPENSE,
             date = LocalDate.of(2021, 2, 23).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 23).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
         val transaction5 = TransactionDb(
             id = "5",
             accountId = "1",
             categoryType = CategoryType.SPORT,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 1000,
             type = TransactionType.EXPENSE,
             date = LocalDate.of(2021, 2, 23).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 23).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
         val transaction6 = TransactionDb(
             id = "6",
             accountId = "1",
             categoryType = CategoryType.BILLS,
-            currencyCode = Currency.INDONESIA.code,
+            currencyCode = Currency.DEFAULT.currencyCode,
             amount = 500,
             type = TransactionType.EXPENSE,
             date = LocalDate.of(2021, 2, 23).toLocalDateTime(),
             createdAt = LocalDate.of(2021, 2, 23).toLocalDateTime(),
             updatedAt = null,
             note = "",
-            transferAccountId = null
+            transferAccountId = null,
+            countryCode = Currency.DEFAULT.currencyCode
         )
 
         walleeWriteDao.insertAccount(account)
