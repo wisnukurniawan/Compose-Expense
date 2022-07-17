@@ -2,6 +2,7 @@
 <resources>
     <string name="show_more">Lihat Semua</string>
     <string name="add">Tambah</string>
+    <string name="welcome">Selamat Datang!</string>
 
     <string name="login_login">Log in</string>
     <string name="login_email">Email</string>
@@ -115,4 +116,6 @@
     <string name="balance_account_amount_change_initial_reason_desc">Akan mengubah saldo awal di akun kamu.</string>
     <string name="balance_account_amount_change_by_record_reason">Lupa mencatat beberapa transaksi</string>
     <string name="balance_account_amount_change_by_record_reason_desc">Akan membuat catatan transaski otomatis.</string>
+
+    <string name="onboarding_title">Pilih mata uang yang akan kamu gunakan</string>
 </resources>

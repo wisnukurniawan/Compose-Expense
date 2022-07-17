@@ -20,13 +20,22 @@ class SplashViewModel @Inject constructor(
         when (action) {
             is SplashAction.AppLaunch -> {
                 viewModelScope.launch {
-                    environment.getCredential()
-                        .collect {
+//                    environment.getCredential()
+//                        .collect {
                             // if (it.isLoggedIn()) {
-                            setEffect(SplashEffect.NavigateToDashboard)
+//                            setEffect(SplashEffect.NavigateToDashboard)
 //                            } else {
 //                                setEffect(SplashEffect.NavigateToLogin)
 //                            }
+//                        }
+
+                    environment.hasFinishOnboarding()
+                        .collect {
+                            if (it) {
+                                setEffect(SplashEffect.NavigateToDashboard)
+                            } else {
+                                setEffect(SplashEffect.NavigateToOnboarding)
+                            }
                         }
                 }
             }

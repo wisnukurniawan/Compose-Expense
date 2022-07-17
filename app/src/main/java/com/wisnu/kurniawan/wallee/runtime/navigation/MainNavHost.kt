@@ -14,7 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.wisnu.kurniawan.wallee.features.splash.ui.SplashLargeScreen
 import com.wisnu.kurniawan.wallee.features.splash.ui.SplashScreen
 import com.wisnu.kurniawan.wallee.features.splash.ui.SplashViewModel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
@@ -47,7 +46,7 @@ fun MainNavHost(windowState: WindowState) {
         if (isLargeScreen) {
             LargeScreenNavHost(bottomSheetNavigator, bottomSheetConfig, windowState)
         } else {
-            SmallScreenNavHost(bottomSheetNavigator, bottomSheetConfig)
+            SmallScreenNavHost(bottomSheetNavigator, bottomSheetConfig, windowState)
         }
     }
 }
@@ -56,7 +55,8 @@ fun MainNavHost(windowState: WindowState) {
 @Composable
 private fun SmallScreenNavHost(
     bottomSheetNavigator: BottomSheetNavigator,
-    bottomSheetConfig: MutableState<BottomSheetConfig>
+    bottomSheetConfig: MutableState<BottomSheetConfig>,
+    windowState: WindowState
 ) {
     val navController = rememberNavController(bottomSheetNavigator)
     NavHost(
@@ -65,10 +65,12 @@ private fun SmallScreenNavHost(
     ) {
         composable(route = MainFlow.Root.route) {
             val viewModel = hiltViewModel<SplashViewModel>()
-            SplashScreen(navController = navController, viewModel = viewModel)
+            SplashScreen(navController = navController, viewModel = viewModel, windowState = windowState)
         }
 
         AuthNavHost(navController)
+
+        OnboardingNavHost(navController)
 
         HomeNavHost(navController)
 
@@ -94,10 +96,12 @@ private fun LargeScreenNavHost(
     ) {
         composable(route = MainFlow.Root.route) {
             val viewModel = hiltViewModel<SplashViewModel>()
-            SplashLargeScreen(navController = navController, viewModel = viewModel, windowState = windowState)
+            SplashScreen(navController = navController, viewModel = viewModel, windowState = windowState)
         }
 
         AuthNavHost(navController)
+
+        OnboardingNavHost(navController)
 
         LargeHomeNavHost(navController)
 

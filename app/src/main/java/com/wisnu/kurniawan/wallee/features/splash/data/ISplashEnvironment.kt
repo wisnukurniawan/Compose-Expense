@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ISplashEnvironment {
     fun getCredential(): Flow<Credential>
+    fun hasFinishOnboarding(): Flow<Boolean>
 }

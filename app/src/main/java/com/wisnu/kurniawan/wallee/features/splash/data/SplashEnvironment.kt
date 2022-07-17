@@ -13,4 +13,8 @@ class SplashEnvironment @Inject constructor(
         return preferenceManager.getCredential()
     }
 
+    override fun hasFinishOnboarding(): Flow<Boolean> {
+        return preferenceManager.hasFinishOnboarding()
+    }
+
 }

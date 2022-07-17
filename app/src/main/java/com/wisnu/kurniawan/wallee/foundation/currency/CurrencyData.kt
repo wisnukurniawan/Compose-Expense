@@ -17,7 +17,7 @@ class CurrencyData(
  * https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
  *
  * Lang code follow ISO 639 alpha-2
- * https://en.wikipedia.org/wiki/ISO_639-1
+ * https://www.loc.gov/standards/iso639-2/php/code_list.php
  */
 data class Country(
     val lang: String,
@@ -78,7 +78,6 @@ val COUNTRY_DATA = mapOf(
     "ER" to Country(lang = "ar", name = "Eritrea"),
     "ET" to Country(lang = "so", name = "Ethiopia"),
     "AX" to Country(lang = "sv", name = "Åland Islands"),
-    "EU" to Country(lang = "", name = "European Union"),
     "AD" to Country(lang = "ca", name = "Andorra"),
     "AT" to Country(lang = "de", name = "Austria"),
     "BE" to Country(lang = "nl", name = "Belgium"),
@@ -265,7 +264,7 @@ val COUNTRY_DATA = mapOf(
     "NE" to Country(lang = "fr", name = "Niger"),
     "SN" to Country(lang = "wo", name = "Senegal"),
     "TG" to Country(lang = "ee", name = "Togo"),
-    "PF" to Country(lang = "fr", name = "French territories of the Pacific Ocean: French Polynesia"),
+    "PF" to Country(lang = "fr", name = "French Polynesia"),
     "NC" to Country(lang = "fr", name = "New Caledonia"),
     "WF" to Country(lang = "fr", name = "Wallis and Futuna"),
     "YE" to Country(lang = "ar", name = "Yemen"),
@@ -324,7 +323,6 @@ val CURRENCY_DATA = mapOf(
         symbol = "€",
         countryCodes = listOf(
             "AX",
-            "EU",
             "AD",
             "AT",
             "BE",
@@ -497,7 +495,7 @@ val CURRENCY_DATA = mapOf(
     "XOF" to CurrencyData(num = 952, scale = 0, name = "West African CFA franc|CFA franc BCEAO", symbol = "₣", countryCodes = listOf("BJ", "BF", "CI", "GW", "ML", "NE", "SN", "TG")),
     "XPF" to CurrencyData(num = 953, scale = 0, name = "CFP franc ", symbol = "₣", countryCodes = listOf("PF", "NC", "WF")),
     "YER" to CurrencyData(num = 886, scale = 2, name = "Yemeni rial", symbol = "YR", countryCodes = listOf("YE")),
-    "ZAR" to CurrencyData(num = 710, scale = 2, name = "South African rand", symbol = "R", countryCodes = listOf("SZ", "ZA", "NA", "ZA")),
+    "ZAR" to CurrencyData(num = 710, scale = 2, name = "South African rand", symbol = "R", countryCodes = listOf("SZ", "LS", "NA", "ZA")),
     "ZMW" to CurrencyData(num = 967, scale = 2, name = "Zambian kwacha", symbol = "ZK", countryCodes = listOf("ZM")),
     "ZWL" to CurrencyData(num = 932, scale = 2, name = "Zimbabwean dollar", symbol = "Z$", countryCodes = listOf("ZW")),
 )

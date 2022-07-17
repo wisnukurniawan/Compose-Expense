@@ -433,7 +433,7 @@ fun res(): String = """
     XAF||950||0||Central African CFA franc|CFA franc BEAC||Cameroon (CM),Central African Republic (CF),Republic of the Congo (CG),Chad (TD),Equatorial Guinea (GQ),Gabon (GA)
     XCD||951||2||East Caribbean dollar||Anguilla (AI),Antigua and Barbuda (AG),Dominica (DM),Grenada (GD),Montserrat (MS),Saint Kitts and Nevis (KN),Saint Lucia (LC),Saint Vincent and the Grenadines (VC)
     XOF||952||0||West African CFA franc|CFA franc BCEAO||Benin (BJ),Burkina Faso (BF),Côte d'Ivoire (CI),Guinea-Bissau (GW),Mali (ML),Niger (NE),Senegal (SN),Togo (TG)
-    XPF||953||0||CFP franc ||French territories of the Pacific Ocean: French Polynesia (PF),New Caledonia (NC),Wallis and Futuna (WF)
+    XPF||953||0||CFP franc ||French Polynesia (PF),New Caledonia (NC),Wallis and Futuna (WF)
     YER||886||2||Yemeni rial||Yemen
     ZAR||710||2||South African rand||Eswatini (SZ),Lesotho,Namibia (NA),South Africa
     ZMW||967||2||Zambian kwacha||Zambia

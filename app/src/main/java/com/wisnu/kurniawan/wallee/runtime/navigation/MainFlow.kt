@@ -8,6 +8,16 @@ sealed class MainFlow(val name: String) {
     }
 }
 
+sealed class OnboardingFlow(val name: String) {
+    object Root : OnboardingFlow("onboarding-root") {
+        val route = name
+    }
+
+    object OnboardingScreen : OnboardingFlow("onboarding-screen") {
+        val route = name
+    }
+}
+
 sealed class AuthFlow(val name: String) {
     object Root : AuthFlow("auth-root") {
         val route = name

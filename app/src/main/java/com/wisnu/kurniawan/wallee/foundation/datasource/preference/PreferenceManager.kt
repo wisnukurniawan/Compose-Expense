@@ -3,6 +3,7 @@ package com.wisnu.kurniawan.wallee.foundation.datasource.preference
 import androidx.datastore.core.DataStore
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.CredentialPreference
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.LanguagePreference
+import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.OnboardingPreference
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.ThemePreference
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.UserPreference
 import com.wisnu.kurniawan.wallee.foundation.di.DiName
@@ -27,6 +28,7 @@ class PreferenceManager @Inject constructor(
     private val userDataStore: DataStore<UserPreference>,
     private val themeDataStore: DataStore<ThemePreference>,
     private val languageDataStore: DataStore<LanguagePreference>,
+    private val onboardingDataStore: DataStore<OnboardingPreference>,
 ) {
 
     fun getCredential(): Flow<Credential> {
@@ -52,6 +54,12 @@ class PreferenceManager @Inject constructor(
     fun getLanguage(): Flow<Language> {
         return languageDataStore.data.map { it.toLanguage() }
             .catch { emit(Language.ENGLISH) }
+            .flowOn(dispatcher)
+    }
+
+    fun hasFinishOnboarding(): Flow<Boolean> {
+        return onboardingDataStore.data.map { it.finishOnboarding }
+            .catch { emit(false) }
             .flowOn(dispatcher)
     }
 
@@ -83,6 +91,14 @@ class PreferenceManager @Inject constructor(
         withContext(dispatcher) {
             languageDataStore.updateData {
                 LanguagePreference(data.code)
+            }
+        }
+    }
+
+    suspend fun setFinishOnboarding(finish: Boolean) {
+        withContext(dispatcher) {
+            onboardingDataStore.updateData {
+                OnboardingPreference(finish)
             }
         }
     }

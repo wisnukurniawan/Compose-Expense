@@ -5,10 +5,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.CredentialPreferenceSerializer
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.LanguagePreferenceSerializer
+import com.wisnu.kurniawan.wallee.foundation.datasource.preference.OnboardingPreferenceSerializer
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.ThemePreferenceSerializer
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.UserPreferenceSerializer
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.CredentialPreference
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.LanguagePreference
+import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.OnboardingPreference
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.ThemePreference
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.UserPreference
 import dagger.Module
@@ -22,6 +24,7 @@ private const val CREDENTIAL_NAME = "credential-preference.pb"
 private const val USER_NAME = "user-preference.pb"
 private const val THEME_NAME = "theme-preference.pb"
 private const val LANGUAGE_NAME = "language-preference.pb"
+private const val ONBOARDING_NAME = "onboarding-preference.pb"
 
 private val Context.credentialDataStore: DataStore<CredentialPreference> by dataStore(
     fileName = CREDENTIAL_NAME,
@@ -38,6 +41,10 @@ private val Context.themeDataStore: DataStore<ThemePreference> by dataStore(
 val Context.languageDatastore: DataStore<LanguagePreference> by dataStore(
     fileName = LANGUAGE_NAME,
     serializer = LanguagePreferenceSerializer
+)
+val Context.onboardingDatastore: DataStore<OnboardingPreference> by dataStore(
+    fileName = ONBOARDING_NAME,
+    serializer = OnboardingPreferenceSerializer
 )
 
 @Module
@@ -66,6 +73,12 @@ object DataStoreModule {
     @Provides
     fun provideLanguageDataStore(@ApplicationContext context: Context): DataStore<LanguagePreference> {
         return context.languageDatastore
+    }
+
+    @Singleton
+    @Provides
+    fun provideOnboardingDataStore(@ApplicationContext context: Context): DataStore<OnboardingPreference> {
+        return context.onboardingDatastore
     }
 
 }
