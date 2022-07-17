@@ -10,6 +10,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
+import com.wisnu.kurniawan.wallee.foundation.extension.getDefaultAccount
 import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
 import com.wisnu.kurniawan.wallee.foundation.extension.toggleFormatDisplay
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
@@ -55,7 +56,6 @@ class TransactionDetailViewModel @Inject constructor(
                     selectedAccount = state.value.accountItems.selected()?.account,
                     selectedTransferAccount = state.value.transferAccountItems.selected()?.account,
                     initialNote = "",
-                    initialCurrency = Currency.DEFAULT,
                     initialTotalAmount = ZERO_AMOUNT,
                     initialDate = environment.getCurrentDate(),
                     initialTransactionCreatedAt = environment.getCurrentDate(),
@@ -90,7 +90,7 @@ class TransactionDetailViewModel @Inject constructor(
         selectedAccount: Account?,
         selectedTransferAccount: Account?,
         initialNote: String,
-        initialCurrency: Currency,
+        initialCurrency: Currency? = null,
         initialTotalAmount: String,
         initialDate: LocalDateTime,
         initialTransactionCreatedAt: LocalDateTime,
@@ -103,7 +103,6 @@ class TransactionDetailViewModel @Inject constructor(
                         transactionTypeItems = initialTransactionTypes(selectedTransactionType),
                         categoryItems = initialCategoryTypes(selectedCategoryType),
                         note = TextFieldValue(initialNote, TextRange(initialNote.length)),
-                        currency = initialCurrency,
                         totalAmount = TextFieldValue(initialTotalAmount, TextRange(initialTotalAmount.length)),
                         transactionDate = initialDate,
                         transactionCreatedAt = initialTransactionCreatedAt,
@@ -127,8 +126,13 @@ class TransactionDetailViewModel @Inject constructor(
                                 account = account,
                                 selected = defaultSelectedAccount
                             )
-                        }
+                        },
+                        currency = initialCurrency ?: it.getDefaultAccount().currency
                     )
+                }
+
+                if (initialCurrency == null) {
+                    setEffect(TransactionEffect.ShowAmountKeyboard)
                 }
             }
     }

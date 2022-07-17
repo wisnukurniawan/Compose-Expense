@@ -34,8 +34,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -49,6 +52,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.wisnu.kurniawan.coreLogger.Loggr
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
@@ -84,6 +88,7 @@ fun TransactionDetailScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsEffectWithLifecycle()
 
+    val focusRequester = remember { FocusRequester() }
     val localFocusManager = LocalFocusManager.current
     val activity = LocalContext.current as AppCompatActivity
 
@@ -93,11 +98,18 @@ fun TransactionDetailScreen(
                 onClosePage()
             }
         }
+        TransactionEffect.ShowAmountKeyboard -> {
+            LaunchedEffect(effect) {
+                Loggr.debug { "wisnukkkrn" }
+                focusRequester.requestFocus()
+            }
+        }
         null -> {}
     }
 
     TransactionDetailScreen(
         state = state,
+        focusRequester = focusRequester,
         onSaveClick = {
             localFocusManager.clearFocus()
             viewModel.dispatch(TransactionAction.Save)
@@ -142,6 +154,7 @@ fun TransactionDetailScreen(
 @Composable
 private fun TransactionDetailScreen(
     state: TransactionState,
+    focusRequester: FocusRequester,
     onSaveClick: () -> Unit,
     onCancelClick: () -> Unit,
     onAccountSectionClick: () -> Unit,
@@ -193,6 +206,7 @@ private fun TransactionDetailScreen(
                     totalAmount = state.totalAmount,
                     totalAmountDisplay = state.getCurrencySymbol() + " ",
                     amountColor = state.getAmountColor(MaterialTheme.colorScheme.onSurface),
+                    focusRequester = focusRequester,
                     onTotalAmountChange = onTotalAmountChange,
                     onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
@@ -302,6 +316,7 @@ private fun AmountSection(
     totalAmount: TextFieldValue,
     totalAmountDisplay: String,
     amountColor: Color,
+    focusRequester: FocusRequester,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
@@ -328,7 +343,7 @@ private fun AmountSection(
             onValueChange = onTotalAmountChange,
             modifier = Modifier.onFocusChanged {
                 onTotalAmountFocusChange(it.isFocused)
-            },
+            }.focusRequester(focusRequester),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
             singleLine = true,
             keyboardActions = KeyboardActions(

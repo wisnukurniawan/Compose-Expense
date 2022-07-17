@@ -114,7 +114,7 @@ fun String.formatAsDecimal(): String {
 }
 
 fun TextFieldValue.formatAsBigDecimal(): BigDecimal {
-    return text.formatAsDecimal().toBigDecimal()
+    return text.trim().formatAsDecimal().toBigDecimal()
 }
 
 fun Currency.parseAsDecimal(

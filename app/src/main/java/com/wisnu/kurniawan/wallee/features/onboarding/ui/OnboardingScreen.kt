@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Divider
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -253,7 +252,7 @@ private fun CurrencyItemCell(
                     if (selected) {
                         PgIcon(
                             imageVector = Icons.Rounded.Check,
-                            tint = LocalContentColor.current.copy(alpha = AlphaDisabled),
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.align(alignment = Alignment.CenterVertically).size(20.dp)
                         )
                     }

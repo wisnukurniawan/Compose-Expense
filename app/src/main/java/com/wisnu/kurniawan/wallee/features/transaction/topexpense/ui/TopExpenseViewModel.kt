@@ -6,6 +6,8 @@ import com.wisnu.kurniawan.wallee.features.transaction.topexpense.data.ITopExpen
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -19,10 +21,17 @@ class TopExpenseViewModel @Inject constructor(
 
     private fun initLoad() {
         viewModelScope.launch {
-            environment.getTopExpense()
-                .collect {
-                    setState { copy(topExpenseItems = it.toTopExpenseItems()) }
+            combine(
+                environment.getTopExpense(),
+                environment.getCurrency()
+            ) { topExpenses, currency ->
+                setState {
+                    copy(
+                        topExpenseItems = topExpenses.toTopExpenseItems(),
+                        currency = currency
+                    )
                 }
+            }.collect()
         }
     }
 
