@@ -89,7 +89,7 @@ fun Currency.formatAsDisplay(
         val decimalFormatSymbols = (currencyFormat as DecimalFormat).decimalFormatSymbols
         decimalFormatSymbols.currency = amountCurrency
         decimalFormatSymbols.currencySymbol = if (withSymbol) getSymbol() else ""
-        currencyFormat.minimumFractionDigits = getScale()
+        currencyFormat.minimumFractionDigits = amount.scale()
         currencyFormat.decimalFormatSymbols = decimalFormatSymbols
     }
     return currencyFormat.format(amount)

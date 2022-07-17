@@ -30,7 +30,7 @@ class CurrencyTest {
     ) {
         Assert.assertEquals(
             input,
-            Currency.DEFAULT.formatAsDisplay(
+            Currency("IDR", "ID").formatAsDisplay(
                 output.toBigDecimal()
             )
         )
@@ -57,7 +57,7 @@ class CurrencyTest {
     ) {
         Assert.assertEquals(
             output,
-            Currency.DEFAULT.parseAsDecimal(
+            Currency("IDR", "ID").parseAsDecimal(
                 input,
                 ""
             ).toString()
