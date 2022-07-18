@@ -26,7 +26,3 @@ fun BigDecimal.asDisplay(): BigDecimal {
 fun BigDecimal.asData(): BigDecimal {
     return (this * DEFAULT_AMOUNT_MULTIPLIER).setScale(0)
 }
-
-fun BigDecimal.percentageOf(value: BigDecimal): BigDecimal {
-    return this * DEFAULT_AMOUNT_MULTIPLIER / value
-}
