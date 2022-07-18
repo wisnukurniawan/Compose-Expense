@@ -15,6 +15,10 @@
         android:theme="@style/Theme.AppSplash"
         tools:targetApi="32">
 
+        <profileable
+            android:shell="true"
+            tools:targetApi="q" />
+
         <activity
             android:name=".runtime.MainActivity"
             android:exported="true"
@@ -53,11 +57,10 @@
             <meta-data
                 android:name="com.wisnu.kurniawan.wallee.runtime.initializer.DebugToolsInitializer"
                 android:value="androidx.startup" />
-
             <meta-data
                 android:name="com.wisnu.kurniawan.wallee.runtime.initializer.ActivityLifecycleLoggrInitializer"
                 android:value="androidx.startup" />
         </provider>
-
     </application>
+
 </manifest>

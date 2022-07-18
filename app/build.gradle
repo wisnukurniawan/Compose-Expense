@@ -88,6 +88,13 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        benchmark {
+            initWith buildTypes.release
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['release']
+            proguardFiles("benchmark-rules.pro")
         }
         debug {
             applicationIdSuffix ".debug"
@@ -215,6 +222,7 @@ dependencies {
 
     debugImplementation projects.testDebug
     releaseImplementation projects.testDebug.noOp
+    benchmarkImplementation projects.testDebug.noOp
 
 
     ///////////////

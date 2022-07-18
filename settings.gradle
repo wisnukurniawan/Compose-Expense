@@ -24,17 +24,19 @@ include ':app'
 ///////////////
 // CORE MODULE
 //////
+include ':core-logger'
 
 
 ///////////////
 // TEST MODULE
 //////
+include ':test-debug'
+include ':test-debug:no-op'
+include ':test-benchmark'
 
 
 // Enable Gradle's version catalog support
 // https://docs.gradle.org/current/userguide/platforms.html
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-include ':core-logger'
-include ':test-debug'
-include ':test-debug:no-op'
+
