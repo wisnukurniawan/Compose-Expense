@@ -27,6 +27,10 @@ fun List<CurrencyItem>.selected(): CurrencyItem? {
     return find { it.selected }
 }
 
+fun List<CurrencyItem>.groupedCurrencyItems(): Map<Char, List<CurrencyItem>> {
+    return groupBy { it.countryName.first() }
+}
+
 fun OnboardingState.canSave(): Boolean {
     return currencyItems.any { it.selected }
 }

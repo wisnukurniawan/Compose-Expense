@@ -122,6 +122,6 @@
     <string name="balance_account_amount_change_by_record_reason">Forgot to track a few transactions</string>
     <string name="balance_account_amount_change_by_record_reason_desc">Will create a correction transaction for it.</string>
 
-    <string name="onboarding_title">Choose your currency</string>
+    <string name="onboarding_title">Choose your country currency</string>
 
 </resources>

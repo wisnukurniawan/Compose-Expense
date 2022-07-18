@@ -160,7 +160,10 @@ private fun LargeScreen(
                     DashboardNavRail(
                         viewModel = viewModel,
                         currentDestination = currentDestination,
-                        onTabClick = { leftNavController.navigateToTopLevel(it) }
+                        onTabClick = {
+                            // TODO should is make the right nav back?
+                            leftNavController.navigateToTopLevel(it)
+                        }
                     )
 
                     NavHostLeft(

@@ -117,5 +117,5 @@
     <string name="balance_account_amount_change_by_record_reason">Lupa mencatat beberapa transaksi</string>
     <string name="balance_account_amount_change_by_record_reason_desc">Akan membuat catatan transaski otomatis.</string>
 
-    <string name="onboarding_title">Pilih mata uang yang akan kamu gunakan</string>
+    <string name="onboarding_title">Pilih mata uang negara kamu</string>
 </resources>

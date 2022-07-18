@@ -1,5 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.onboarding.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -158,7 +159,7 @@ private fun Content(
         }
 
         CurrencyCell(
-            data = state.currencyItems,
+            data = state.currencyItems.groupedCurrencyItems(),
             onItemClick = onItemClick,
         )
 
@@ -168,8 +169,9 @@ private fun Content(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 private inline fun LazyListScope.CurrencyCell(
-    data: List<CurrencyItem>,
+    data: Map<Char, List<CurrencyItem>>,
     noinline onItemClick: (CurrencyItem) -> Unit,
 ) {
     item {
@@ -184,20 +186,37 @@ private inline fun LazyListScope.CurrencyCell(
 
         SpacerHeadline2()
     }
-    val size = data.size
-    itemsIndexed(
-        items = data,
-        key = { _, item -> item.currency.countryCode + item.currency.currencyCode }
-    ) { index, item ->
-        CurrencyItemCell(
-            currencySymbol = item.currencySymbol,
-            flag = item.flag,
-            countryName = item.countryName,
-            selected = item.selected,
-            shape = cellShape(index, size),
-            showDivider = shouldShowDivider(index, size),
-            onClick = { onItemClick(item) }
-        )
+
+    data.forEach { (initial, currenciesForInitial) ->
+        stickyHeader {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.surface)
+            ) {
+                Text(
+                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp),
+                    text = initial.toString(),
+                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                )
+            }
+        }
+
+        val size = currenciesForInitial.size
+        itemsIndexed(
+            items = currenciesForInitial,
+            key = { _, item -> item.currency.countryCode + item.currency.currencyCode }
+        ) { index, item ->
+            CurrencyItemCell(
+                currencySymbol = item.currencySymbol,
+                flag = item.flag,
+                countryName = item.countryName,
+                selected = item.selected,
+                shape = cellShape(index, size),
+                showDivider = shouldShowDivider(index, size),
+                onClick = { onItemClick(item) }
+            )
+        }
     }
 }
 

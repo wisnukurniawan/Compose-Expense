@@ -5,6 +5,7 @@ import com.wisnu.kurniawan.wallee.features.transaction.summary.data.ITransaction
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_TRANSACTION_ID
 import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -76,7 +77,7 @@ class TransactionSummaryViewModel @Inject constructor(
                                 )
                             }
                         }
-                        else -> {
+                        TransactionSummaryFlow.RootEmpty.route -> {
                             setState {
                                 copy(
                                     transactionItems = transactionItems.map {

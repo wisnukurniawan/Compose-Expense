@@ -6,6 +6,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.getDefaultAccount
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
+import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -50,7 +51,7 @@ class BalanceSummaryViewModel @Inject constructor(
                                 )
                             }
                         }
-                        else -> {
+                        TransactionSummaryFlow.RootEmpty.route -> {
                             setState {
                                 copy(
                                     accountItems = accountItems.map {
