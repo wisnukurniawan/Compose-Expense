@@ -4,7 +4,9 @@
 
 <img src="art/playstore_icon.png" width="140">
 
-<img src="art/demo.gif" width="400">
+<img src="art/demo.gif" width="500">
+
+<img src="art/demo2.gif" width="500">
 
 Compose playground for learning purpose
 
