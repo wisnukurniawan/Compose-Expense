@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AllTransactionViewModel @Inject constructor(
     allTransactionEnvironment: IAllTransactionEnvironment,
-) : StatefulViewModel<AllTransactionState, AllTransactionEffect, AllTransactionAction, IAllTransactionEnvironment>(AllTransactionState(), allTransactionEnvironment) {
+) : StatefulViewModel<AllTransactionState, AllTransactionEffect, AllTransactionAction, IAllTransactionEnvironment>(AllTransactionState(), AllTransactionEffect.Initial, allTransactionEnvironment) {
 
     init {
         initLoad()

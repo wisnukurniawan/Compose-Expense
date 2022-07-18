@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     loginEnvironment: ILoginEnvironment
-) : StatefulViewModel<LoginState, LoginEffect, LoginAction, ILoginEnvironment>(LoginState(), loginEnvironment) {
+) : StatefulViewModel<LoginState, LoginEffect, LoginAction, ILoginEnvironment>(LoginState(), LoginEffect.Initial, loginEnvironment) {
 
     override fun dispatch(action: LoginAction) {
         when (action) {

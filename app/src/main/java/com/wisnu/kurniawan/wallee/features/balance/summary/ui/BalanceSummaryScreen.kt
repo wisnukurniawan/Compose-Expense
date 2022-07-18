@@ -41,7 +41,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextButton
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Account
 
@@ -55,7 +54,7 @@ fun BalanceSummaryScreen(
     onClickAddAccount: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     LaunchedEffect(route) {
         viewModel.dispatch(BalanceSummaryAction.NavBackStackEntryChanged(route, arguments))

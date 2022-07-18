@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class TransactionSummaryViewModel @Inject constructor(
     transactionSummaryEnvironment: ITransactionSummaryEnvironment,
-) : StatefulViewModel<TransactionSummaryState, TransactionSummaryEffect, TransactionSummaryAction, ITransactionSummaryEnvironment>(TransactionSummaryState.initial(), transactionSummaryEnvironment) {
+) : StatefulViewModel<TransactionSummaryState, TransactionSummaryEffect, TransactionSummaryAction, ITransactionSummaryEnvironment>(TransactionSummaryState.initial(), TransactionSummaryEffect.Initial, transactionSummaryEnvironment) {
 
     init {
         initLoadCashFlow()

@@ -52,7 +52,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.wisnu.kurniawan.coreLogger.Loggr
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
@@ -68,7 +67,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.model.AccountType
@@ -86,7 +84,7 @@ fun TransactionDetailScreen(
     onTransferAccountSectionClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     val focusRequester = remember { FocusRequester() }
     val localFocusManager = LocalFocusManager.current
@@ -96,15 +94,16 @@ fun TransactionDetailScreen(
         TransactionEffect.ClosePage -> {
             LaunchedEffect(effect) {
                 onClosePage()
+                viewModel.resetEffect()
             }
         }
         TransactionEffect.ShowAmountKeyboard -> {
             LaunchedEffect(effect) {
-                Loggr.debug { "wisnukkkrn" }
                 focusRequester.requestFocus()
+                viewModel.resetEffect()
             }
         }
-        null -> {}
+        TransactionEffect.Initial -> {}
     }
 
     TransactionDetailScreen(

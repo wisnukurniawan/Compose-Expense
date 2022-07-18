@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LogoutViewModel @Inject constructor(logoutEnvironment: ILogoutEnvironment) :
-    StatefulViewModel<LogoutState, LogoutEffect, LogoutAction, ILogoutEnvironment>(LogoutState(), logoutEnvironment) {
+    StatefulViewModel<LogoutState, LogoutEffect, LogoutAction, ILogoutEnvironment>(LogoutState(), LogoutEffect.Initial, logoutEnvironment) {
 
     init {
         initUser()

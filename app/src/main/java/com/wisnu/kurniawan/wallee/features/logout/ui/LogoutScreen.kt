@@ -17,7 +17,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalBackHeader
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.Profile
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -27,11 +26,15 @@ fun LogoutScreen(
     onLogout: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
-    if (effect is LogoutEffect.NavigateToSplash) {
-        LaunchedEffect(effect) {
-            onLogout()
+    when (effect) {
+        LogoutEffect.Initial -> {}
+        LogoutEffect.NavigateToSplash -> {
+            LaunchedEffect(effect) {
+                onLogout()
+                viewModel.resetEffect()
+            }
         }
     }
 

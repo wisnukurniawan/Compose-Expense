@@ -32,7 +32,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgEmpty
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.RoundedLinearProgressIndicator
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Currency
 
@@ -42,7 +41,7 @@ fun TopExpenseScreen(
     viewModel: TopExpenseViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     TopExpenseScreen(
         state = state,

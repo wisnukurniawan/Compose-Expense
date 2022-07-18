@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class DashboardViewModel @Inject constructor(
     dashboardEnvironment: IDashboardEnvironment,
 ) :
-    StatefulViewModel<DashboardState, Unit, Unit, IDashboardEnvironment>(DashboardState(), dashboardEnvironment) {
+    StatefulViewModel<DashboardState, Unit, Unit, IDashboardEnvironment>(DashboardState(), Unit, dashboardEnvironment) {
 
     init {
         initUser()

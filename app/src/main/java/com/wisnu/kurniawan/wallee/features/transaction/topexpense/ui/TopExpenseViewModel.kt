@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class TopExpenseViewModel @Inject constructor(
     topExpenseEnvironment: ITopExpenseEnvironment
-) : StatefulViewModel<TopExpenseState, TopExpenseEffect, TopExpenseAction, ITopExpenseEnvironment>(TopExpenseState(), topExpenseEnvironment) {
+) : StatefulViewModel<TopExpenseState, TopExpenseEffect, TopExpenseAction, ITopExpenseEnvironment>(TopExpenseState(), TopExpenseEffect.Initial, topExpenseEnvironment) {
 
     init {
         initLoad()

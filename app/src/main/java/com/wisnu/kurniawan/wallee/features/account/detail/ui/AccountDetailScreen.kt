@@ -56,7 +56,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadlineLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -68,7 +67,7 @@ fun AccountDetailScreen(
     onCategorySectionClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     val localFocusManager = LocalFocusManager.current
 
@@ -76,9 +75,10 @@ fun AccountDetailScreen(
         AccountDetailEffect.ClosePage -> {
             LaunchedEffect(effect) {
                 onClosePage()
+                viewModel.resetEffect()
             }
         }
-        null -> {}
+        AccountDetailEffect.Initial -> {}
     }
 
     AccountDetailScreen(

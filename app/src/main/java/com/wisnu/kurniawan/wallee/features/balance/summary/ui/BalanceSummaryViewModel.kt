@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class BalanceSummaryViewModel @Inject constructor(
     balanceSummaryEnvironment: IBalanceSummaryEnvironment,
-) : StatefulViewModel<BalanceSummaryState, BalanceSummaryEffect, BalanceSummaryAction, IBalanceSummaryEnvironment>(BalanceSummaryState.initial(), balanceSummaryEnvironment) {
+) : StatefulViewModel<BalanceSummaryState, BalanceSummaryEffect, BalanceSummaryAction, IBalanceSummaryEnvironment>(BalanceSummaryState.initial(), BalanceSummaryEffect.Initial, balanceSummaryEnvironment) {
 
     init {
         initLoad()

@@ -1,11 +1,9 @@
 package com.wisnu.kurniawan.wallee.foundation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 
 /**
@@ -19,16 +17,17 @@ import kotlinx.coroutines.flow.update
  */
 abstract class StatefulViewModel<STATE, EFFECT, ACTION, ENVIRONMENT>(
     initialState: STATE,
+    protected val initialEffect: EFFECT,
     protected val environment: ENVIRONMENT
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(initialState)
 
-    private val _effect = Channel<EFFECT>(Channel.BUFFERED)
+    private val _effect = MutableStateFlow(initialEffect)
 
     val state: StateFlow<STATE> = _state.asStateFlow()
 
-    val effect = _effect.receiveAsFlow()
+    val effect: StateFlow<EFFECT> = _effect.asStateFlow()
 
     abstract fun dispatch(action: ACTION)
 
@@ -36,8 +35,12 @@ abstract class StatefulViewModel<STATE, EFFECT, ACTION, ENVIRONMENT>(
         _state.update(newState)
     }
 
-    protected suspend fun setEffect(newEffect: EFFECT) {
-        _effect.send(newEffect)
+    protected fun setEffect(newEffect: EFFECT) {
+        _effect.update { newEffect }
+    }
+
+    fun resetEffect() {
+        _effect.update { initialEffect }
     }
 
     private fun stateValue(): STATE {

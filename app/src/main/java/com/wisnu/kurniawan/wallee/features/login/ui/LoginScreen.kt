@@ -41,7 +41,6 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextField
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -50,7 +49,7 @@ fun LoginScreen(
     onLogin: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     LoginScreen(
         state = state,
@@ -60,9 +59,13 @@ fun LoginScreen(
         onClickLogin = { viewModel.dispatch(LoginAction.ClickLogin) }
     )
 
-    if (effect is LoginEffect.NavigateToDashboard) {
-        LaunchedEffect(effect) {
-            onLogin()
+    when(effect) {
+        LoginEffect.Initial -> {}
+        LoginEffect.NavigateToDashboard -> {
+            LaunchedEffect(effect) {
+                onLogin()
+                viewModel.resetEffect()
+            }
         }
     }
 }

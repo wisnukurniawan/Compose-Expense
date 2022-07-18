@@ -22,7 +22,6 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalBackHeader
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -31,7 +30,7 @@ fun LanguageScreen(
     onClickBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     when (effect) {
         is LocalizedEffect.ApplyLanguage -> {
@@ -39,9 +38,10 @@ fun LanguageScreen(
                 val lang = (effect as LocalizedEffect.ApplyLanguage).language.code
                 val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang)
                 AppCompatDelegate.setApplicationLocales(appLocale)
+                viewModel.resetEffect()
             }
         }
-        null -> {}
+        LocalizedEffect.Initial -> {}
     }
 
     LanguageScreen(

@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class AccountDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     accountDetailEnvironment: IAccountDetailEnvironment
-) : StatefulViewModel<AccountDetailState, AccountDetailEffect, AccountDetailAction, IAccountDetailEnvironment>(AccountDetailState(), accountDetailEnvironment) {
+) : StatefulViewModel<AccountDetailState, AccountDetailEffect, AccountDetailAction, IAccountDetailEnvironment>(AccountDetailState(), AccountDetailEffect.Initial, accountDetailEnvironment) {
 
     private val accountId = savedStateHandle.get<String>(ARG_ACCOUNT_ID).orEmpty()
     private val isDeleteInProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)

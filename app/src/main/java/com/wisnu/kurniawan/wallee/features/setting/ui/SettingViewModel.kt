@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor() :
-    StatefulViewModel<SettingState, Unit, Unit, Unit>(SettingState(), Unit) {
+    StatefulViewModel<SettingState, Unit, Unit, Unit>(SettingState(), Unit, Unit) {
 
     override fun dispatch(action: Unit) {
     }

@@ -41,7 +41,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgDateLabel
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgEmpty
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -50,7 +49,7 @@ fun AllTransactionScreen(
     onTransactionItemClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     AllTransactionScreen(
         state = state,

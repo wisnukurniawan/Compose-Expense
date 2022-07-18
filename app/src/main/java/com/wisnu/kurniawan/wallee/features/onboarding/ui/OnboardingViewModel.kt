@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     onboardingEnvironment: IOnboardingEnvironment
-) : StatefulViewModel<OnboardingState, OnboardingEffect, OnboardingAction, IOnboardingEnvironment>(OnboardingState(), onboardingEnvironment) {
+) : StatefulViewModel<OnboardingState, OnboardingEffect, OnboardingAction, IOnboardingEnvironment>(OnboardingState(), OnboardingEffect.Initial, onboardingEnvironment) {
 
     private val isSaveInProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)
 

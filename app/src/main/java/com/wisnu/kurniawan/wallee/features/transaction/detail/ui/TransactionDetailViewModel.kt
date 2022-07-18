@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 class TransactionDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     transactionEnvironment: ITransactionDetailEnvironment,
-) : StatefulViewModel<TransactionState, TransactionEffect, TransactionAction, ITransactionDetailEnvironment>(TransactionState(), transactionEnvironment) {
+) : StatefulViewModel<TransactionState, TransactionEffect, TransactionAction, ITransactionDetailEnvironment>(TransactionState(), TransactionEffect.Initial, transactionEnvironment) {
 
     private val transactionId = savedStateHandle.get<String>(ARG_TRANSACTION_ID).orEmpty()
     private val isDeleteInProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -48,6 +48,11 @@ class TransactionDetailViewModel @Inject constructor(
     }
 
     private fun initLoad() {
+        viewModelScope.launch {
+            if (transactionId.isEmpty()) {
+                setEffect(TransactionEffect.ShowAmountKeyboard)
+            }
+        }
         viewModelScope.launch {
             if (transactionId.isEmpty()) {
                 initLoad(
@@ -129,10 +134,6 @@ class TransactionDetailViewModel @Inject constructor(
                         },
                         currency = initialCurrency ?: it.getDefaultAccount().currency
                     )
-                }
-
-                if (initialCurrency == null) {
-                    setEffect(TransactionEffect.ShowAmountKeyboard)
                 }
             }
     }

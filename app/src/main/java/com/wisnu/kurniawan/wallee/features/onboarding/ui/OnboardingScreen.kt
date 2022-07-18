@@ -47,7 +47,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
-import com.wisnu.kurniawan.wallee.foundation.uiextension.collectAsEffectWithLifecycle
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -57,15 +56,16 @@ fun OnboardingScreen(
     onClosePage: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsEffectWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     when (effect) {
         OnboardingEffect.ClosePage -> {
             LaunchedEffect(effect) {
                 onClosePage()
+                viewModel.resetEffect()
             }
         }
-        null -> {}
+        OnboardingEffect.Initial -> {}
     }
 
     OnboardingScreen(

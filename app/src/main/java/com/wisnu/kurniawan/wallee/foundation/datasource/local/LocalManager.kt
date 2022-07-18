@@ -1,6 +1,5 @@
 package com.wisnu.kurniawan.wallee.foundation.datasource.local
 
-import com.wisnu.kurniawan.coreLogger.Loggr
 import com.wisnu.kurniawan.wallee.foundation.di.DiName
 import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.foundation.extension.toAccount
@@ -193,7 +192,6 @@ class LocalManager @Inject constructor(
 
     suspend fun updateAccount(account: Account) {
         withContext(dispatcher) {
-            Loggr.debug { "wisunksdk $account" }
             walleeWriteDao.updateAccount(account.toAccountDb())
         }
     }

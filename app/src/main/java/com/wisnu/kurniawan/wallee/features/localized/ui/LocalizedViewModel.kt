@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LocalizedViewModel @Inject constructor(localizedSettingEnvironment: ILocalizedEnvironment) :
-    StatefulViewModel<LocalizedSettingState, LocalizedEffect, LocalizedAction, ILocalizedEnvironment>(LocalizedSettingState(), localizedSettingEnvironment) {
+    StatefulViewModel<LocalizedSettingState, LocalizedEffect, LocalizedAction, ILocalizedEnvironment>(LocalizedSettingState(), LocalizedEffect.Initial, localizedSettingEnvironment) {
 
     init {
         initLanguage()
