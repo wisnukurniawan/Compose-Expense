@@ -4,12 +4,11 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.wisnu.kurniawan.coreLogger.Loggr
 import com.wisnu.kurniawan.wallee.features.account.detail.data.IAccountDetailEnvironment
 import com.wisnu.kurniawan.wallee.features.balance.summary.data.AccountBalance
+import com.wisnu.kurniawan.wallee.foundation.extension.asDisplay
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
-import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
 import com.wisnu.kurniawan.wallee.foundation.extension.toggleFormatDisplay
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
@@ -47,7 +46,7 @@ class AccountDetailViewModel @Inject constructor(
                     .collect {
                         setState {
                             val name = it.name
-                            val totalAmount = it.currency.formatAsDisplayNormalize(it.amount, false)
+                            val totalAmount = it.amount.asDisplay().toString() // it.currency.formatAsDisplayNormalize(it.amount, false)
                             copy(
                                 accountTypeItems = initialAccountTypeItems(it.type),
                                 name = TextFieldValue(name, TextRange(name.length)),
@@ -124,14 +123,12 @@ class AccountDetailViewModel @Inject constructor(
             }
             is AccountDetailAction.TotalAmountAction.Change -> {
                 viewModelScope.launch {
-                    try {
+                    runCatching {
                         action.totalAmount.formatAsDecimal().apply {
                             if (this.isDecimalNotExceed()) {
                                 setState { copy(totalAmount = this@apply) }
                             }
                         }
-                    } catch (e: Exception) {
-                        Loggr.debug { "wisnukk err $e" }
                     }
                 }
             }

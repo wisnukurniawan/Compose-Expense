@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionDetailEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
+import com.wisnu.kurniawan.wallee.foundation.extension.asDisplay
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
-import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.getDefaultAccount
 import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
 import com.wisnu.kurniawan.wallee.foundation.extension.toggleFormatDisplay
@@ -71,7 +71,7 @@ class TransactionDetailViewModel @Inject constructor(
                     .onStart { setState { copy(isEditMode = true) } }
                     .collect {
                         val note = it.transaction.note
-                        val totalAmount = it.transaction.currency.formatAsDisplayNormalize(it.transaction.amount, false)
+                        val totalAmount = it.transaction.amount.asDisplay().toString() // it.transaction.currency.formatAsDisplayNormalize(it.transaction.amount, false)
                         initLoad(
                             selectedTransactionType = it.transaction.type,
                             selectedCategoryType = it.transaction.categoryType,

@@ -59,7 +59,7 @@ class CurrencyTest {
             output,
             Currency("IDR", "ID").parseAsDecimal(
                 input,
-                ""
+                false
             ).toString()
         )
     }

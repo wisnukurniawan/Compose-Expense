@@ -99,32 +99,29 @@ fun Currency.toggleFormatDisplay(
     enable: Boolean,
     amount: String
 ): String {
-    return if (enable) {
-        formatAsDisplay(
-            amount.toBigDecimal()
-        )
-    } else {
-        amount.formatAsDecimal()
-    }
-}
-
-fun String.formatAsDecimal(): String {
-    return replace(".", "")
-        .replace(",", ".")
+    return amount
+    // TODO fixme
+//    return if (enable) {
+//        formatAsDisplay(
+//            amount.toBigDecimal()
+//        )
+//    } else {
+//        amount.formatAsDecimal()
+//    }
 }
 
 fun TextFieldValue.formatAsBigDecimal(): BigDecimal {
-    return text.trim().formatAsDecimal().toBigDecimal()
+    return text.toBigDecimal()
 }
 
 fun Currency.parseAsDecimal(
     amount: String,
-    currencySymbol: String
+    withSymbol: Boolean = false
 ): BigDecimal {
     val currencyFormat = NumberFormat.getCurrencyInstance(getLocale())
     val amountCurrency = JavaCurrency.getInstance(currencyCode)
     runCatching {
-        val amountSplits = amount.split(",")
+        val amountSplits = amount.split(FRACTION_SEPARATOR)
         val fraction = if (amountSplits.size > 1) {
             amountSplits[1].length
         } else {
@@ -132,7 +129,7 @@ fun Currency.parseAsDecimal(
         }
         val decimalFormatSymbols = (currencyFormat as DecimalFormat).decimalFormatSymbols
         decimalFormatSymbols.currency = amountCurrency
-        decimalFormatSymbols.currencySymbol = currencySymbol
+        decimalFormatSymbols.currencySymbol = if (withSymbol) getSymbol() else ""
         currencyFormat.minimumFractionDigits = fraction
         currencyFormat.decimalFormatSymbols = decimalFormatSymbols
     }
