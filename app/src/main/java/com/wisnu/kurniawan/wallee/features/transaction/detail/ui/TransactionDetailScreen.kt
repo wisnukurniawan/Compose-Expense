@@ -32,7 +32,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -69,6 +68,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
+import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.TransactionType
@@ -84,26 +84,23 @@ fun TransactionDetailScreen(
     onTransferAccountSectionClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     val focusRequester = remember { FocusRequester() }
     val localFocusManager = LocalFocusManager.current
     val activity = LocalContext.current as AppCompatActivity
 
-    when (effect) {
-        TransactionEffect.ClosePage -> {
-            LaunchedEffect(effect) {
+    HandleEffect(
+        viewModel = viewModel,
+    ) {
+        when (it) {
+            TransactionEffect.ClosePage -> {
                 onClosePage()
-                viewModel.resetEffect()
             }
-        }
-        TransactionEffect.ShowAmountKeyboard -> {
-            LaunchedEffect(effect) {
+            TransactionEffect.ShowAmountKeyboard -> {
                 focusRequester.requestFocus()
-                viewModel.resetEffect()
             }
+            TransactionEffect.Initial -> {}
         }
-        TransactionEffect.Initial -> {}
     }
 
     TransactionDetailScreen(

@@ -20,7 +20,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +40,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTextField
+import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -49,7 +49,6 @@ fun LoginScreen(
     onLogin: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     LoginScreen(
         state = state,
@@ -59,12 +58,13 @@ fun LoginScreen(
         onClickLogin = { viewModel.dispatch(LoginAction.ClickLogin) }
     )
 
-    when(effect) {
-        LoginEffect.Initial -> {}
-        LoginEffect.NavigateToDashboard -> {
-            LaunchedEffect(effect) {
+    HandleEffect(
+        viewModel = viewModel
+    ) {
+        when (it) {
+            LoginEffect.Initial -> {}
+            LoginEffect.NavigateToDashboard -> {
                 onLogin()
-                viewModel.resetEffect()
             }
         }
     }

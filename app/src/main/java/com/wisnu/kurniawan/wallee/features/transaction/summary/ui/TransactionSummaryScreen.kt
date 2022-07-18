@@ -70,7 +70,6 @@ fun TransactionSummaryScreen(
     onSeeMoreTopExpenseClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     LaunchedEffect(route) {
         viewModel.dispatch(TransactionSummaryAction.NavBackStackEntryChanged(route, arguments))

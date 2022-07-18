@@ -24,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +46,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline2
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
+import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -56,16 +56,16 @@ fun OnboardingScreen(
     onClosePage: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
-    when (effect) {
-        OnboardingEffect.ClosePage -> {
-            LaunchedEffect(effect) {
+    HandleEffect(
+        viewModel = viewModel
+    ) {
+        when (it) {
+            OnboardingEffect.ClosePage -> {
                 onClosePage()
-                viewModel.resetEffect()
             }
+            OnboardingEffect.Initial -> {}
         }
-        OnboardingEffect.Initial -> {}
     }
 
     OnboardingScreen(

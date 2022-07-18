@@ -10,7 +10,6 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,6 +21,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalBackHeader
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
+import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -30,18 +30,18 @@ fun LanguageScreen(
     onClickBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
-    when (effect) {
-        is LocalizedEffect.ApplyLanguage -> {
-            LaunchedEffect(effect) {
-                val lang = (effect as LocalizedEffect.ApplyLanguage).language.code
+    HandleEffect(
+        viewModel = viewModel,
+    ) {
+        when (it) {
+            is LocalizedEffect.ApplyLanguage -> {
+                val lang = it.language.code
                 val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang)
                 AppCompatDelegate.setApplicationLocales(appLocale)
-                viewModel.resetEffect()
             }
+            LocalizedEffect.Initial -> {}
         }
-        LocalizedEffect.Initial -> {}
     }
 
     LanguageScreen(

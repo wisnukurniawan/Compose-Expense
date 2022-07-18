@@ -24,7 +24,6 @@ import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,6 +56,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
+import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -67,18 +67,18 @@ fun AccountDetailScreen(
     onCategorySectionClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     val localFocusManager = LocalFocusManager.current
 
-    when (effect) {
-        AccountDetailEffect.ClosePage -> {
-            LaunchedEffect(effect) {
+    HandleEffect(
+        viewModel = viewModel,
+    ) {
+        when (it) {
+            AccountDetailEffect.ClosePage -> {
                 onClosePage()
-                viewModel.resetEffect()
             }
+            AccountDetailEffect.Initial -> {}
         }
-        AccountDetailEffect.Initial -> {}
     }
 
     AccountDetailScreen(

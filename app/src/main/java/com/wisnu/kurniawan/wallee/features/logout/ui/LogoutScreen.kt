@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +16,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalBackHeader
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.Profile
+import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -26,14 +26,14 @@ fun LogoutScreen(
     onLogout: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
-    when (effect) {
-        LogoutEffect.Initial -> {}
-        LogoutEffect.NavigateToSplash -> {
-            LaunchedEffect(effect) {
+    HandleEffect(
+        viewModel = viewModel,
+    ) {
+        when(it) {
+            LogoutEffect.Initial -> {}
+            LogoutEffect.NavigateToSplash -> {
                 onLogout()
-                viewModel.resetEffect()
             }
         }
     }

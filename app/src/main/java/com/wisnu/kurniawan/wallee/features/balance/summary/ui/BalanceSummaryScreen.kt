@@ -54,7 +54,6 @@ fun BalanceSummaryScreen(
     onClickAddAccount: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val effect by viewModel.effect.collectAsStateWithLifecycle()
 
     LaunchedEffect(route) {
         viewModel.dispatch(BalanceSummaryAction.NavBackStackEntryChanged(route, arguments))
