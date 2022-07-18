@@ -6,13 +6,11 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_AMOUNT_MULTIPLIER
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.extension.formatMonth
 import com.wisnu.kurniawan.wallee.foundation.extension.getAmountColor
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
-import com.wisnu.kurniawan.wallee.foundation.extension.percentageOf
 import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.CategoryType
@@ -177,14 +175,14 @@ fun List<TransactionWithAccount>.toLastTransactionItems(): List<TransactionItem>
 fun List<TopTransaction>.toTopExpenseItems(): List<TopExpenseItem> {
     val max = maxOfOrNull { it.amount } ?: BigDecimal.ZERO
     return map {
+        val progress = it.amount
+            .divide(max, 2, RoundingMode.CEILING)
+            .setScale(1, RoundingMode.CEILING)
+            .toFloat()
         TopExpenseItem(
             amount = it.amount,
             categoryType = it.type,
-            progress = it.amount
-                .percentageOf(max)
-                .divide(DEFAULT_AMOUNT_MULTIPLIER)
-                .setScale(1, RoundingMode.CEILING)
-                .toFloat()
+            progress = progress
         )
     }
 }
