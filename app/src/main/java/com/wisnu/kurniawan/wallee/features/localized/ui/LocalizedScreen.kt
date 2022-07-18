@@ -40,7 +40,6 @@ fun LanguageScreen(
                 val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang)
                 AppCompatDelegate.setApplicationLocales(appLocale)
             }
-            LocalizedEffect.Initial -> {}
         }
     }
 

@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 class TransactionDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     transactionEnvironment: ITransactionDetailEnvironment,
-) : StatefulViewModel<TransactionState, TransactionEffect, TransactionAction, ITransactionDetailEnvironment>(TransactionState(), TransactionEffect.Initial, transactionEnvironment) {
+) : StatefulViewModel<TransactionState, TransactionEffect, TransactionAction, ITransactionDetailEnvironment>(TransactionState(), transactionEnvironment) {
 
     private val transactionId = savedStateHandle.get<String>(ARG_TRANSACTION_ID).orEmpty()
     private val isDeleteInProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)

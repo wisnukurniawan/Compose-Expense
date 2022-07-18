@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class ThemeViewModel @Inject constructor(
     themeEnvironment: IThemeEnvironment,
 ) :
-    StatefulViewModel<ThemeState, Unit, ThemeAction, IThemeEnvironment>(ThemeState(), Unit, themeEnvironment) {
+    StatefulViewModel<ThemeState, Unit, ThemeAction, IThemeEnvironment>(ThemeState(), themeEnvironment) {
 
     init {
         initTheme()

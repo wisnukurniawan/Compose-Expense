@@ -64,7 +64,6 @@ fun OnboardingScreen(
             OnboardingEffect.ClosePage -> {
                 onClosePage()
             }
-            OnboardingEffect.Initial -> {}
         }
     }
 

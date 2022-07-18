@@ -31,7 +31,6 @@ fun LogoutScreen(
         viewModel = viewModel,
     ) {
         when(it) {
-            LogoutEffect.Initial -> {}
             LogoutEffect.NavigateToSplash -> {
                 onLogout()
             }

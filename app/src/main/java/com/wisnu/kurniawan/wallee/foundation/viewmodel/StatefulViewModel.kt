@@ -17,17 +17,16 @@ import kotlinx.coroutines.flow.update
  */
 abstract class StatefulViewModel<STATE, EFFECT, ACTION, ENVIRONMENT>(
     initialState: STATE,
-    protected val initialEffect: EFFECT,
     protected val environment: ENVIRONMENT
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(initialState)
 
-    private val _effect = MutableStateFlow(initialEffect)
+    private val _effect: MutableStateFlow<EFFECT?> = MutableStateFlow(null)
 
     val state: StateFlow<STATE> = _state.asStateFlow()
 
-    val effect: StateFlow<EFFECT> = _effect.asStateFlow()
+    val effect: StateFlow<EFFECT?> = _effect.asStateFlow()
 
     abstract fun dispatch(action: ACTION)
 
@@ -40,7 +39,7 @@ abstract class StatefulViewModel<STATE, EFFECT, ACTION, ENVIRONMENT>(
     }
 
     fun resetEffect() {
-        _effect.update { initialEffect }
+        _effect.update { null }
     }
 
     private fun stateValue(): STATE {

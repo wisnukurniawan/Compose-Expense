@@ -42,7 +42,6 @@ fun SplashScreen(
                     }
                 }
             }
-            SplashEffect.Initial -> {}
         }
     }
 }

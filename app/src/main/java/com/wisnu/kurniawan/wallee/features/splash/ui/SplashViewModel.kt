@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     splashEnvironment: ISplashEnvironment
-) : StatefulViewModel<Unit, SplashEffect, SplashAction, ISplashEnvironment>(Unit, SplashEffect.Initial, splashEnvironment) {
+) : StatefulViewModel<Unit, SplashEffect, SplashAction, ISplashEnvironment>(Unit, splashEnvironment) {
 
     init {
         dispatch(SplashAction.AppLaunch)

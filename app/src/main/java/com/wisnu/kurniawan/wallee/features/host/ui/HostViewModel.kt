@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HostViewModel @Inject constructor(hostEnvironment: IHostEnvironment) :
-    StatefulViewModel<HostState, Unit, Unit, IHostEnvironment>(HostState(), Unit, hostEnvironment) {
+    StatefulViewModel<HostState, Unit, Unit, IHostEnvironment>(HostState(), hostEnvironment) {
 
     init {
         initTheme()

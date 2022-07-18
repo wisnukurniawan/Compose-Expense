@@ -77,7 +77,6 @@ fun AccountDetailScreen(
             AccountDetailEffect.ClosePage -> {
                 onClosePage()
             }
-            AccountDetailEffect.Initial -> {}
         }
     }
 

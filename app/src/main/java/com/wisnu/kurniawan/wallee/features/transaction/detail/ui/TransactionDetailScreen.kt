@@ -99,7 +99,6 @@ fun TransactionDetailScreen(
             TransactionEffect.ShowAmountKeyboard -> {
                 focusRequester.requestFocus()
             }
-            TransactionEffect.Initial -> {}
         }
     }
 

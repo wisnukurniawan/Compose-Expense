@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -15,8 +14,9 @@ fun <STATE, EFFECT, ACTION, ENVIRONMENT> HandleEffect(
 ) {
     val effect by viewModel.effect.collectAsStateWithLifecycle()
     LaunchedEffect(effect) {
-        handle(effect)
-        delay(100)
-        viewModel.resetEffect()
+        effect?.let {
+            handle(it)
+            viewModel.resetEffect()
+        }
     }
 }

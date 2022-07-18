@@ -62,7 +62,6 @@ fun LoginScreen(
         viewModel = viewModel
     ) {
         when (it) {
-            LoginEffect.Initial -> {}
             LoginEffect.NavigateToDashboard -> {
                 onLogin()
             }
