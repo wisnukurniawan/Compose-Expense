@@ -483,7 +483,7 @@ val CURRENCY_DATA = mapOf(
             "UM"
         )
     ),
-    "UYU" to CurrencyData(num = 858, scale = 2, name = "Uruguayan peso", symbol = "{'$'}U", countryCodes = listOf("UY")),
+    "UYU" to CurrencyData(num = 858, scale = 2, name = "Uruguayan peso", symbol = "${'$'}U", countryCodes = listOf("UY")),
     "UZS" to CurrencyData(num = 860, scale = 2, name = "Uzbekistan som", symbol = "сум", countryCodes = listOf("UZ")),
     "VED" to CurrencyData(num = 926, scale = 2, name = "Venezuelan bolívar|Venezuelan bolívar digital", symbol = "Bs.", countryCodes = listOf("VE")),
     "VES" to CurrencyData(num = 928, scale = 2, name = "Venezuelan bolívar|Venezuelan bolívar soberano", symbol = "Bs.F", countryCodes = listOf("VE")),
