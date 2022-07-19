@@ -1,5 +1,7 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.data
 
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.wisnu.kurniawan.wallee.foundation.analytic.AnalyticManager
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
 import com.wisnu.kurniawan.wallee.foundation.extension.asData
 import com.wisnu.kurniawan.wallee.foundation.extension.isAmountChanged
@@ -28,7 +30,8 @@ import kotlinx.coroutines.flow.take
 class TransactionDetailEnvironment @Inject constructor(
     private val localManager: LocalManager,
     private val dateTimeProvider: DateTimeProvider,
-    private val idProvider: IdProvider
+    private val idProvider: IdProvider,
+    private val analyticManager: AnalyticManager
 ) : ITransactionDetailEnvironment {
 
     override fun getAccounts(): Flow<List<Account>> {
@@ -41,6 +44,16 @@ class TransactionDetailEnvironment @Inject constructor(
 
     override fun getCurrentDate(): LocalDateTime {
         return dateTimeProvider.now()
+    }
+
+    override fun trackSaveTransactionButtonClicked() {
+        analyticManager.trackEvent(
+            FirebaseAnalytics.Event.SELECT_CONTENT,
+            mapOf(
+                FirebaseAnalytics.Param.SCREEN_NAME to "transaction_detail",
+                FirebaseAnalytics.Param.ITEM_NAME to "button_save_transaction",
+            ),
+        )
     }
 
     /**

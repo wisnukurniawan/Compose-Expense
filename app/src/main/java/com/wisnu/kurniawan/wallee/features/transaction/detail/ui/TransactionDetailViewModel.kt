@@ -196,6 +196,7 @@ class TransactionDetailViewModel @Inject constructor(
     override fun dispatch(action: TransactionAction) {
         when (action) {
             TransactionAction.Save -> {
+                environment.trackSaveTransactionButtonClicked()
                 isSaveInProgress.value = true
             }
             TransactionAction.Delete -> {
