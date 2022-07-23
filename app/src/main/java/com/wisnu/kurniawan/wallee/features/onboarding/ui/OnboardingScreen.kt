@@ -141,6 +141,7 @@ private fun Content(
     state: OnboardingState,
     onItemClick: (CurrencyItem) -> Unit,
 ) {
+    val items by state.rememberGroupedCurrencyItems()
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -158,7 +159,7 @@ private fun Content(
         }
 
         CurrencyCell(
-            data = state.currencyItems.groupedCurrencyItems(),
+            data = items,
             onItemClick = onItemClick,
         )
 

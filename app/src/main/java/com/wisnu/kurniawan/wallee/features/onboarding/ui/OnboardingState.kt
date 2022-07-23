@@ -1,6 +1,9 @@
 package com.wisnu.kurniawan.wallee.features.onboarding.ui
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import com.wisnu.kurniawan.wallee.model.Currency
 
 @Immutable
@@ -15,6 +18,12 @@ data class CurrencyItem(
     val countryName: String,
     val currency: Currency
 )
+
+// Derived state
+@Composable
+fun OnboardingState.rememberGroupedCurrencyItems() = remember(currencyItems) {
+    derivedStateOf { currencyItems.groupedCurrencyItems() }
+}
 
 // Collections
 fun List<CurrencyItem>.select(currency: Currency): List<CurrencyItem> {
