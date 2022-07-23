@@ -7,6 +7,7 @@ import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -28,7 +29,8 @@ class LocalizedViewModel @Inject constructor(localizedSettingEnvironment: ILocal
     }
 
     private fun initLanguage() {
-        viewModelScope.launch(environment.dispatcherMain) {
+        viewModelScope.launch {
+            delay(100) // Workaround to fix bottom sheet not shown in release build
             environment.getLanguage()
                 .collect {
                     if (state.value.items.isNotEmpty()) {
