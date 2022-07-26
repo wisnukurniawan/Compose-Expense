@@ -26,7 +26,11 @@ class AccountDetailEnvironment @Inject constructor(
 ) : IAccountDetailEnvironment {
 
     override fun getAccount(id: String): Flow<Account> {
-        return localManager.getAccount(id)
+        return if (id.isBlank()) {
+            localManager.getDefaultAccount().take(1)
+        } else {
+            localManager.getAccount(id).take(1)
+        }
     }
 
     override suspend fun saveAccount(account: AccountBalance, changeReason: AdjustBalanceReason): Flow<Boolean> {

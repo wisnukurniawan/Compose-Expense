@@ -58,7 +58,15 @@ class AccountDetailViewModel @Inject constructor(
                         }
                     }
             } else {
-                setState { copy(accountTypeItems = initialAccountTypeItems()) }
+                environment.getAccount(accountId)
+                    .collect {
+                        setState {
+                            copy(
+                                accountTypeItems = initialAccountTypeItems(),
+                                currency = it.currency
+                            )
+                        }
+                    }
             }
         }
     }
