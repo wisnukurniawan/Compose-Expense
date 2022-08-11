@@ -70,14 +70,13 @@ class TransactionDetailViewModel @Inject constructor(
                 environment.getTransaction(transactionId)
                     .onStart { setState { copy(isEditMode = true) } }
                     .collect {
-                        val note = it.transaction.note
                         val totalAmount = it.transaction.amount.asDisplay().toString() // it.transaction.currency.formatAsDisplayNormalize(it.transaction.amount, false)
                         initLoad(
                             selectedTransactionType = it.transaction.type,
                             selectedCategoryType = it.transaction.categoryType,
                             selectedAccount = it.account,
                             selectedTransferAccount = it.transferAccount,
-                            initialNote = note,
+                            initialNote = it.transaction.note,
                             initialCurrency = it.transaction.currency,
                             initialTotalAmount = totalAmount,
                             initialDate = it.transaction.date,

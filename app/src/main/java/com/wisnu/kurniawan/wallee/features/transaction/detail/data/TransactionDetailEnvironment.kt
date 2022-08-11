@@ -35,11 +35,11 @@ class TransactionDetailEnvironment @Inject constructor(
 ) : ITransactionDetailEnvironment {
 
     override fun getAccounts(): Flow<List<Account>> {
-        return localManager.getAccounts().take(1)
+        return localManager.getAccounts()
     }
 
     override fun getTransaction(id: String): Flow<TransactionWithAccount> {
-        return localManager.getTransactionWithAccount(id).take(1)
+        return localManager.getTransactionWithAccount(id)
     }
 
     override fun getCurrentDate(): LocalDateTime {

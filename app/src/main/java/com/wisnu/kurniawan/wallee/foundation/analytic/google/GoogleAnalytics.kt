@@ -1,4 +1,4 @@
-package com.wisnu.kurniawan.composetodolist.foundation.analytic.google
+package com.wisnu.kurniawan.wallee.foundation.analytic.google
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics

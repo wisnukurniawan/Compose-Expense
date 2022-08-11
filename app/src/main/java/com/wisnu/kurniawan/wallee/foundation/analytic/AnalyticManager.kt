@@ -1,6 +1,6 @@
 package com.wisnu.kurniawan.wallee.foundation.analytic
 
-import com.wisnu.kurniawan.composetodolist.foundation.analytic.google.GoogleAnalytics
+import com.wisnu.kurniawan.wallee.foundation.analytic.google.GoogleAnalytics
 import javax.inject.Inject
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
