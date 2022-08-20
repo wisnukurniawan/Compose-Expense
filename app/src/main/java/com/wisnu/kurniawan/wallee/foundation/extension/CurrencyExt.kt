@@ -47,8 +47,13 @@ fun Currency.formatAsDisplayNormalize(
     amount: BigDecimal,
     withSymbol: Boolean = false
 ): String {
-    val amountDisplay = amount.setScale(getScale()) / DEFAULT_AMOUNT_MULTIPLIER
-    return formatAsDisplay(amountDisplay, withSymbol)
+    val scale = getScale()
+    val amountNormalize = if (scale > 0) {
+        amount.setScale(scale) / DEFAULT_AMOUNT_MULTIPLIER
+    } else {
+        amount
+    }
+    return formatAsDisplay(amountNormalize, withSymbol)
 }
 
 fun Currency.formatAsDisplay(

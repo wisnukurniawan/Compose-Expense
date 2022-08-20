@@ -330,13 +330,15 @@ private fun AmountSection(
         PgContentTitle(
             text = totalAmountDisplay,
             color = amountColor,
-            modifier = Modifier.clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-                onClick = {
-                    focusRequester.requestFocus()
-                }
-            )
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() },
+                    onClick = {
+                        focusRequester.requestFocus()
+                    }
+                )
         )
         val localFocusManager = LocalFocusManager.current
         PgBasicTextField(
