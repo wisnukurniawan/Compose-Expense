@@ -6,13 +6,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionDetailEnvironment
+import com.wisnu.kurniawan.wallee.foundation.extension.MAX_TOTAL_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
-import com.wisnu.kurniawan.wallee.foundation.extension.asDisplay
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
-import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
+import com.wisnu.kurniawan.wallee.foundation.extension.formattedAmount
 import com.wisnu.kurniawan.wallee.foundation.extension.getDefaultAccount
-import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
-import com.wisnu.kurniawan.wallee.foundation.extension.toggleFormatDisplay
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.CategoryType
@@ -70,7 +68,6 @@ class TransactionDetailViewModel @Inject constructor(
                 environment.getTransaction(transactionId)
                     .onStart { setState { copy(isEditMode = true) } }
                     .collect {
-                        val totalAmount = it.transaction.amount.asDisplay().toString() // it.transaction.currency.formatAsDisplayNormalize(it.transaction.amount, false)
                         initLoad(
                             selectedTransactionType = it.transaction.type,
                             selectedCategoryType = it.transaction.categoryType,
@@ -78,7 +75,7 @@ class TransactionDetailViewModel @Inject constructor(
                             selectedTransferAccount = it.transferAccount,
                             initialNote = it.transaction.note,
                             initialCurrency = it.transaction.currency,
-                            initialTotalAmount = totalAmount,
+                            initialTotalAmount = it.transaction.amount.toString(),
                             initialDate = it.transaction.date,
                             initialTransactionCreatedAt = it.transaction.createdAt,
                             initialTransactionUpdatedAt = it.transaction.updatedAt
@@ -217,20 +214,17 @@ class TransactionDetailViewModel @Inject constructor(
             }
             is TransactionAction.TotalAmountAction.Change -> {
                 viewModelScope.launch {
-                    runCatching {
-                        action.totalAmount.formatAsDecimal().apply {
-                            if (this.isDecimalNotExceed()) {
-                                setState { copy(totalAmount = this@apply) }
-                            }
+                    val amount = action.totalAmount.text.formattedAmount()
+                    if (amount <= MAX_TOTAL_AMOUNT) {
+                        setState {
+                            copy(
+                                totalAmount = action.totalAmount.copy(
+                                    text = amount.toString(),
+                                    selection = TextRange(amount.toString().length)
+                                )
+                            )
                         }
                     }
-                }
-            }
-            is TransactionAction.TotalAmountAction.FocusChange -> {
-                viewModelScope.launch {
-                    val totalAmountText = state.value.totalAmount.text
-                    val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmountText)
-                    setState { copy(totalAmount = totalAmount.copy(text = totalAmountFormatted)) }
                 }
             }
             is TransactionAction.ChangeNote -> {

@@ -3,7 +3,6 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.data
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.wisnu.kurniawan.wallee.foundation.analytic.AnalyticManager
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
-import com.wisnu.kurniawan.wallee.foundation.extension.asData
 import com.wisnu.kurniawan.wallee.foundation.extension.isAmountChanged
 import com.wisnu.kurniawan.wallee.foundation.extension.isChanged
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
@@ -67,9 +66,7 @@ class TransactionDetailEnvironment @Inject constructor(
      *      Adjust amount based on transaction amount
      */
     override suspend fun saveTransaction(transactionWithAccount: TransactionWithAccount): Flow<Account> {
-        val newTransaction = transactionWithAccount.transaction.copy(
-            amount = transactionWithAccount.transaction.amount.asData()
-        )
+        val newTransaction = transactionWithAccount.transaction
         val account = transactionWithAccount.account
         val transferAccount = transactionWithAccount.transferAccount
 

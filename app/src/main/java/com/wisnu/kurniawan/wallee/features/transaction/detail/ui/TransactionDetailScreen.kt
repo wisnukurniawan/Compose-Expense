@@ -3,7 +3,9 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -36,9 +39,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -141,7 +144,6 @@ fun TransactionDetailScreen(
             viewModel.dispatch(TransactionAction.SelectTransactionType(it))
         },
         onTotalAmountChange = { viewModel.dispatch(TransactionAction.TotalAmountAction.Change(it)) },
-        onTotalAmountFocusChange = { viewModel.dispatch(TransactionAction.TotalAmountAction.FocusChange(it)) },
         onNoteChange = { viewModel.dispatch(TransactionAction.ChangeNote(it)) },
     )
 }
@@ -159,7 +161,6 @@ private fun TransactionDetailScreen(
     onDeleteClick: () -> Unit,
     onTransactionTypeSelected: (TransactionTypeItem) -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
-    onTotalAmountFocusChange: (Boolean) -> Unit,
     onNoteChange: (TextFieldValue) -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
@@ -199,11 +200,10 @@ private fun TransactionDetailScreen(
             item {
                 AmountSection(
                     totalAmount = state.totalAmount,
-                    totalAmountDisplay = state.getCurrencySymbol() + " ",
+                    totalAmountDisplay = state.getAmountDisplay(),
                     amountColor = state.getAmountColor(MaterialTheme.colorScheme.onSurface),
                     focusRequester = focusRequester,
                     onTotalAmountChange = onTotalAmountChange,
-                    onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
             }
 
@@ -313,14 +313,13 @@ private fun AmountSection(
     amountColor: Color,
     focusRequester: FocusRequester,
     onTotalAmountChange: (TextFieldValue) -> Unit,
-    onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
     PgHeadlineLabel(
         text = stringResource(R.string.transaction_edit_total),
         modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
     )
 
-    Row(
+    Box(
         modifier = Modifier.background(
             color = MaterialTheme.colorScheme.secondary,
             shape = MaterialTheme.shapes.medium
@@ -330,23 +329,27 @@ private fun AmountSection(
     ) {
         PgContentTitle(
             text = totalAmountDisplay,
-            color = amountColor
+            color = amountColor,
+            modifier = Modifier.clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = {
+                    focusRequester.requestFocus()
+                }
+            )
         )
         val localFocusManager = LocalFocusManager.current
         PgBasicTextField(
             value = totalAmount,
             onValueChange = onTotalAmountChange,
-            modifier = Modifier.onFocusChanged {
-                onTotalAmountFocusChange(it.isFocused)
-            }.focusRequester(focusRequester),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
+            modifier = Modifier.focusRequester(focusRequester).alpha(0f).size(1.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onDone = {
                     localFocusManager.clearFocus()
                 }
             ),
-            textStyle = MaterialTheme.typography.titleSmall.copy(color = amountColor),
         )
     }
 }

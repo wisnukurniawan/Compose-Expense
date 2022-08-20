@@ -9,7 +9,6 @@ sealed interface AccountDetailAction {
     object Delete : AccountDetailAction
     sealed interface TotalAmountAction : AccountDetailAction {
         data class Change(val totalAmount: TextFieldValue) : TotalAmountAction
-        data class FocusChange(val isFocused: Boolean) : TotalAmountAction
     }
 
     data class NameChange(val name: TextFieldValue) : AccountDetailAction

@@ -2,7 +2,9 @@ package com.wisnu.kurniawan.wallee.features.account.detail.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -25,9 +28,12 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -42,7 +48,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
 import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
-import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.extension.shouldShowDivider
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
@@ -99,7 +104,6 @@ fun AccountDetailScreen(
             onCategorySectionClick()
         },
         onTotalAmountChange = { viewModel.dispatch(AccountDetailAction.TotalAmountAction.Change(it)) },
-        onTotalAmountFocusChange = { viewModel.dispatch(AccountDetailAction.TotalAmountAction.FocusChange(it)) },
         onNameChange = { viewModel.dispatch(AccountDetailAction.NameChange(it)) },
         onAdjustBalanceReasonClick = { viewModel.dispatch(AccountDetailAction.ClickBalanceReason(it.reason)) }
     )
@@ -114,7 +118,6 @@ private fun AccountDetailScreen(
     onNameChange: (TextFieldValue) -> Unit,
     onCategorySectionClick: () -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
-    onTotalAmountFocusChange: (Boolean) -> Unit,
     onAdjustBalanceReasonClick: (AdjustBalanceReasonItem) -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
@@ -169,9 +172,8 @@ private fun AccountDetailScreen(
             item {
                 AmountSection(
                     totalAmount = state.totalAmount,
-                    amountSymbol = state.currency.getSymbol() + " ",
+                    totalAmountDisplay = state.getAmountDisplay(),
                     onTotalAmountChange = onTotalAmountChange,
-                    onTotalAmountFocusChange = onTotalAmountFocusChange
                 )
             }
 
@@ -275,10 +277,11 @@ private fun CategorySection(
 @Composable
 private fun AmountSection(
     totalAmount: TextFieldValue,
-    amountSymbol: String,
+    totalAmountDisplay: String,
     onTotalAmountChange: (TextFieldValue) -> Unit,
-    onTotalAmountFocusChange: (Boolean) -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
     PgHeadlineLabel(
         text = stringResource(R.string.account_edit_balance),
         modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
@@ -293,15 +296,20 @@ private fun AmountSection(
             .paddingCell()
     ) {
         PgContentTitle(
-            text = amountSymbol,
+            text = totalAmountDisplay,
+            modifier = Modifier.clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = {
+                    focusRequester.requestFocus()
+                }
+            )
         )
         val localFocusManager = LocalFocusManager.current
         PgBasicTextField(
             value = totalAmount,
             onValueChange = onTotalAmountChange,
-            modifier = Modifier.onFocusChanged {
-                onTotalAmountFocusChange(it.isFocused)
-            },
+            modifier = Modifier.focusRequester(focusRequester).alpha(0f).size(1.dp),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
             singleLine = true,
             keyboardActions = KeyboardActions(

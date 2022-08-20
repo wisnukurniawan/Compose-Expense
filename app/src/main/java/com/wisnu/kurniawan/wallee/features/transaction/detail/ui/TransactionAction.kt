@@ -11,7 +11,6 @@ sealed interface TransactionAction {
     data class SelectTransactionType(val selectedTransactionItem: TransactionTypeItem) : TransactionAction
     sealed interface TotalAmountAction : TransactionAction {
         data class Change(val totalAmount: TextFieldValue) : TotalAmountAction
-        data class FocusChange(val isFocused: Boolean) : TotalAmountAction
     }
 
     data class ChangeNote(val note: TextFieldValue) : TransactionAction

@@ -8,8 +8,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
+import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
-import com.wisnu.kurniawan.wallee.foundation.extension.getSymbol
 import com.wisnu.kurniawan.wallee.foundation.theme.Expense
 import com.wisnu.kurniawan.wallee.foundation.theme.Income
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
@@ -110,10 +110,13 @@ fun TransactionState.noteHintDisplayable() = when (selectedTransactionType()) {
     TransactionType.TRANSFER -> R.string.transaction_edit_note_transfer_hint
 }
 
-fun TransactionState.getCurrencySymbol() = when (selectedTransactionType()) {
-    TransactionType.INCOME -> currency.getSymbol()
-    TransactionType.EXPENSE -> "-" + currency.getSymbol()
-    TransactionType.TRANSFER -> currency.getSymbol()
+fun TransactionState.getAmountDisplay(): String {
+    val amount = if (selectedTransactionType() == TransactionType.EXPENSE) {
+        "-" + totalAmount.text
+    } else {
+        totalAmount.text
+    }
+    return currency.formatAsDisplayNormalize(amount.toBigDecimal(), true)
 }
 
 fun TransactionState.getAmountColor(defaultColor: Color): Color {

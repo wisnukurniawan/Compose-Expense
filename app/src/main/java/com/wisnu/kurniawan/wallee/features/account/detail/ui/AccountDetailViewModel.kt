@@ -6,11 +6,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.wisnu.kurniawan.wallee.features.account.detail.data.IAccountDetailEnvironment
 import com.wisnu.kurniawan.wallee.features.balance.summary.data.AccountBalance
-import com.wisnu.kurniawan.wallee.foundation.extension.asDisplay
+import com.wisnu.kurniawan.wallee.foundation.extension.MAX_TOTAL_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
-import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDecimal
-import com.wisnu.kurniawan.wallee.foundation.extension.isDecimalNotExceed
-import com.wisnu.kurniawan.wallee.foundation.extension.toggleFormatDisplay
+import com.wisnu.kurniawan.wallee.foundation.extension.formattedAmount
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_ACCOUNT_ID
@@ -46,7 +44,7 @@ class AccountDetailViewModel @Inject constructor(
                     .collect {
                         setState {
                             val name = it.name
-                            val totalAmount = it.amount.asDisplay().toString() // it.currency.formatAsDisplayNormalize(it.amount, false)
+                            val totalAmount = it.amount.toString()
                             copy(
                                 accountTypeItems = initialAccountTypeItems(it.type),
                                 name = TextFieldValue(name, TextRange(name.length)),
@@ -131,20 +129,17 @@ class AccountDetailViewModel @Inject constructor(
             }
             is AccountDetailAction.TotalAmountAction.Change -> {
                 viewModelScope.launch {
-                    runCatching {
-                        action.totalAmount.formatAsDecimal().apply {
-                            if (this.isDecimalNotExceed()) {
-                                setState { copy(totalAmount = this@apply) }
-                            }
+                    val amount = action.totalAmount.text.formattedAmount()
+                    if (amount <= MAX_TOTAL_AMOUNT) {
+                        setState {
+                            copy(
+                                totalAmount = action.totalAmount.copy(
+                                    text = amount.toString(),
+                                    selection = TextRange(amount.toString().length)
+                                )
+                            )
                         }
                     }
-                }
-            }
-            is AccountDetailAction.TotalAmountAction.FocusChange -> {
-                viewModelScope.launch {
-                    val totalAmountText = state.value.totalAmount.text
-                    val totalAmountFormatted = state.value.currency.toggleFormatDisplay(!action.isFocused, totalAmountText)
-                    setState { copy(totalAmount = totalAmount.copy(text = totalAmountFormatted)) }
                 }
             }
             is AccountDetailAction.ClickBalanceReason -> {

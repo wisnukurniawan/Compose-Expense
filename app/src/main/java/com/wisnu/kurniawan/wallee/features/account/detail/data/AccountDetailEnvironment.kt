@@ -2,7 +2,6 @@ package com.wisnu.kurniawan.wallee.features.account.detail.data
 
 import com.wisnu.kurniawan.wallee.features.balance.summary.data.AccountBalance
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
-import com.wisnu.kurniawan.wallee.foundation.extension.asData
 import com.wisnu.kurniawan.wallee.foundation.extension.isAmountChanged
 import com.wisnu.kurniawan.wallee.foundation.extension.isChanged
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
@@ -38,7 +37,7 @@ class AccountDetailEnvironment @Inject constructor(
             val newAccount = Account(
                 id = idProvider.generate(),
                 currency = account.currency,
-                amount = account.amount.asData(),
+                amount = account.amount,
                 name = account.name,
                 type = account.type,
                 createdAt = dateTimeProvider.now(),
@@ -52,7 +51,7 @@ class AccountDetailEnvironment @Inject constructor(
             val newAccount = Account(
                 id = account.id,
                 currency = account.currency,
-                amount = account.amount.asData(),
+                amount = account.amount,
                 name = account.name,
                 type = account.type,
                 createdAt = account.createdAt,

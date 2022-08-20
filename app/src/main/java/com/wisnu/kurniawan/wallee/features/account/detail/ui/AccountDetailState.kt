@@ -8,6 +8,7 @@ import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.account.detail.data.AdjustBalanceReason
 import com.wisnu.kurniawan.wallee.foundation.extension.DEFAULT_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
+import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.Currency
@@ -51,6 +52,10 @@ fun AccountDetailState.isValid() = name.text.isNotBlank()
 fun AccountDetailState.canDelete() = isEditMode && id != DEFAULT_ACCOUNT_ID
 
 fun AccountDetailState.selectedAccountType() = accountTypeItems.selected()?.type ?: AccountType.CASH
+
+fun AccountDetailState.getAmountDisplay(): String {
+    return currency.formatAsDisplayNormalize(totalAmount.text.toBigDecimal(), true)
+}
 
 fun List<AccountTypeItem>.select(selectedAccountType: AccountType): List<AccountTypeItem> {
     return map { it.copy(selected = it.type == selectedAccountType) }
