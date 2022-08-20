@@ -48,12 +48,12 @@ fun Currency.formatAsDisplayNormalize(
     withSymbol: Boolean = false
 ): String {
     val scale = getScale()
-    val amountNormalize = if (scale > 0) {
-        amount.setScale(scale) / DEFAULT_AMOUNT_MULTIPLIER
-    } else {
-        amount
-    }
+    val amountNormalize = amount.setScale(scale) / getAmountMultiplier(scale)
     return formatAsDisplay(amountNormalize, withSymbol)
+}
+
+private fun getAmountMultiplier(scale: Int): BigDecimal {
+    return "10".toBigDecimal().pow(scale)
 }
 
 fun Currency.formatAsDisplay(
