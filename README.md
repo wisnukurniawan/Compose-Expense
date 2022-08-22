@@ -13,11 +13,13 @@ Compose playground for learning purpose
 * Uses [Hilt](https://dagger.dev/hilt/) for dependency injection
 * Uses [Java 8+ API desugaring support](https://developer.android.com/studio/write/java8-support#library-desugaring) for date and time usage
 
-## Demo
+<img src="art/ps-1.png" width="260">  <img src="art/ps-2.png" width="260">  <img src="art/ps-3.png" width="260">
 
-<img src="art/demo.gif" width="500">
+## Large screen
 
-<img src="art/demo2.gif" width="500">
+<img src="art/demo.gif" width="400">
+
+<img src="art/demo2.gif" width="400">
 
 ## Prerequisites
 
