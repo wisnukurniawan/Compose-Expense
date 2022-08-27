@@ -56,7 +56,6 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
-import com.wisnu.kurniawan.wallee.foundation.extension.getLabel
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.theme.MediumRadius
@@ -72,7 +71,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
-import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.TransactionType
 
@@ -83,6 +81,7 @@ fun TransactionDetailScreen(
     onClosePage: () -> Unit,
     onCancelClick: () -> Unit,
     onAccountSectionClick: () -> Unit,
+    onAddAccountClick: () -> Unit,
     onCategorySectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
 ) {
@@ -130,6 +129,10 @@ fun TransactionDetailScreen(
             localFocusManager.clearFocus()
             onTransferAccountSectionClick()
         },
+        onAddAccountClick = {
+            localFocusManager.clearFocus()
+            onAddAccountClick()
+        },
         onDateSectionClick = {
             activity.showDatePicker(state.transactionDate.toLocalDate()) { selectedDate ->
                 viewModel.dispatch(TransactionAction.SelectDate(selectedDate))
@@ -157,9 +160,10 @@ private fun TransactionDetailScreen(
     onAccountSectionClick: () -> Unit,
     onCategorySectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
+    onAddAccountClick: () -> Unit,
     onDateSectionClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    onTransactionTypeSelected: (TransactionTypeItem) -> Unit,
+    onTransactionTypeSelected: (TransactionType) -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onNoteChange: (TextFieldValue) -> Unit,
 ) {
@@ -183,8 +187,9 @@ private fun TransactionDetailScreen(
 
         if (!state.isEditMode) {
             TransactionTypeSection(
-                transactionTypes = state.transactionTypeItems,
-                onSelected = onTransactionTypeSelected
+                transactionTypes = getTransactionTypes(),
+                onSelected = onTransactionTypeSelected,
+                selectedType = state.transactionType
             )
 
             Spacer(Modifier.height(16.dp))
@@ -213,15 +218,17 @@ private fun TransactionDetailScreen(
 
             item {
                 GeneralSection(
-                    transactionType = state.selectedTransactionType(),
-                    selectedAccount = state.selectedAccountName() ?: stringResource(AccountType.CASH.getLabel()),
+                    transactionType = state.transactionType,
+                    selectedAccount = state.selectedAccountName(),
                     selectedCategoryType = state.selectedCategoryType(),
                     selectedTransferAccount = state.selectedAccountTransferName(),
                     transactionDate = state.transactionDateDisplayable(),
+                    hasTransferAccount = state.hasTransferAccount(),
                     isEditMode = state.isEditMode,
                     onAccountSectionClick = onAccountSectionClick,
                     onCategorySectionClick = onCategorySectionClick,
                     onTransferAccountSectionClick = onTransferAccountSectionClick,
+                    onAddAccountClick = onAddAccountClick,
                     onDateSectionClick = onDateSectionClick
                 )
             }
@@ -260,8 +267,9 @@ private fun TransactionDetailScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun TransactionTypeSection(
-    transactionTypes: List<TransactionTypeItem>,
-    onSelected: (TransactionTypeItem) -> Unit
+    selectedType: TransactionType,
+    transactionTypes: List<TransactionType>,
+    onSelected: (TransactionType) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -277,12 +285,13 @@ private fun TransactionTypeSection(
                 )
         ) {
             items(transactionTypes) {
-                val backgroundColor = if (it.selected) {
+                val selected = it == selectedType
+                val backgroundColor = if (selected) {
                     MaterialTheme.colorScheme.primary
                 } else {
                     MaterialTheme.colorScheme.secondary
                 }
-                val contentColor = if (it.selected) {
+                val contentColor = if (selected) {
                     MaterialTheme.colorScheme.onPrimary
                 } else {
                     MaterialTheme.colorScheme.onSecondary
@@ -297,7 +306,7 @@ private fun TransactionTypeSection(
                 ) {
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
                         CompositionLocalProvider(LocalContentColor provides contentColor) {
-                            PgTabLabel(stringResource(it.title))
+                            PgTabLabel(stringResource(it.getTitle()))
                         }
                     }
                 }
@@ -362,11 +371,13 @@ private fun GeneralSection(
     selectedAccount: String,
     selectedCategoryType: CategoryType,
     selectedTransferAccount: String,
+    hasTransferAccount: Boolean,
     transactionDate: String,
     isEditMode: Boolean,
     onAccountSectionClick: () -> Unit,
     onCategorySectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
+    onAddAccountClick: () -> Unit,
     onDateSectionClick: () -> Unit,
 ) {
     val alpha = if (isEditMode) AlphaDisabled else AlphaHigh
@@ -417,22 +428,36 @@ private fun GeneralSection(
             shape = MaterialTheme.shapes.extraSmall,
             enabled = !isEditMode,
             insetSize = 120.dp,
-            onClick = onTransferAccountSectionClick,
+            onClick = {
+                if (hasTransferAccount) {
+                    onTransferAccountSectionClick()
+                } else {
+                    onAddAccountClick()
+                }
+            },
             trailing = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    PgContentTitle(
-                        text = selectedTransferAccount,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
-                    )
-                    if (!isEditMode) {
-                        Spacer(Modifier.width(8.dp))
-                        PgIcon(
-                            imageVector = Icons.Rounded.ChevronRight,
-                            tint = LocalContentColor.current.copy(alpha = alpha)
+                    if (hasTransferAccount) {
+                        PgContentTitle(
+                            text = selectedTransferAccount,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
+                        )
+
+                        if (!isEditMode) {
+                            Spacer(Modifier.width(8.dp))
+                            PgIcon(
+                                imageVector = Icons.Rounded.ChevronRight,
+                                tint = LocalContentColor.current.copy(alpha = alpha)
+                            )
+                        }
+                    } else {
+                        PgContentTitle(
+                            text = stringResource(R.string.account_edit_add),
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }

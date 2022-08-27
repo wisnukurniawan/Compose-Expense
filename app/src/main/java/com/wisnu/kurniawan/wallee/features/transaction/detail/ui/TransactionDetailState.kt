@@ -7,6 +7,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
+import com.wisnu.kurniawan.wallee.foundation.extension.defaultAccount
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
 import com.wisnu.kurniawan.wallee.foundation.extension.formatDateTime
@@ -22,9 +23,10 @@ import java.time.LocalDateTime
 
 @Immutable
 data class TransactionState(
-    val transactionTypeItems: List<TransactionTypeItem> = listOf(),
-    val accountItems: List<AccountItem> = listOf(),
-    val transferAccountItems: List<AccountItem> = listOf(),
+    val transactionType: TransactionType = TransactionType.EXPENSE,
+    val accounts: List<Account> = listOf(),
+    val selectedAccount: Account = defaultAccount(Currency.DEFAULT, DateTimeProviderImpl().now()),
+    val selectedTransferAccount: Account? = null,
     val categoryItems: List<CategoryItem> = listOf(),
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val note: TextFieldValue = TextFieldValue(),
@@ -33,17 +35,6 @@ data class TransactionState(
     val transactionCreatedAt: LocalDateTime = DateTimeProviderImpl().now(),
     val transactionUpdatedAt: LocalDateTime? = null,
     val isEditMode: Boolean = false
-)
-
-data class AccountItem(
-    val account: Account,
-    val selected: Boolean
-)
-
-data class TransactionTypeItem(
-    val title: Int,
-    val selected: Boolean,
-    val transactionType: TransactionType
 )
 
 data class CategoryItem(
@@ -55,7 +46,7 @@ data class CategoryItem(
 @Composable
 fun TransactionState.getTitle(): String {
     return if (isEditMode) {
-        when (selectedTransactionType()) {
+        when (transactionType) {
             TransactionType.INCOME -> stringResource(R.string.transaction_edit_income)
             TransactionType.EXPENSE -> stringResource(R.string.transaction_edit_expense)
             TransactionType.TRANSFER -> stringResource(R.string.transaction_edit_transfer)
@@ -67,7 +58,7 @@ fun TransactionState.getTitle(): String {
 
 fun TransactionState.isValid(): Boolean {
     val isTotalAmountNotZero = totalAmount.formatAsBigDecimal() > BigDecimal.ZERO
-    return when (selectedTransactionType()) {
+    return when (transactionType) {
         TransactionType.INCOME -> {
             isTotalAmountNotZero
         }
@@ -78,7 +69,7 @@ fun TransactionState.isValid(): Boolean {
             val isTransferAccountNotEmpty = if (isEditMode) {
                 true
             } else {
-                transferAccountItems.selected() != null
+                selectedTransferAccount != null
             }
 
             isTotalAmountNotZero && isTransferAccountNotEmpty
@@ -86,13 +77,15 @@ fun TransactionState.isValid(): Boolean {
     }
 }
 
-fun TransactionState.selectedTransactionType() = transactionTypeItems.find { it.selected }?.transactionType ?: TransactionType.EXPENSE
+fun TransactionState.selectedAccountName() = selectedAccount.name
 
-fun TransactionState.selectedAccountName() = accountItems.selected()?.account?.name
+fun TransactionState.hasTransferAccount(): Boolean {
+    return selectedTransferAccount != null
+}
 
 @Composable
 fun TransactionState.selectedAccountTransferName(): String {
-    val selectedAccount = transferAccountItems.selected()?.account
+    val selectedAccount = selectedTransferAccount
     return if (isEditMode) {
         selectedAccount?.name ?: stringResource(R.string.transaction_account_deleted)
     } else {
@@ -104,14 +97,14 @@ fun TransactionState.selectedCategoryType() = categoryItems.selected()?.type ?: 
 
 fun TransactionState.transactionDateDisplayable() = transactionDate.formatDateTime()
 
-fun TransactionState.noteHintDisplayable() = when (selectedTransactionType()) {
+fun TransactionState.noteHintDisplayable() = when (transactionType) {
     TransactionType.INCOME -> R.string.transaction_edit_note_income_hint
     TransactionType.EXPENSE -> R.string.transaction_edit_note_expense_hint
     TransactionType.TRANSFER -> R.string.transaction_edit_note_transfer_hint
 }
 
 fun TransactionState.getAmountDisplay(): String {
-    val amount = if (selectedTransactionType() == TransactionType.EXPENSE) {
+    val amount = if (transactionType == TransactionType.EXPENSE) {
         "-" + totalAmount.text
     } else {
         totalAmount.text
@@ -120,29 +113,11 @@ fun TransactionState.getAmountDisplay(): String {
 }
 
 fun TransactionState.getAmountColor(defaultColor: Color): Color {
-    return when (selectedTransactionType()) {
+    return when (transactionType) {
         TransactionType.INCOME -> Income
         TransactionType.EXPENSE -> Expense
         TransactionType.TRANSFER -> defaultColor
     }
-}
-
-fun List<TransactionTypeItem>.select(selectedTransactionTypeItem: TransactionTypeItem): List<TransactionTypeItem> {
-    return map {
-        it.copy(selected = it.title == selectedTransactionTypeItem.title)
-    }
-}
-
-fun List<AccountItem>.select(selectedAccount: Account): List<AccountItem> {
-    return map { it.copy(selected = it.account.id == selectedAccount.id) }
-}
-
-fun List<AccountItem>.selected(): AccountItem? {
-    return find { it.selected }
-}
-
-fun List<AccountItem>.notSelected(): AccountItem? {
-    return find { !it.selected }
 }
 
 fun List<CategoryItem>.select(selectedCategoryType: CategoryType): List<CategoryItem> {
@@ -151,4 +126,20 @@ fun List<CategoryItem>.select(selectedCategoryType: CategoryType): List<Category
 
 fun List<CategoryItem>.selected(): CategoryItem? {
     return find { it.selected }
+}
+
+fun TransactionType.getTitle(): Int {
+    return when(this) {
+        TransactionType.INCOME -> R.string.transaction_income
+        TransactionType.EXPENSE -> R.string.transaction_expense
+        TransactionType.TRANSFER -> R.string.transaction_transfer
+    }
+}
+
+fun getTransactionTypes(): List<TransactionType> {
+    return listOf(
+        TransactionType.EXPENSE,
+        TransactionType.INCOME,
+        TransactionType.TRANSFER
+    )
 }

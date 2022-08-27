@@ -3,11 +3,9 @@ package com.wisnu.kurniawan.wallee.features.transaction.detail.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,28 +18,26 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
-import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalCell
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
+import com.wisnu.kurniawan.wallee.model.Account
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AccountSelectionScreen(
     viewModel: TransactionDetailViewModel,
     onClick: () -> Unit,
-    onAddAccountClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     AccountSelectionScreen(
-        accountItems = state.accountItems,
+        accountItems = state.accounts,
         onClick = {
-            viewModel.dispatch(TransactionAction.SelectAccount(it.account))
+            viewModel.dispatch(TransactionAction.SelectAccount(it))
             onClick()
         },
-        onAddAccountClick = onAddAccountClick
+        selectedAccount = state.selectedAccount
     )
 }
 
@@ -50,25 +46,24 @@ fun AccountSelectionScreen(
 fun TransferAccountSelectionScreen(
     viewModel: TransactionDetailViewModel,
     onClick: () -> Unit,
-    onAddAccountClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     AccountSelectionScreen(
-        accountItems = state.transferAccountItems,
+        accountItems = state.accounts,
         onClick = {
-            viewModel.dispatch(TransactionAction.SelectTransferAccount(it.account))
+            viewModel.dispatch(TransactionAction.SelectTransferAccount(it))
             onClick()
         },
-        onAddAccountClick = onAddAccountClick
+        selectedAccount = state.selectedTransferAccount
     )
 }
 
 @Composable
 private fun AccountSelectionScreen(
-    accountItems: List<AccountItem>,
-    onClick: (AccountItem) -> Unit,
-    onAddAccountClick: () -> Unit,
+    accountItems: List<Account>,
+    selectedAccount: Account?,
+    onClick: (Account) -> Unit,
 ) {
     PgModalLayout(
         title = {
@@ -77,21 +72,6 @@ private fun AccountSelectionScreen(
                     text = stringResource(R.string.transaction_edit_account),
                     modifier = Modifier.align(Alignment.Center)
                 )
-
-                Box(
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .align(Alignment.CenterEnd)
-                ) {
-                    PgIconButton(
-                        onClick = onAddAccountClick,
-                        modifier = Modifier.size(28.dp)
-                    ) {
-                        PgIcon(
-                            imageVector = Icons.Rounded.Add,
-                        )
-                    }
-                }
             }
         },
         content = {
@@ -101,6 +81,7 @@ private fun AccountSelectionScreen(
                         onClick(item)
                     },
                     item = item,
+                    selected = item.id == selectedAccount?.id
                 )
                 Spacer(Modifier.height(8.dp))
             }
@@ -111,22 +92,23 @@ private fun AccountSelectionScreen(
 @Composable
 private fun AccountItem(
     onClick: () -> Unit,
-    item: AccountItem,
+    selected: Boolean,
+    item: Account,
 ) {
     PgModalCell(
         onClick = onClick,
-        text = item.account.name,
-        color = if (item.selected) {
+        text = item.name,
+        color = if (selected) {
             MaterialTheme.colorScheme.primary
         } else {
             MaterialTheme.colorScheme.surfaceVariant
         },
-        textColor = if (item.selected) {
+        textColor = if (selected) {
             MaterialTheme.colorScheme.onPrimary
         } else {
             MaterialTheme.colorScheme.onSurfaceVariant
         },
-        rightIcon = if (item.selected) {
+        rightIcon = if (selected) {
             @Composable {
                 Icon(
                     imageVector = Icons.Rounded.Check,

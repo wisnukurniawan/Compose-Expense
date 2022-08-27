@@ -4,13 +4,13 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionDetailEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.MAX_TOTAL_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formattedAmount
 import com.wisnu.kurniawan.wallee.foundation.extension.getDefaultAccount
+import com.wisnu.kurniawan.wallee.foundation.extension.select
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.CategoryType
@@ -56,8 +56,8 @@ class TransactionDetailViewModel @Inject constructor(
                 initLoad(
                     selectedTransactionType = TransactionType.EXPENSE,
                     selectedCategoryType = CategoryType.OTHERS,
-                    selectedAccount = state.value.accountItems.selected()?.account,
-                    selectedTransferAccount = state.value.transferAccountItems.selected()?.account,
+                    selectedAccount = null,
+                    selectedTransferAccount = null,
                     initialNote = "",
                     initialTotalAmount = ZERO_AMOUNT,
                     initialDate = environment.getCurrentDate(),
@@ -101,7 +101,7 @@ class TransactionDetailViewModel @Inject constructor(
             .onStart {
                 setState {
                     copy(
-                        transactionTypeItems = initialTransactionTypes(selectedTransactionType),
+                        transactionType = selectedTransactionType,
                         categoryItems = initialCategoryTypes(selectedCategoryType),
                         note = TextFieldValue(initialNote, TextRange(initialNote.length)),
                         totalAmount = TextFieldValue(initialTotalAmount, TextRange(initialTotalAmount.length)),
@@ -113,36 +113,15 @@ class TransactionDetailViewModel @Inject constructor(
             }
             .collect {
                 setState {
+                    val selectedAccount = selectedAccount ?: it.getDefaultAccount()
                     copy(
-                        accountItems = it.mapIndexed { index, account ->
-                            val defaultSelectedAccount = defaultSelectedAccount(selectedAccount, account, index, FIRST_INDEX)
-                            AccountItem(
-                                account = account,
-                                selected = defaultSelectedAccount
-                            )
-                        },
-                        transferAccountItems = it.mapIndexed { index, account ->
-                            val defaultSelectedAccount = defaultSelectedAccount(selectedTransferAccount, account, index, SECOND_INDEX)
-                            AccountItem(
-                                account = account,
-                                selected = defaultSelectedAccount
-                            )
-                        },
+                        accounts = it,
+                        selectedAccount = selectedAccount,
+                        selectedTransferAccount = selectedTransferAccount ?: it.select(except = selectedAccount),
                         currency = initialCurrency ?: it.getDefaultAccount().currency
                     )
                 }
             }
-    }
-
-    private fun defaultSelectedAccount(
-        selectedAccount: Account?,
-        account: Account,
-        itemIndex: Int,
-        index: Int
-    ) = if (selectedAccount != null) {
-        account.id == selectedAccount.id
-    } else {
-        itemIndex == index
     }
 
     private fun initSaveAction() {
@@ -156,15 +135,15 @@ class TransactionDetailViewModel @Inject constructor(
                             id = transactionId,
                             amount = state.value.totalAmount.formatAsBigDecimal(),
                             date = state.value.transactionDate,
-                            type = state.value.selectedTransactionType(),
+                            type = state.value.transactionType,
                             currency = state.value.currency,
                             note = state.value.note.text.trim(),
                             categoryType = getDefaultCategoryType(),
                             createdAt = state.value.transactionCreatedAt,
                             updatedAt = state.value.transactionUpdatedAt,
                         ),
-                        account = state.value.accountItems.selected()?.account!!,
-                        transferAccount = state.value.transferAccountItems.selected()?.account,
+                        account = state.value.selectedAccount,
+                        transferAccount = state.value.selectedTransferAccount,
                     )
 
                     environment.saveTransaction(transactionWithAccount)
@@ -200,16 +179,7 @@ class TransactionDetailViewModel @Inject constructor(
             }
             is TransactionAction.SelectTransactionType -> {
                 viewModelScope.launch {
-                    setState { copy(transactionTypeItems = transactionTypeItems.select(action.selectedTransactionItem)) }
-
-                    if (action.selectedTransactionItem.transactionType == TransactionType.TRANSFER) {
-                        val selectedAccount = state.value.transferAccountItems.selected()
-                        if (selectedAccount == null) {
-                            state.value.accountItems.find { !it.selected }?.let {
-                                setState { copy(transferAccountItems = transferAccountItems.select(it.account)) }
-                            }
-                        }
-                    }
+                    setState { copy(transactionType = action.type) }
                 }
             }
             is TransactionAction.TotalAmountAction.Change -> {
@@ -234,17 +204,21 @@ class TransactionDetailViewModel @Inject constructor(
             }
             is TransactionAction.SelectAccount -> {
                 viewModelScope.launch {
-                    setState { copy(accountItems = accountItems.select(action.selectedAccount)) }
-                    updateSelection(action.selectedAccount, state.value.transferAccountItems) {
-                        setState { copy(transferAccountItems = transferAccountItems.select(it)) }
+                    setState {
+                        copy(
+                            selectedAccount = action.selectedAccount,
+                            selectedTransferAccount = state.value.accounts.select(except = action.selectedAccount)
+                        )
                     }
                 }
             }
             is TransactionAction.SelectTransferAccount -> {
                 viewModelScope.launch {
-                    setState { copy(transferAccountItems = transferAccountItems.select(action.selectedAccount)) }
-                    updateSelection(action.selectedAccount, state.value.accountItems) {
-                        setState { copy(accountItems = accountItems.select(it)) }
+                    setState {
+                        copy(
+                            selectedTransferAccount = action.selectedAccount,
+                            selectedAccount = state.value.accounts.select(except = action.selectedAccount)!!
+                        )
                     }
                 }
             }
@@ -261,29 +235,11 @@ class TransactionDetailViewModel @Inject constructor(
         }
     }
 
-    private fun updateSelection(selectedAccount: Account, accountItems: List<AccountItem>, newSelectedAccount: (Account) -> Unit) {
-        if (selectedAccount == accountItems.selected()?.account) {
-            accountItems.notSelected()?.account?.let {
-                newSelectedAccount(it)
-            }
-        }
-    }
-
     private fun getDefaultCategoryType(): CategoryType {
-        return when (state.value.selectedTransactionType()) {
+        return when (state.value.transactionType) {
             TransactionType.INCOME -> CategoryType.INCOME
             TransactionType.EXPENSE -> state.value.selectedCategoryType()
             TransactionType.TRANSFER -> CategoryType.UNCATEGORIZED
-        }
-    }
-
-    private fun initialTransactionTypes(selectedType: TransactionType = TransactionType.EXPENSE): List<TransactionTypeItem> {
-        return listOf(
-            TransactionTypeItem(R.string.transaction_expense, false, TransactionType.EXPENSE),
-            TransactionTypeItem(R.string.transaction_income, false, TransactionType.INCOME),
-            TransactionTypeItem(R.string.transaction_transfer, false, TransactionType.TRANSFER)
-        ).map {
-            it.copy(selected = it.transactionType == selectedType)
         }
     }
 
@@ -326,10 +282,5 @@ class TransactionDetailViewModel @Inject constructor(
                 selected = it == selectedCategoryType
             )
         }
-    }
-
-    companion object {
-        private const val FIRST_INDEX = 0
-        private const val SECOND_INDEX = 1
     }
 }

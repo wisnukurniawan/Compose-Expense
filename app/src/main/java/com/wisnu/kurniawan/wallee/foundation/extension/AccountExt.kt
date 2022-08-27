@@ -3,6 +3,9 @@ package com.wisnu.kurniawan.wallee.foundation.extension
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.AccountType
+import com.wisnu.kurniawan.wallee.model.Currency
+import java.math.BigDecimal
+import java.time.LocalDateTime
 
 fun AccountType.getLabel(): Int {
     return when (this) {
@@ -27,3 +30,18 @@ fun Account.isChanged(newAccount: Account): Boolean {
 fun Account.isAmountChanged(newAccount: Account): Boolean {
     return amount != newAccount.amount
 }
+
+fun List<Account>.select(except: Account): Account? {
+    return firstOrNull { it.id != except.id }
+}
+
+fun defaultAccount(currency: Currency, createdAt: LocalDateTime) = Account(
+    id = DEFAULT_ACCOUNT_ID,
+    currency = currency,
+    amount = BigDecimal.ZERO,
+    name = "Cash",
+    type = AccountType.CASH,
+    createdAt = createdAt,
+    updatedAt = null,
+    transactions = listOf()
+)

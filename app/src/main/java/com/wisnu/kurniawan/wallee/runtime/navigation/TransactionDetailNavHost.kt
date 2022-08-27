@@ -33,6 +33,7 @@ fun NavGraphBuilder.TransactionDetailNavHost(
                 onClosePage = { navController.navigateUp() },
                 onCancelClick = { navController.navigateUp() },
                 onAccountSectionClick = { navController.navigate(TransactionDetailFlow.SelectAccount.route) },
+                onAddAccountClick = { navController.navigate(AccountDetailFlow.Root.route()) },
                 onCategorySectionClick = { navController.navigate(TransactionDetailFlow.SelectCategory.route) },
                 onTransferAccountSectionClick = { navController.navigate(TransactionDetailFlow.SelectTransferAccount.route) }
             )
@@ -51,7 +52,6 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             AccountSelectionScreen(
                 viewModel = viewModel,
                 onClick = { navController.navigateUp() },
-                onAddAccountClick = { navController.navigate(AccountDetailFlow.Root.route()) }
             )
         }
 
@@ -68,7 +68,6 @@ fun NavGraphBuilder.TransactionDetailNavHost(
             TransferAccountSelectionScreen(
                 viewModel = viewModel,
                 onClick = { navController.navigateUp() },
-                onAddAccountClick = { navController.navigate(AccountDetailFlow.Root.route()) }
             )
         }
 
