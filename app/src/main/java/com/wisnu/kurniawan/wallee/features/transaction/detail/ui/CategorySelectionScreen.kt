@@ -29,6 +29,7 @@ import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaHigh
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalVerticalGridLayout
+import com.wisnu.kurniawan.wallee.model.CategoryType
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -39,9 +40,10 @@ fun CategorySelectionScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     CategorySelectionScreen(
-        categoryItems = state.categoryItems,
+        categoryItems = getCategoryTypes(),
+        selectedCategory = state.categoryType,
         onClick = {
-            viewModel.dispatch(TransactionAction.SelectCategory(it.type))
+            viewModel.dispatch(TransactionAction.SelectCategory(it))
             onClick()
         }
     )
@@ -49,8 +51,9 @@ fun CategorySelectionScreen(
 
 @Composable
 private fun CategorySelectionScreen(
-    categoryItems: List<CategoryItem>,
-    onClick: (CategoryItem) -> Unit,
+    categoryItems: List<CategoryType>,
+    selectedCategory: CategoryType,
+    onClick: (CategoryType) -> Unit,
 ) {
     PgModalVerticalGridLayout(
         title = {
@@ -62,7 +65,8 @@ private fun CategorySelectionScreen(
             items(categoryItems) { item ->
                 CategoryItem(
                     onClick = { onClick(item) },
-                    item = item
+                    item = item,
+                    selected = selectedCategory == item
                 )
             }
         },
@@ -73,7 +77,8 @@ private fun CategorySelectionScreen(
 @Composable
 private fun CategoryItem(
     onClick: () -> Unit,
-    item: CategoryItem,
+    item: CategoryType,
+    selected: Boolean,
 ) {
     Column(
         modifier = Modifier
@@ -83,8 +88,8 @@ private fun CategoryItem(
                 vertical = 8.dp
             )
     ) {
-        val (emoji, name) = item.type.getEmojiAndText()
-        val textAlpha = if (item.selected) {
+        val (emoji, name) = item.getEmojiAndText()
+        val textAlpha = if (selected) {
             AlphaHigh
         } else {
             AlphaDisabled
@@ -95,7 +100,7 @@ private fun CategoryItem(
                 .size(48.dp)
                 .background(
                     shape = CircleShape,
-                    color = if (item.selected) {
+                    color = if (selected) {
                         MaterialTheme.colorScheme.primary
                     } else {
                         MaterialTheme.colorScheme.surfaceVariant

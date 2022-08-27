@@ -220,7 +220,7 @@ private fun TransactionDetailScreen(
                 GeneralSection(
                     transactionType = state.transactionType,
                     selectedAccount = state.selectedAccountName(),
-                    selectedCategoryType = state.selectedCategoryType(),
+                    selectedCategoryType = state.categoryType,
                     selectedTransferAccount = state.selectedAccountTransferName(),
                     transactionDate = state.transactionDateDisplayable(),
                     hasTransferAccount = state.hasTransferAccount(),

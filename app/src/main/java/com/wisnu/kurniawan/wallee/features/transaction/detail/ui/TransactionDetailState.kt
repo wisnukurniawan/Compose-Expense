@@ -27,7 +27,7 @@ data class TransactionState(
     val accounts: List<Account> = listOf(),
     val selectedAccount: Account = defaultAccount(Currency.DEFAULT, DateTimeProviderImpl().now()),
     val selectedTransferAccount: Account? = null,
-    val categoryItems: List<CategoryItem> = listOf(),
+    val categoryType: CategoryType = CategoryType.OTHERS,
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val note: TextFieldValue = TextFieldValue(),
     val currency: Currency = Currency.DEFAULT,
@@ -35,11 +35,6 @@ data class TransactionState(
     val transactionCreatedAt: LocalDateTime = DateTimeProviderImpl().now(),
     val transactionUpdatedAt: LocalDateTime? = null,
     val isEditMode: Boolean = false
-)
-
-data class CategoryItem(
-    val type: CategoryType,
-    val selected: Boolean,
 )
 
 // Collections
@@ -93,8 +88,6 @@ fun TransactionState.selectedAccountTransferName(): String {
     }
 }
 
-fun TransactionState.selectedCategoryType() = categoryItems.selected()?.type ?: CategoryType.OTHERS
-
 fun TransactionState.transactionDateDisplayable() = transactionDate.formatDateTime()
 
 fun TransactionState.noteHintDisplayable() = when (transactionType) {
@@ -120,14 +113,6 @@ fun TransactionState.getAmountColor(defaultColor: Color): Color {
     }
 }
 
-fun List<CategoryItem>.select(selectedCategoryType: CategoryType): List<CategoryItem> {
-    return map { it.copy(selected = it.type == selectedCategoryType) }
-}
-
-fun List<CategoryItem>.selected(): CategoryItem? {
-    return find { it.selected }
-}
-
 fun TransactionType.getTitle(): Int {
     return when(this) {
         TransactionType.INCOME -> R.string.transaction_income
@@ -141,5 +126,41 @@ fun getTransactionTypes(): List<TransactionType> {
         TransactionType.EXPENSE,
         TransactionType.INCOME,
         TransactionType.TRANSFER
+    )
+}
+
+fun getCategoryTypes(): List<CategoryType> {
+    return listOf(
+        CategoryType.MONTHLY_FEE,
+        CategoryType.ADMIN_FEE,
+        CategoryType.PETS,
+        CategoryType.DONATION,
+        CategoryType.EDUCATION,
+        CategoryType.FINANCIAL,
+        CategoryType.ENTERTAINMENT,
+        CategoryType.CHILDREN_NEEDS,
+        CategoryType.HOUSEHOLD_NEEDS,
+        CategoryType.SPORT,
+        CategoryType.OTHERS,
+        CategoryType.FOOD,
+        CategoryType.PARKING,
+        CategoryType.FUEL,
+        CategoryType.MOVIE,
+        CategoryType.AUTOMOTIVE,
+        CategoryType.TAX,
+        CategoryType.INCOME,
+        CategoryType.BUSINESS_EXPENSES,
+        CategoryType.SELF_CARE,
+        CategoryType.LOAN,
+        CategoryType.SERVICE,
+        CategoryType.SHOPPING,
+        CategoryType.BILLS,
+        CategoryType.TAXI,
+        CategoryType.CASH_WITHDRAWAL,
+        CategoryType.PHONE,
+        CategoryType.TOP_UP,
+        CategoryType.PUBLIC_TRANSPORTATION,
+        CategoryType.TRAVEL,
+        CategoryType.UNCATEGORIZED,
     )
 }

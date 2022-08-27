@@ -102,7 +102,7 @@ class TransactionDetailViewModel @Inject constructor(
                 setState {
                     copy(
                         transactionType = selectedTransactionType,
-                        categoryItems = initialCategoryTypes(selectedCategoryType),
+                        categoryType = selectedCategoryType,
                         note = TextFieldValue(initialNote, TextRange(initialNote.length)),
                         totalAmount = TextFieldValue(initialTotalAmount, TextRange(initialTotalAmount.length)),
                         transactionDate = initialDate,
@@ -229,7 +229,7 @@ class TransactionDetailViewModel @Inject constructor(
             }
             is TransactionAction.SelectCategory -> {
                 viewModelScope.launch {
-                    setState { copy(categoryItems = categoryItems.select(action.selectedCategoryType)) }
+                    setState { copy(categoryType = action.selectedCategoryType) }
                 }
             }
         }
@@ -238,49 +238,8 @@ class TransactionDetailViewModel @Inject constructor(
     private fun getDefaultCategoryType(): CategoryType {
         return when (state.value.transactionType) {
             TransactionType.INCOME -> CategoryType.INCOME
-            TransactionType.EXPENSE -> state.value.selectedCategoryType()
+            TransactionType.EXPENSE -> state.value.categoryType
             TransactionType.TRANSFER -> CategoryType.UNCATEGORIZED
-        }
-    }
-
-    private fun initialCategoryTypes(selectedCategoryType: CategoryType = CategoryType.OTHERS): List<CategoryItem> {
-        return listOf(
-            CategoryType.MONTHLY_FEE,
-            CategoryType.ADMIN_FEE,
-            CategoryType.PETS,
-            CategoryType.DONATION,
-            CategoryType.EDUCATION,
-            CategoryType.FINANCIAL,
-            CategoryType.ENTERTAINMENT,
-            CategoryType.CHILDREN_NEEDS,
-            CategoryType.HOUSEHOLD_NEEDS,
-            CategoryType.SPORT,
-            CategoryType.OTHERS,
-            CategoryType.FOOD,
-            CategoryType.PARKING,
-            CategoryType.FUEL,
-            CategoryType.MOVIE,
-            CategoryType.AUTOMOTIVE,
-            CategoryType.TAX,
-            CategoryType.INCOME,
-            CategoryType.BUSINESS_EXPENSES,
-            CategoryType.SELF_CARE,
-            CategoryType.LOAN,
-            CategoryType.SERVICE,
-            CategoryType.SHOPPING,
-            CategoryType.BILLS,
-            CategoryType.TAXI,
-            CategoryType.CASH_WITHDRAWAL,
-            CategoryType.PHONE,
-            CategoryType.TOP_UP,
-            CategoryType.PUBLIC_TRANSPORTATION,
-            CategoryType.TRAVEL,
-            CategoryType.UNCATEGORIZED,
-        ).map {
-            CategoryItem(
-                it,
-                selected = it == selectedCategoryType
-            )
         }
     }
 }
