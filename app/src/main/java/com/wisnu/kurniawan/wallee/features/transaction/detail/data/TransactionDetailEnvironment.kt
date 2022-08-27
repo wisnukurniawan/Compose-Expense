@@ -9,6 +9,7 @@ import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.foundation.wrapper.IdProvider
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.AccountRecord
+import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Transaction
 import com.wisnu.kurniawan.wallee.model.TransactionRecord
 import com.wisnu.kurniawan.wallee.model.TransactionType
@@ -43,6 +44,10 @@ class TransactionDetailEnvironment @Inject constructor(
 
     override fun getCurrentDate(): LocalDateTime {
         return dateTimeProvider.now()
+    }
+
+    override fun getTopCategory(): Flow<List<CategoryType>> {
+        return localManager.getTopCategory(4)
     }
 
     override fun trackSaveTransactionButtonClicked() {

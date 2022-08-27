@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +41,7 @@ fun CategorySelectionScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     CategorySelectionScreen(
-        categoryItems = getCategoryTypes(),
+        categoryItems = state.categories,
         selectedCategory = state.categoryType,
         onClick = {
             viewModel.dispatch(TransactionAction.SelectCategory(it))
@@ -51,7 +52,7 @@ fun CategorySelectionScreen(
 
 @Composable
 private fun CategorySelectionScreen(
-    categoryItems: List<CategoryType>,
+    categoryItems: Map<Int, List<CategoryType>>,
     selectedCategory: CategoryType,
     onClick: (CategoryType) -> Unit,
 ) {
@@ -62,12 +63,22 @@ private fun CategorySelectionScreen(
             )
         },
         content = {
-            items(categoryItems) { item ->
-                CategoryItem(
-                    onClick = { onClick(item) },
-                    item = item,
-                    selected = selectedCategory == item
-                )
+            categoryItems.forEach { (initial, categoriesForInitial) ->
+                item(span = { GridItemSpan(this.maxLineSpan) }) {
+                    Text(
+                        style = MaterialTheme.typography.titleSmall,
+                        text = stringResource(initial),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                    )
+                }
+
+                items(categoriesForInitial) { item ->
+                    CategoryItem(
+                        onClick = { onClick(item) },
+                        item = item,
+                        selected = selectedCategory == item
+                    )
+                }
             }
         },
         count = 4

@@ -42,6 +42,8 @@
     <string name="category_public_transportation">Public transportation</string>
     <string name="category_travel">Travel</string>
     <string name="category_uncategorized">Uncategorized</string>
+    <string name="category_recent">Most frequent</string>
+    <string name="category_all">All categories</string>
 
     <string name="account_e_wallet">E-wallet</string>
     <string name="account_bank">Bank</string>

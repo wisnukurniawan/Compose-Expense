@@ -41,6 +41,8 @@
     <string name="category_public_transportation">Transportasi publik</string>
     <string name="category_travel">Travel</string>
     <string name="category_uncategorized">Tidak terkategori</string>
+    <string name="category_recent">Paling sering digunakan</string>
+    <string name="category_all">Semua kategori</string>
 
     <string name="account_e_wallet">E-wallet</string>
     <string name="account_bank">Bank</string>

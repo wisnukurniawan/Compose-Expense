@@ -4,6 +4,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.detail.data.ITransactionDetailEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.MAX_TOTAL_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
@@ -46,6 +47,20 @@ class TransactionDetailViewModel @Inject constructor(
     }
 
     private fun initLoad() {
+        viewModelScope.launch {
+            environment.getTopCategory()
+                .collect {
+                    val default = mapOf(R.string.category_all to getCategoryTypes())
+                    val categories = if (it.isNotEmpty()) {
+                        mapOf(R.string.category_recent to it) + default
+                    } else {
+                        default
+                    }
+                    setState {
+                        copy(categories = categories)
+                    }
+                }
+        }
         viewModelScope.launch {
             if (transactionId.isEmpty()) {
                 setEffect(TransactionEffect.ShowAmountKeyboard)

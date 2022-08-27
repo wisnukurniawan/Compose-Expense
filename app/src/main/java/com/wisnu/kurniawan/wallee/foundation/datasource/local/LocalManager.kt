@@ -13,6 +13,7 @@ import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionRecordDb
 import com.wisnu.kurniawan.wallee.foundation.extension.toTransactionWithAccount
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.AccountRecord
+import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.TopTransaction
 import com.wisnu.kurniawan.wallee.model.Transaction
 import com.wisnu.kurniawan.wallee.model.TransactionRecord
@@ -181,6 +182,13 @@ class LocalManager @Inject constructor(
     fun getTransactionRecord(afterDate: LocalDateTime, transactionId: String): Flow<TransactionRecord?> {
         return walleeReadDao.getTransactionRecord(afterDate, transactionId)
             .map { it.toTransactionRecord() }
+            .flowOn(dispatcher)
+    }
+
+    fun getTopCategory(limit: Int): Flow<List<CategoryType>> {
+        return walleeReadDao.getTopCategory(limit)
+            .filterNotNull()
+            .map { it.map { it.type } }
             .flowOn(dispatcher)
     }
 

@@ -5,6 +5,7 @@ import androidx.room.Query
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountRecordDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountWithTransaction
+import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TopCategoryDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TopTransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionRecordDb
@@ -131,4 +132,15 @@ interface WalleeReadDao {
     )
     fun getTransactionRecord(afterDate: LocalDateTime, transactionId: String): Flow<TransactionRecordDb?>
 
+    @Query(
+        """
+            SELECT TransactionDb.transaction_categoryType as type, COUNT(TransactionDb.transaction_categoryType) as total FROM TransactionDb
+            GROUP BY type
+            ORDER BY total DESC
+            LIMIT :limit
+        """
+    )
+    fun getTopCategory(
+        limit: Int
+    ): Flow<List<TopCategoryDb>>
 }

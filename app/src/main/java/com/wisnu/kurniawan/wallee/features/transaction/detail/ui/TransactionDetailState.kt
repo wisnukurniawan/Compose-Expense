@@ -27,6 +27,7 @@ data class TransactionState(
     val accounts: List<Account> = listOf(),
     val selectedAccount: Account = defaultAccount(Currency.DEFAULT, DateTimeProviderImpl().now()),
     val selectedTransferAccount: Account? = null,
+    val categories: Map<Int, List<CategoryType>> = mapOf(),
     val categoryType: CategoryType = CategoryType.OTHERS,
     val totalAmount: TextFieldValue = TextFieldValue(text = ZERO_AMOUNT),
     val note: TextFieldValue = TextFieldValue(),
