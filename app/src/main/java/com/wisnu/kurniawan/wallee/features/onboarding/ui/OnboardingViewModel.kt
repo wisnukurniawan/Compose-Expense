@@ -28,6 +28,12 @@ class OnboardingViewModel @Inject constructor(
 
     private fun initLoad() {
         viewModelScope.launch {
+            environment.getCurrentCountryCode()
+                .collect {
+                    setState { copy(currentCountryCode = it) }
+                }
+        }
+        viewModelScope.launch {
             setState { copy(currencyItems = initialCurrencyItems()) }
         }
     }
@@ -38,10 +44,8 @@ class OnboardingViewModel @Inject constructor(
                 .filter { it }
                 .distinctUntilChanged { old, new -> old != new }
                 .collect {
-                    state.value.currencyItems.selected()?.let {
-                        environment.saveAccount(it.currency)
-                        setEffect(OnboardingEffect.ClosePage)
-                    }
+                    environment.saveAccount(state.value.selectedCurrency!!)
+                    setEffect(OnboardingEffect.ClosePage)
                 }
         }
     }
@@ -53,7 +57,7 @@ class OnboardingViewModel @Inject constructor(
             }
             is OnboardingAction.SelectCurrency -> {
                 viewModelScope.launch {
-                    setState { copy(currencyItems = currencyItems.select(action.item)) }
+                    setState { copy(selectedCurrency = action.item) }
                 }
             }
         }
@@ -69,8 +73,8 @@ class OnboardingViewModel @Inject constructor(
                 CurrencyItem(
                     currencySymbol = value.symbol,
                     flag = flag,
-                    selected = false,
                     countryName = countryName,
+                    countryCode = it,
                     currency = Currency(
                         key,
                         it

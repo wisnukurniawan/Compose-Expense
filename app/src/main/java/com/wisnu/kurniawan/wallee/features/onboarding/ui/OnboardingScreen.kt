@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
@@ -47,6 +48,7 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIcon
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgIconButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
+import com.wisnu.kurniawan.wallee.model.Currency
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -160,6 +162,7 @@ private fun Content(
 
         CurrencyCell(
             data = items,
+            selectedCurrency = state.selectedCurrency,
             onItemClick = onItemClick,
         )
 
@@ -171,7 +174,8 @@ private fun Content(
 
 @OptIn(ExperimentalFoundationApi::class)
 private inline fun LazyListScope.CurrencyCell(
-    data: Map<Char, List<CurrencyItem>>,
+    data: Map<String, List<CurrencyItem>>,
+    selectedCurrency: Currency?,
     noinline onItemClick: (CurrencyItem) -> Unit,
 ) {
     item {
@@ -187,31 +191,33 @@ private inline fun LazyListScope.CurrencyCell(
         SpacerHeadline2()
     }
 
-    data.forEach { (initial, currenciesForInitial) ->
-        stickyHeader {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = MaterialTheme.colorScheme.surface)
-            ) {
-                Text(
-                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp),
-                    text = initial.toString(),
-                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
-                )
+    data.forEach { (title, currencies) ->
+        if (title.isNotBlank()) {
+            stickyHeader {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = MaterialTheme.colorScheme.surface)
+                ) {
+                    Text(
+                        style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp),
+                        text = title,
+                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                    )
+                }
             }
         }
 
-        val size = currenciesForInitial.size
+        val size = currencies.size
         itemsIndexed(
-            items = currenciesForInitial,
-            key = { _, item -> item.currency.countryCode + item.currency.currencyCode }
+            items = currencies,
+            key = { index, item -> index.toString() + item.currency.countryCode + item.currency.currencyCode }
         ) { index, item ->
             CurrencyItemCell(
                 currencySymbol = item.currencySymbol,
                 flag = item.flag,
                 countryName = item.countryName,
-                selected = item.selected,
+                selected = item.currency == selectedCurrency,
                 shape = cellShape(index, size),
                 showDivider = shouldShowDivider(index, size),
                 onClick = { onItemClick(item) }
@@ -234,6 +240,7 @@ private fun CurrencyItemCell(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
+            .clip(shape)
             .clickable(onClick = onClick),
         shape = shape,
         color = MaterialTheme.colorScheme.secondary,
