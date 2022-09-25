@@ -97,7 +97,7 @@ test-junit-params = { group = "org.junit.jupiter", name = "junit-jupiter-params"
 test-junit-old = { group = "junit", name = "junit", version = "4.13.2" }
 test-junit-oldParams = { group = "pl.pragmatists", name = "JUnitParams", version = "1.1.1" }
 test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.8.2" }
-test-turbine = { group = "app.cash.turbine", name = "turbine", version = "0.10.0" }
+test-turbine = { group = "app.cash.turbine", name = "turbine", version = "0.11.0" }
 
 
 [bundles]
