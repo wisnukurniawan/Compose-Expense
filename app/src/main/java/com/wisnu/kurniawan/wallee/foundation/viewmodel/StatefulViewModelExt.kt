@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

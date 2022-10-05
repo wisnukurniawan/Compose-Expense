@@ -1,7 +1,8 @@
 package com.wisnu.kurniawan.wallee.features.transaction.detail.data
 
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.wisnu.kurniawan.wallee.foundation.analytic.AnalyticManager
+import com.wisnu.foundation.libanalyticsmanager.AnalyticsManager
+
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
 import com.wisnu.kurniawan.wallee.foundation.extension.isAmountChanged
 import com.wisnu.kurniawan.wallee.foundation.extension.isChanged
@@ -31,7 +32,7 @@ class TransactionDetailEnvironment @Inject constructor(
     private val localManager: LocalManager,
     private val dateTimeProvider: DateTimeProvider,
     private val idProvider: IdProvider,
-    private val analyticManager: AnalyticManager
+    private val analyticManager: AnalyticsManager
 ) : ITransactionDetailEnvironment {
 
     override fun getAccounts(): Flow<List<Account>> {

@@ -1,9 +1,9 @@
 package com.wisnu.kurniawan.wallee.features.balance.summary.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.features.balance.summary.data.IBalanceSummaryEnvironment
 import com.wisnu.kurniawan.wallee.foundation.extension.getDefaultAccount
-import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_ACCOUNT_ID
 import com.wisnu.kurniawan.wallee.runtime.navigation.AccountDetailFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow

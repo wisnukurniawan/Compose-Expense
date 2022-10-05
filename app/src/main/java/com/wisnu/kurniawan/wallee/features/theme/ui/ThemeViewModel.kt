@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.theme.data.IThemeEnvironment
 import com.wisnu.kurniawan.wallee.foundation.theme.AuroraItemBackgroundL2
@@ -15,7 +16,6 @@ import com.wisnu.kurniawan.wallee.foundation.theme.SunriseItemBackgroundL2
 import com.wisnu.kurniawan.wallee.foundation.theme.SunrisePrimary
 import com.wisnu.kurniawan.wallee.foundation.theme.TwilightItemBackgroundL1
 import com.wisnu.kurniawan.wallee.foundation.theme.TwilightPrimary
-import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

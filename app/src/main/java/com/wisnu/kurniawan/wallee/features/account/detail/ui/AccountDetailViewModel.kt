@@ -4,12 +4,12 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.features.account.detail.data.IAccountDetailEnvironment
 import com.wisnu.kurniawan.wallee.features.balance.summary.data.AccountBalance
 import com.wisnu.kurniawan.wallee.foundation.extension.MAX_TOTAL_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formattedAmount
-import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_ACCOUNT_ID
 import dagger.hilt.android.lifecycle.HiltViewModel

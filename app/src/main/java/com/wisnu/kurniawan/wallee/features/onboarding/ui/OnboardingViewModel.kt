@@ -1,11 +1,11 @@
 package com.wisnu.kurniawan.wallee.features.onboarding.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.features.onboarding.data.IOnboardingEnvironment
 import com.wisnu.kurniawan.wallee.foundation.currency.COUNTRY_DATA
 import com.wisnu.kurniawan.wallee.foundation.currency.CURRENCY_DATA
 import com.wisnu.kurniawan.wallee.foundation.emoji.EmojiData
-import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.model.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

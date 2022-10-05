@@ -1,7 +1,7 @@
 package com.wisnu.kurniawan.wallee.features.transaction.summary.data
 
+import com.wisnu.foundation.coredatetime.generateThisMonthDateTimeRange
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.LocalManager
-import com.wisnu.kurniawan.wallee.foundation.extension.generateThisMonthDateTimeRange
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProvider
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.TopTransaction

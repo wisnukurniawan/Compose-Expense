@@ -1,8 +1,8 @@
 package com.wisnu.kurniawan.wallee.features.dashboard.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.features.dashboard.data.IDashboardEnvironment
-import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch

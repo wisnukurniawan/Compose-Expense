@@ -1,8 +1,8 @@
 package com.wisnu.kurniawan.wallee.features.transaction.summary.ui
 
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.features.transaction.summary.data.ITransactionSummaryEnvironment
-import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.runtime.navigation.ARG_TRANSACTION_ID
 import com.wisnu.kurniawan.wallee.runtime.navigation.TransactionDetailFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
