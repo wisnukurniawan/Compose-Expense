@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 rootProject.name = "Wallee"
@@ -24,14 +25,11 @@ include ':app'
 ///////////////
 // CORE MODULE
 //////
-include ':core-logger'
 
 
 ///////////////
 // TEST MODULE
 //////
-include ':test-debug'
-include ':test-debug:no-op'
 include ':test-benchmark'
 
 

@@ -1,6 +1,6 @@
 package com.wisnu.kurniawan.wallee.features.setting.ui
 
-import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

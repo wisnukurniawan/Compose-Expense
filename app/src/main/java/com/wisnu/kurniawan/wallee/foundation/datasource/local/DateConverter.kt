@@ -1,8 +1,8 @@
 package com.wisnu.kurniawan.wallee.foundation.datasource.local
 
 import androidx.room.TypeConverter
-import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
-import com.wisnu.kurniawan.wallee.foundation.extension.toMillis
+import com.wisnu.foundation.coredatetime.toLocalDateTime
+import com.wisnu.foundation.coredatetime.toMillis
 import java.time.LocalDateTime
 
 class DateConverter {

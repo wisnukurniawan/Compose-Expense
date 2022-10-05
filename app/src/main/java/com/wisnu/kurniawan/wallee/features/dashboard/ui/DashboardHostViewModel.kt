@@ -4,8 +4,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ReceiptLong
 import androidx.compose.material.icons.rounded.Wallet
 import androidx.lifecycle.viewModelScope
+import com.wisnu.foundation.coreviewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.R
-import com.wisnu.kurniawan.wallee.foundation.viewmodel.StatefulViewModel
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.BalanceSummaryFlow
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.TransactionSummaryFlow
 import dagger.hilt.android.lifecycle.HiltViewModel

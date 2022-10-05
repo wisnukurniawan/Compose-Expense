@@ -8,7 +8,7 @@ import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.AccountDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TopTransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionDb
 import com.wisnu.kurniawan.wallee.foundation.datasource.local.model.TransactionWithAccountDb
-import com.wisnu.kurniawan.wallee.foundation.extension.toLocalDateTime
+import com.wisnu.foundation.coredatetime.toLocalDateTime
 import com.wisnu.kurniawan.wallee.model.AccountType
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.Currency

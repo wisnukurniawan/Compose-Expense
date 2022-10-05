@@ -2,7 +2,7 @@ package com.wisnu.kurniawan.wallee.runtime.initializer
 
 import android.content.Context
 import androidx.startup.Initializer
-import com.wisnu.kurniawan.coreLogger.ActivityLifecycleLoggr
+import com.wisnu.foundation.liblifecycleloggr.ActivityLifecycleLoggr
 import com.wisnu.kurniawan.wallee.runtime.WalleeApp
 
 class ActivityLifecycleLoggrInitializer : Initializer<ActivityLifecycleLoggr> {
