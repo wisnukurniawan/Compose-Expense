@@ -22,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
@@ -32,7 +31,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalTitle
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgModalVerticalGridLayout
 import com.wisnu.kurniawan.wallee.model.CategoryType
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun CategorySelectionScreen(
     viewModel: TransactionDetailViewModel,

@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.summary.ui.TopExpenseItem
@@ -35,7 +34,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.RoundedLinearProgressIn
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.model.Currency
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TopExpenseScreen(
     viewModel: TopExpenseViewModel

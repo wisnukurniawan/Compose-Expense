@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.features.transaction.summary.ui.TransactionItem
@@ -42,7 +41,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgEmpty
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgHeadline1
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AllTransactionScreen(
     viewModel: AllTransactionViewModel,

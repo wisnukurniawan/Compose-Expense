@@ -44,7 +44,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
@@ -64,7 +63,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AccountDetailScreen(
     viewModel: AccountDetailViewModel,

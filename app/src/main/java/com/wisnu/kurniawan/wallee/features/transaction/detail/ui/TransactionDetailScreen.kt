@@ -52,7 +52,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
@@ -74,7 +73,6 @@ import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.TransactionType
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TransactionDetailScreen(
     viewModel: TransactionDetailViewModel,

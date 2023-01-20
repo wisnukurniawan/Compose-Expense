@@ -34,7 +34,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.cellShape
@@ -50,7 +49,6 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 import com.wisnu.kurniawan.wallee.model.Currency
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun OnboardingScreen(
     viewModel: OnboardingViewModel,

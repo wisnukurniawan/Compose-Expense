@@ -23,12 +23,12 @@ Compose playground for learning purpose
 
 ## Prerequisites
 
-* Android Studio Chipmunk | 2021.2.1
+* Android Studio Electric Eel | 2022.1.1
 * Min SDK 21
 * Target SDK 33
-* AGP 7.3.0
+* AGP 7.4.0
 * Java 11
-* Kotlin 1.7.10
+* Kotlin 1.7.21
 
 ## Setup
 
