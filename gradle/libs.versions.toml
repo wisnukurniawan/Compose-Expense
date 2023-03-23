@@ -1,6 +1,6 @@
 [versions]
 androidGradlePlugin = "7.4.2"
-protoWirePlugin = "4.5.2"
+protoWirePlugin = "4.5.3"
 
 accompanist = "0.28.0"
 androidDesugarJdkLibs = "1.1.6"
