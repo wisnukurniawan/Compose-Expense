@@ -239,7 +239,19 @@ class TransactionDetailViewModel @Inject constructor(
             }
             is TransactionAction.SelectDate -> {
                 viewModelScope.launch {
-                    setState { copy(transactionDate = LocalDateTime.of(action.selectedDate, LocalTime.now())) }
+                    if (action.selectedDate != null) {
+                        setState { copy(showDatePicker = false, transactionDate = LocalDateTime.of(action.selectedDate.toLocalDate(), LocalTime.now())) }
+                    }
+                }
+            }
+            TransactionAction.DismissDatePicker -> {
+                viewModelScope.launch {
+                    setState { copy(showDatePicker = false) }
+                }
+            }
+            TransactionAction.ShowDatePicker -> {
+                viewModelScope.launch {
+                    setState { copy(showDatePicker = true) }
                 }
             }
             is TransactionAction.SelectCategory -> {

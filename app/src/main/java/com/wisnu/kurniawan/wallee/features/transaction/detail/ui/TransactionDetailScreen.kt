@@ -29,12 +29,21 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -53,6 +62,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.wisnu.foundation.coredatetime.toLocalDateTime
+import com.wisnu.foundation.coredatetime.toMillis
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.getEmojiAndText
 import com.wisnu.kurniawan.wallee.foundation.theme.AlphaDisabled
@@ -68,10 +79,13 @@ import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgPageLayout
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgSecondaryButton
 import com.wisnu.kurniawan.wallee.foundation.uicomponent.PgTabLabel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.paddingCell
-import com.wisnu.kurniawan.wallee.foundation.uiextension.showDatePicker
 import com.wisnu.kurniawan.wallee.foundation.viewmodel.HandleEffect
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.TransactionType
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 
 @Composable
 fun TransactionDetailScreen(
@@ -132,9 +146,13 @@ fun TransactionDetailScreen(
             onAddAccountClick()
         },
         onDateSectionClick = {
-            activity.showDatePicker(state.transactionDate.toLocalDate()) { selectedDate ->
-                viewModel.dispatch(TransactionAction.SelectDate(selectedDate))
-            }
+            viewModel.dispatch(TransactionAction.ShowDatePicker)
+        },
+        onClickDateCancel = {
+            viewModel.dispatch(TransactionAction.DismissDatePicker)
+        },
+        onClickDateSelect = {
+            viewModel.dispatch(TransactionAction.SelectDate(it))
         },
         onDeleteClick = {
             localFocusManager.clearFocus()
@@ -164,6 +182,8 @@ private fun TransactionDetailScreen(
     onTransactionTypeSelected: (TransactionType) -> Unit,
     onTotalAmountChange: (TextFieldValue) -> Unit,
     onNoteChange: (TextFieldValue) -> Unit,
+    onClickDateCancel: () -> Unit,
+    onClickDateSelect: (LocalDateTime?) -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
     PgPageLayout(
@@ -216,18 +236,22 @@ private fun TransactionDetailScreen(
 
             item {
                 GeneralSection(
+                    showDatePicker = state.showDatePicker,
                     transactionType = state.transactionType,
                     selectedAccount = state.selectedAccountName(),
                     selectedCategoryType = state.categoryType,
                     selectedTransferAccount = state.selectedAccountTransferName(),
-                    transactionDate = state.transactionDateDisplayable(),
+                    transactionDateDisplay = state.transactionDateDisplayable(),
+                    transactionDateInitial = state.transactionDate,
                     hasTransferAccount = state.hasTransferAccount(),
                     isEditMode = state.isEditMode,
                     onAccountSectionClick = onAccountSectionClick,
                     onCategorySectionClick = onCategorySectionClick,
                     onTransferAccountSectionClick = onTransferAccountSectionClick,
                     onAddAccountClick = onAddAccountClick,
-                    onDateSectionClick = onDateSectionClick
+                    onDateSectionClick = onDateSectionClick,
+                    onClickDateCancel = onClickDateCancel,
+                    onClickDateSelect = onClickDateSelect,
                 )
             }
 
@@ -363,20 +387,25 @@ private fun AmountSection(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GeneralSection(
+    showDatePicker: Boolean,
     transactionType: TransactionType,
     selectedAccount: String,
     selectedCategoryType: CategoryType,
     selectedTransferAccount: String,
     hasTransferAccount: Boolean,
-    transactionDate: String,
+    transactionDateDisplay: String,
+    transactionDateInitial: LocalDateTime,
     isEditMode: Boolean,
     onAccountSectionClick: () -> Unit,
     onCategorySectionClick: () -> Unit,
     onTransferAccountSectionClick: () -> Unit,
     onAddAccountClick: () -> Unit,
     onDateSectionClick: () -> Unit,
+    onClickDateCancel: () -> Unit,
+    onClickDateSelect: (LocalDateTime?) -> Unit,
 ) {
     val alpha = if (isEditMode) AlphaDisabled else AlphaHigh
     PgHeadlineLabel(
@@ -489,6 +518,41 @@ private fun GeneralSection(
         )
     }
 
+    if (showDatePicker) {
+        val datePickerState = remember {
+            DatePickerState(
+                initialSelectedDateMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
+                initialDisplayedMonthMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
+                yearRange = DatePickerDefaults.YearRange,
+                initialDisplayMode = DisplayMode.Picker
+            )
+        }
+        val confirmEnabled by remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
+        DatePickerDialog(
+            onDismissRequest = onClickDateCancel,
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onClickDateSelect(datePickerState.selectedDateMillis?.toLocalDateTime())
+                    },
+                    enabled = confirmEnabled
+                ) { Text("Oke") }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = onClickDateCancel
+                ) { Text(stringResource(R.string.transaction_edit_cancel)) }
+            }
+        ) {
+            DatePicker(state = datePickerState, dateValidator = {
+                val zone = ZoneId.ofOffset("UTC", ZoneOffset.UTC)
+                val start = LocalDate.of(2000, 1, 1).toMillis(zone)
+                val end = LocalDate.now().toMillis(zone)
+                return@DatePicker it in start..end
+            })
+        }
+    }
+
     ActionContentCell(
         title = stringResource(R.string.transaction_edit_date_transaction),
         showDivider = false,
@@ -505,7 +569,7 @@ private fun GeneralSection(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 PgContentTitle(
-                    text = transactionDate,
+                    text = transactionDateDisplay,
                 )
                 Spacer(Modifier.width(8.dp))
                 PgIcon(

@@ -4,7 +4,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.wisnu.kurniawan.wallee.model.Account
 import com.wisnu.kurniawan.wallee.model.CategoryType
 import com.wisnu.kurniawan.wallee.model.TransactionType
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 sealed interface TransactionAction {
     object Save : TransactionAction
@@ -17,6 +17,8 @@ sealed interface TransactionAction {
     data class ChangeNote(val note: TextFieldValue) : TransactionAction
     data class SelectAccount(val selectedAccount: Account) : TransactionAction
     data class SelectTransferAccount(val selectedAccount: Account) : TransactionAction
-    data class SelectDate(val selectedDate: LocalDate) : TransactionAction
+    data class SelectDate(val selectedDate: LocalDateTime?) : TransactionAction
+    object DismissDatePicker : TransactionAction
+    object ShowDatePicker : TransactionAction
     data class SelectCategory(val selectedCategoryType: CategoryType) : TransactionAction
 }

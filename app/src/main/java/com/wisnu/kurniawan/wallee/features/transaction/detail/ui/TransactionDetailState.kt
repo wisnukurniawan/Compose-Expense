@@ -5,12 +5,12 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import com.wisnu.foundation.coredatetime.formatDateTime
 import com.wisnu.kurniawan.wallee.R
 import com.wisnu.kurniawan.wallee.foundation.extension.ZERO_AMOUNT
 import com.wisnu.kurniawan.wallee.foundation.extension.defaultAccount
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsBigDecimal
 import com.wisnu.kurniawan.wallee.foundation.extension.formatAsDisplayNormalize
-import com.wisnu.foundation.coredatetime.formatDateTime
 import com.wisnu.kurniawan.wallee.foundation.theme.Expense
 import com.wisnu.kurniawan.wallee.foundation.theme.Income
 import com.wisnu.kurniawan.wallee.foundation.wrapper.DateTimeProviderImpl
@@ -35,7 +35,8 @@ data class TransactionState(
     val transactionDate: LocalDateTime = DateTimeProviderImpl().now(),
     val transactionCreatedAt: LocalDateTime = DateTimeProviderImpl().now(),
     val transactionUpdatedAt: LocalDateTime? = null,
-    val isEditMode: Boolean = false
+    val isEditMode: Boolean = false,
+    val showDatePicker: Boolean = false,
 )
 
 // Collections
