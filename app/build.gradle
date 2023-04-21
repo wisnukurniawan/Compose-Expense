@@ -32,6 +32,7 @@ ext.codeCoverage = [
 ]
 
 android {
+    namespace 'com.wisnu.kurniawan.wallee'
     compileSdkVersion project.ext.compileSdkVersion
     buildToolsVersion project.ext.buildToolsVersion
 
