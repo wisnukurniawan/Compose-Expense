@@ -29,18 +29,19 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SelectableDates
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -110,6 +111,7 @@ fun TransactionDetailScreen(
             TransactionEffect.ClosePage -> {
                 onClosePage()
             }
+
             TransactionEffect.ShowAmountKeyboard -> {
                 focusRequester.requestFocus()
             }
@@ -519,14 +521,20 @@ private fun GeneralSection(
     }
 
     if (showDatePicker) {
-        val datePickerState = remember {
-            DatePickerState(
-                initialSelectedDateMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
-                initialDisplayedMonthMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
-                yearRange = DatePickerDefaults.YearRange,
-                initialDisplayMode = DisplayMode.Picker
-            )
-        }
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
+            initialDisplayedMonthMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
+            yearRange = DatePickerDefaults.YearRange,
+            initialDisplayMode = DisplayMode.Picker,
+            selectableDates = object : SelectableDates {
+                override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                    val zone = ZoneId.ofOffset("UTC", ZoneOffset.UTC)
+                    val start = LocalDate.of(2000, 1, 1).toMillis(zone)
+                    val end = LocalDate.now().toMillis(zone)
+                    return utcTimeMillis in start..end
+                }
+            }
+        )
         val confirmEnabled by remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
         DatePickerDialog(
             onDismissRequest = onClickDateCancel,
@@ -544,12 +552,7 @@ private fun GeneralSection(
                 ) { Text(stringResource(R.string.transaction_edit_cancel)) }
             }
         ) {
-            DatePicker(state = datePickerState, dateValidator = {
-                val zone = ZoneId.ofOffset("UTC", ZoneOffset.UTC)
-                val start = LocalDate.of(2000, 1, 1).toMillis(zone)
-                val end = LocalDate.now().toMillis(zone)
-                return@DatePicker it in start..end
-            })
+            DatePicker(state = datePickerState)
         }
     }
 
