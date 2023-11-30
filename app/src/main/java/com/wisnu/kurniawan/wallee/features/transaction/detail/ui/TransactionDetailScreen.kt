@@ -110,6 +110,7 @@ fun TransactionDetailScreen(
             TransactionEffect.ClosePage -> {
                 onClosePage()
             }
+
             TransactionEffect.ShowAmountKeyboard -> {
                 focusRequester.requestFocus()
             }
@@ -519,14 +520,12 @@ private fun GeneralSection(
     }
 
     if (showDatePicker) {
-        val datePickerState = remember {
-            DatePickerState(
-                initialSelectedDateMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
-                initialDisplayedMonthMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
-                yearRange = DatePickerDefaults.YearRange,
-                initialDisplayMode = DisplayMode.Picker
-            )
-        }
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
+            initialDisplayedMonthMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
+            yearRange = DatePickerDefaults.YearRange,
+            initialDisplayMode = DisplayMode.Picker
+        )
         val confirmEnabled by remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
         DatePickerDialog(
             onDismissRequest = onClickDateCancel,
