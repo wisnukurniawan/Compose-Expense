@@ -41,6 +41,8 @@ import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SelectableDates
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -524,7 +526,15 @@ private fun GeneralSection(
             initialSelectedDateMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
             initialDisplayedMonthMillis = transactionDateInitial.toMillis(ZoneId.ofOffset("UTC", ZoneOffset.UTC)),
             yearRange = DatePickerDefaults.YearRange,
-            initialDisplayMode = DisplayMode.Picker
+            initialDisplayMode = DisplayMode.Picker,
+            selectableDates = object : SelectableDates {
+                override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                    val zone = ZoneId.ofOffset("UTC", ZoneOffset.UTC)
+                    val start = LocalDate.of(2000, 1, 1).toMillis(zone)
+                    val end = LocalDate.now().toMillis(zone)
+                    return utcTimeMillis in start..end
+                }
+            }
         )
         val confirmEnabled by remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
         DatePickerDialog(
@@ -543,12 +553,7 @@ private fun GeneralSection(
                 ) { Text(stringResource(R.string.transaction_edit_cancel)) }
             }
         ) {
-            DatePicker(state = datePickerState, dateValidator = {
-                val zone = ZoneId.ofOffset("UTC", ZoneOffset.UTC)
-                val start = LocalDate.of(2000, 1, 1).toMillis(zone)
-                val end = LocalDate.now().toMillis(zone)
-                return@DatePicker it in start..end
-            })
+            DatePicker(state = datePickerState)
         }
     }
 
