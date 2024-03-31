@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.ModalBottomSheetDefaults
+import androidx.compose.material.navigation.ModalBottomSheetLayout
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -31,8 +32,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardBottomBar
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardHostViewModel
 import com.wisnu.kurniawan.wallee.features.dashboard.ui.DashboardNavRail
@@ -78,7 +77,6 @@ fun NavGraphBuilder.LargeHomeNavHost(
     }
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 private fun SmallScreen(
     navController: NavHostController,
@@ -117,7 +115,6 @@ private fun SmallScreen(
     }
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 private fun LargeScreen(
     mainNavController: NavHostController,

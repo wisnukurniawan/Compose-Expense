@@ -1,12 +1,11 @@
 package com.wisnu.kurniawan.wallee.runtime.navigation
 
+import androidx.compose.material.navigation.bottomSheet
 import androidx.compose.runtime.MutableState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.bottomSheet
 import com.wisnu.kurniawan.wallee.features.localized.ui.LanguageScreen
 import com.wisnu.kurniawan.wallee.features.localized.ui.LocalizedViewModel
 import com.wisnu.kurniawan.wallee.features.logout.ui.LogoutScreen
@@ -17,7 +16,6 @@ import com.wisnu.kurniawan.wallee.features.theme.ui.ThemeScreen
 import com.wisnu.kurniawan.wallee.features.theme.ui.ThemeViewModel
 import com.wisnu.kurniawan.wallee.runtime.navigation.home.HomeFlow
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.SettingNavHost(
     navController: NavHostController,
     bottomSheetConfig: MutableState<BottomSheetConfig>

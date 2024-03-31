@@ -1,18 +1,16 @@
 package com.wisnu.kurniawan.wallee.runtime.navigation
 
+import androidx.compose.material.navigation.bottomSheet
 import androidx.compose.runtime.MutableState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.bottomSheet
 import com.wisnu.kurniawan.wallee.features.account.detail.ui.AccountDetailScreen
 import com.wisnu.kurniawan.wallee.features.account.detail.ui.AccountDetailViewModel
 import com.wisnu.kurniawan.wallee.features.account.detail.ui.AccountTypeSelectionScreen
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.AccountDetailNavHost(
     navController: NavHostController,
     bottomSheetConfig: MutableState<BottomSheetConfig>

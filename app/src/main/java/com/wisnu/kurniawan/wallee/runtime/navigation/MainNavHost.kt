@@ -1,6 +1,8 @@
 package com.wisnu.kurniawan.wallee.runtime.navigation
 
 import androidx.compose.material.ModalBottomSheetDefaults
+import androidx.compose.material.navigation.BottomSheetNavigator
+import androidx.compose.material.navigation.ModalBottomSheetLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -11,9 +13,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.material.BottomSheetNavigator
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.wisnu.kurniawan.wallee.features.splash.ui.SplashScreen
 import com.wisnu.kurniawan.wallee.features.splash.ui.SplashViewModel
 import com.wisnu.kurniawan.wallee.foundation.uiextension.rememberBottomSheetNavigator
@@ -24,7 +23,6 @@ import com.wisnu.kurniawan.wallee.runtime.navigation.home.LargeHomeNavHost
 const val MinLargeScreenWidth = 585
 const val BASE_DEEPLINK = "wallee://com.wisnu.kurniawan"
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 fun MainNavHost(windowState: WindowState) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
@@ -51,7 +49,6 @@ fun MainNavHost(windowState: WindowState) {
     }
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 private fun SmallScreenNavHost(
     bottomSheetNavigator: BottomSheetNavigator,
@@ -82,7 +79,6 @@ private fun SmallScreenNavHost(
     }
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 private fun LargeScreenNavHost(
     bottomSheetNavigator: BottomSheetNavigator,
