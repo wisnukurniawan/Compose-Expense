@@ -107,7 +107,7 @@ test-junit-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine"
 test-junit-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "jUnit" }
 test-junit-old = { group = "junit", name = "junit", version = "4.13.2" }
 test-junit-oldParams = { group = "pl.pragmatists", name = "JUnitParams", version = "1.1.1" }
-test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.10.3" }
+test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.12.1" }
 test-turbine = { group = "app.cash.turbine", name = "turbine", version = "0.13.0" }
 
 
