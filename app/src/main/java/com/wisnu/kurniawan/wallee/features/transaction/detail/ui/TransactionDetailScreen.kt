@@ -378,7 +378,7 @@ private fun AmountSection(
             value = totalAmount,
             onValueChange = onTotalAmountChange,
             modifier = Modifier.focusRequester(focusRequester).alpha(0f).size(1.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -605,7 +605,7 @@ private fun NoteSection(
         PgBasicTextField(
             value = note,
             onValueChange = onNoteChange,
-            keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
                     focusManager.clearFocus()

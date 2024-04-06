@@ -127,7 +127,7 @@ private fun EmailField(
         onValueChange = { onEmailChanged(it) },
         placeholderValue = stringResource(R.string.login_email),
         isError = isError,
-        keyboardOptions = KeyboardOptions.Default.copy(
+        keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Email
         ),
@@ -185,7 +185,7 @@ private fun PasswordField(
         } else {
             PasswordVisualTransformation()
         },
-        keyboardOptions = KeyboardOptions.Default.copy(
+        keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Password
         ),

@@ -226,7 +226,7 @@ private fun NameSection(
             PgBasicTextField(
                 value = name,
                 onValueChange = onNameChange,
-                keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
@@ -311,7 +311,7 @@ private fun AmountSection(
             value = totalAmount,
             onValueChange = onTotalAmountChange,
             modifier = Modifier.focusRequester(focusRequester).alpha(0f).size(1.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onDone = {

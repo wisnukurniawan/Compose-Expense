@@ -18,7 +18,7 @@ import com.wisnu.kurniawan.wallee.model.TransactionWithAccount
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.inject.Inject
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOf
@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.take
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class TransactionDetailEnvironment @Inject constructor(
     private val localManager: LocalManager,
     private val dateTimeProvider: DateTimeProvider,
@@ -119,7 +120,6 @@ class TransactionDetailEnvironment @Inject constructor(
             }
     }
 
-    @OptIn(FlowPreview::class)
     private fun updateTransaction(
         account: Account,
         transferAccount: Account?,
@@ -216,7 +216,6 @@ class TransactionDetailEnvironment @Inject constructor(
         }
     }
 
-    @OptIn(FlowPreview::class)
     override suspend fun deleteTransaction(id: String): Flow<Boolean> {
         return localManager.getTransactionWithAccount(id)
             .take(1)
@@ -364,7 +363,6 @@ class TransactionDetailEnvironment @Inject constructor(
         return currentAmount + newAmount
     }
 
-    @OptIn(FlowPreview::class)
     private fun getTransactionAmountRecord(
         getAccountRecord: () -> Flow<AccountRecord?>,
         getTransactionRecord: (LocalDateTime) -> Flow<TransactionRecord?>,
