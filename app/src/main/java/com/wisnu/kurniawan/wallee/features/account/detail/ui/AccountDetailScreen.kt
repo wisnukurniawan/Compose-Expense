@@ -336,10 +336,10 @@ private fun AmountSection(
     }
 }
 
-private inline fun LazyListScope.AdjustAmountReasonCell(
+private fun LazyListScope.AdjustAmountReasonCell(
     data: List<AdjustBalanceReasonItem>,
     shouldShow: Boolean,
-    noinline onItemClick: (AdjustBalanceReasonItem) -> Unit
+    onItemClick: (AdjustBalanceReasonItem) -> Unit
 ) {
     if (shouldShow) {
         item {

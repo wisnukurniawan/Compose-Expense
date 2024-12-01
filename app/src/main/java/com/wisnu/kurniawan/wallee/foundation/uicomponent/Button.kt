@@ -91,7 +91,7 @@ fun PgButton(
 fun PgSecondaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    border: BorderStroke? = ButtonDefaults.outlinedButtonBorder,
+    border: BorderStroke? = ButtonDefaults.outlinedButtonBorder(),
     content: @Composable RowScope.() -> Unit
 ) {
     OutlinedButton(

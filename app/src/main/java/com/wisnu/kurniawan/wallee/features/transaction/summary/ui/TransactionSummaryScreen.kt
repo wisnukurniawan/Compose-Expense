@@ -303,10 +303,10 @@ private fun CashFlowContent(
     }
 }
 
-private inline fun LazyListScope.LastTransactionCell(
+private fun LazyListScope.LastTransactionCell(
     data: List<TransactionItem>,
-    noinline onSeeMoreClick: () -> Unit,
-    noinline onItemClick: (TransactionItem) -> Unit,
+    onSeeMoreClick: () -> Unit,
+    onItemClick: (TransactionItem) -> Unit,
 ) {
     item {
         Row(
@@ -447,10 +447,10 @@ private fun TransactionItemCell(
 }
 
 
-private inline fun LazyListScope.TopExpenseCell(
+private fun LazyListScope.TopExpenseCell(
     data: List<TopExpenseItem>,
     currency: Currency,
-    noinline onSeeMoreClick: () -> Unit,
+    onSeeMoreClick: () -> Unit,
 ) {
     item {
         Row(

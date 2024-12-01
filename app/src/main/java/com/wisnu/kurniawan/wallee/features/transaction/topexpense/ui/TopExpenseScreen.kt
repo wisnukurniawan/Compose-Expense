@@ -91,7 +91,7 @@ private fun Content(
     }
 }
 
-private inline fun LazyListScope.TopExpenseCell(
+private fun LazyListScope.TopExpenseCell(
     data: List<TopExpenseItem>,
     currency: Currency,
 ) {

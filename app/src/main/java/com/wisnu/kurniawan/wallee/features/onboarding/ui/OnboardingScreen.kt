@@ -93,9 +93,11 @@ private fun OnboardingScreen(
         Header(
             onSettingClick = onSettingClick,
         )
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .weight(1F)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1F)
+        ) {
             Content(
                 state = state,
                 onItemClick = onItemClick,
@@ -181,10 +183,10 @@ private fun Content(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-private inline fun LazyListScope.CurrencyCell(
+private fun LazyListScope.CurrencyCell(
     data: Map<String, List<CurrencyItem>>,
     selectedCurrency: Currency?,
-    noinline onItemClick: (CurrencyItem) -> Unit,
+    onItemClick: (CurrencyItem) -> Unit,
 ) {
     item {
         Row(

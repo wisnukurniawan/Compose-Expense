@@ -1,5 +1,7 @@
 package com.wisnu.kurniawan.wallee.foundation.theme
 
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -127,9 +129,17 @@ fun Theme(
 
         Theme.WALLPAPER -> {
             if (isSystemInDarkTheme()) {
-                dynamicDarkColorScheme(LocalContext.current)
+                if (SDK_INT >= Build.VERSION_CODES.S) {
+                    dynamicDarkColorScheme(LocalContext.current)
+                } else {
+                    NightColorPalette
+                }
             } else {
-                dynamicLightColorScheme(LocalContext.current)
+                if (SDK_INT >= Build.VERSION_CODES.S) {
+                    dynamicLightColorScheme(LocalContext.current)
+                } else {
+                    LightColorPalette
+                }
             }
         }
 

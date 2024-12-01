@@ -78,7 +78,10 @@ private fun BalanceSummaryScreen(
         LazyVerticalGrid(
             modifier = Modifier.fillMaxSize(),
             columns = GridCells.Adaptive(minSize = 150.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp,
+                alignment = Alignment.CenterHorizontally
+            ),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
@@ -149,10 +152,10 @@ private fun AllTimeSection(
     }
 }
 
-private inline fun LazyGridScope.AccountCell(
+private fun LazyGridScope.AccountCell(
     accountItems: List<AccountItem>,
-    noinline onClickAccount: (Account) -> Unit,
-    noinline onClickAddAccount: () -> Unit,
+    onClickAccount: (Account) -> Unit,
+    onClickAddAccount: () -> Unit,
 ) {
     item(span = { GridItemSpan(maxLineSpan) }) {
         Row(
@@ -180,7 +183,10 @@ private inline fun LazyGridScope.AccountCell(
             amountColor = it.account.getTotalBalanceColor(
                 MaterialTheme.colorScheme.onBackground
             ),
-            totalTransaction = stringResource(R.string.balance_total_transaction, it.totalTransaction),
+            totalTransaction = stringResource(
+                R.string.balance_total_transaction,
+                it.totalTransaction
+            ),
             updatedAt = it.account.getDateTimeDisplay(),
             isSelected = it.isSelected,
             textColor = it.getTextColor(),

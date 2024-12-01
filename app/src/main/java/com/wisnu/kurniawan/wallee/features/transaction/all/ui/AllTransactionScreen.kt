@@ -106,9 +106,9 @@ private fun Content(
     }
 }
 
-private inline fun LazyListScope.TransactionCell(
+private fun LazyListScope.TransactionCell(
     data: List<TransactionItem>,
-    noinline onItemClick: (TransactionItem) -> Unit,
+    onItemClick: (TransactionItem) -> Unit,
 ) {
     if (data.isEmpty()) {
         item {
