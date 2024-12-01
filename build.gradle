@@ -23,7 +23,6 @@ allprojects {
         minSdkVersion = 21
         targetSdkVersion = 34
         compileSdkVersion = 34
-        buildToolsVersion = "34.0.0"
         appId = project.properties["application_id"]
         versionCode = Integer.parseInt(project.properties["version_code"])
         versionName = project.properties["version_name"]

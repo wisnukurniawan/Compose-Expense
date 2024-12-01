@@ -35,8 +35,6 @@ ext.codeCoverage = [
 
 android {
     namespace 'com.wisnu.kurniawan.wallee'
-    compileSdkVersion project.ext.compileSdkVersion
-    buildToolsVersion project.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion project.ext.minSdkVersion
@@ -44,6 +42,7 @@ android {
         applicationId project.ext.appId
         versionCode project.ext.versionCode
         versionName project.ext.versionName
+        compileSdk project.ext.compileSdkVersion
 
         vectorDrawables {
             useSupportLibrary true
@@ -258,10 +257,4 @@ dependencies {
     testImplementation libs.test.coroutines
     testImplementation libs.test.turbine
 
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-    kotlinOptions {
-        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
-    }
 }
