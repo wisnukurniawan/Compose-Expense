@@ -121,7 +121,8 @@ private fun AccountDetailScreen(
 ) {
     val localFocusManager = LocalFocusManager.current
     PgPageLayout(
-        Modifier.fillMaxSize()
+        Modifier
+            .fillMaxSize()
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
@@ -193,7 +194,10 @@ private fun AccountDetailScreen(
                         ),
                         onClick = onDeleteClick
                     ) {
-                        PgContentTitle(text = stringResource(R.string.account_edit_delete), color = MaterialTheme.colorScheme.error)
+                        PgContentTitle(
+                            text = stringResource(R.string.account_edit_delete),
+                            color = MaterialTheme.colorScheme.error
+                        )
                     }
                 }
             }
@@ -226,7 +230,10 @@ private fun NameSection(
             PgBasicTextField(
                 value = name,
                 onValueChange = onNameChange,
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Sentences,
+                    imeAction = ImeAction.Done
+                ),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
@@ -287,10 +294,11 @@ private fun AmountSection(
     )
 
     Box(
-        modifier = Modifier.background(
-            color = MaterialTheme.colorScheme.secondary,
-            shape = MaterialTheme.shapes.medium
-        )
+        modifier = Modifier
+            .background(
+                color = MaterialTheme.colorScheme.secondary,
+                shape = MaterialTheme.shapes.medium
+            )
             .fillMaxWidth()
             .paddingCell()
     ) {
@@ -310,8 +318,14 @@ private fun AmountSection(
         PgBasicTextField(
             value = totalAmount,
             onValueChange = onTotalAmountChange,
-            modifier = Modifier.focusRequester(focusRequester).alpha(0f).size(1.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
+            modifier = Modifier
+                .focusRequester(focusRequester)
+                .alpha(0f)
+                .size(1.dp),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal,
+                imeAction = ImeAction.Done
+            ),
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onDone = {

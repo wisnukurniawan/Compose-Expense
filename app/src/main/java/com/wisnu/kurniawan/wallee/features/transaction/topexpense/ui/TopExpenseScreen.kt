@@ -131,7 +131,8 @@ private fun TopExpenseItemCell(
             .fillMaxWidth(),
     ) {
         Column(
-            Modifier.fillMaxWidth()
+            Modifier
+                .fillMaxWidth()
                 .paddingCell()
         ) {
             PgContentTitle(
@@ -143,12 +144,16 @@ private fun TopExpenseItemCell(
                 amount = amount,
                 symbol = amountSymbol,
                 color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 4.dp),
             )
 
             RoundedLinearProgressIndicator(
                 progress = progress,
-                modifier = Modifier.fillMaxWidth().height(24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(24.dp),
                 trackColor = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled),
                 color = progressColor
             )

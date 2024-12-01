@@ -124,6 +124,7 @@ fun Theme(
                 LightColorPalette
             }
         }
+
         Theme.WALLPAPER -> {
             if (isSystemInDarkTheme()) {
                 dynamicDarkColorScheme(LocalContext.current)
@@ -131,6 +132,7 @@ fun Theme(
                 dynamicLightColorScheme(LocalContext.current)
             }
         }
+
         Theme.LIGHT -> LightColorPalette
         Theme.TWILIGHT -> TwilightColorPalette
         Theme.NIGHT -> NightColorPalette

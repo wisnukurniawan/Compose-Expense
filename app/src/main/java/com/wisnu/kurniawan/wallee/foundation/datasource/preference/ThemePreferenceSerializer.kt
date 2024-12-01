@@ -10,20 +10,16 @@ import java.io.OutputStream
 
 object ThemePreferenceSerializer : Serializer<ThemePreference> {
 
-    override val defaultValue: ThemePreference = ThemePreference(Theme.SYSTEM.value)
+    override val defaultValue: ThemePreference = ThemePreference.getDefaultInstance()
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun readFrom(input: InputStream): ThemePreference {
         try {
-            return ThemePreference.ADAPTER.decode(input)
+            return ThemePreference.parseFrom(input)
         } catch (exception: IOException) {
             throw CorruptionException("Cannot read proto", exception)
         }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun writeTo(t: ThemePreference, output: OutputStream) {
-        ThemePreference.ADAPTER.encode(output, t)
-    }
+    override suspend fun writeTo(t: ThemePreference, output: OutputStream) = t.writeTo(output)
 
 }

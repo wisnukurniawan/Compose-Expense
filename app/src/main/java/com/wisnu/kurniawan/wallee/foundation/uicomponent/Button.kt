@@ -56,10 +56,12 @@ fun PgIconButton(
     val shape = CircleShape
     IconButton(
         onClick = onClick,
-        modifier = modifier.background(
-            color = color,
-            shape = shape
-        ).clip(shape),
+        modifier = modifier
+            .background(
+                color = color,
+                shape = shape
+            )
+            .clip(shape),
         enabled = enabled
     ) {
         content()

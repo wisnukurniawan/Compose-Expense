@@ -9,20 +9,16 @@ import java.io.OutputStream
 
 object OnboardingPreferenceSerializer : Serializer<OnboardingPreference> {
 
-    override val defaultValue: OnboardingPreference = OnboardingPreference(false)
+    override val defaultValue: OnboardingPreference = OnboardingPreference.getDefaultInstance()
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun readFrom(input: InputStream): OnboardingPreference {
         try {
-            return OnboardingPreference.ADAPTER.decode(input)
+            return OnboardingPreference.parseFrom(input)
         } catch (exception: IOException) {
             throw CorruptionException("Cannot read proto", exception)
         }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun writeTo(t: OnboardingPreference, output: OutputStream) {
-        OnboardingPreference.ADAPTER.encode(output, t)
-    }
+    override suspend fun writeTo(t: OnboardingPreference, output: OutputStream) = t.writeTo(output)
 
 }

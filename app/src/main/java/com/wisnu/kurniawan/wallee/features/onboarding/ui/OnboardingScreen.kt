@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -92,7 +93,9 @@ private fun OnboardingScreen(
         Header(
             onSettingClick = onSettingClick,
         )
-        Box(modifier = Modifier.fillMaxSize().weight(1F)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .weight(1F)) {
             Content(
                 state = state,
                 onItemClick = onItemClick,
@@ -105,13 +108,20 @@ private fun OnboardingScreen(
                     .background(color = MaterialTheme.colorScheme.surface),
             ) {
                 PgButton(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     onClick = onSaveClick,
                     enabled = state.canSave(),
                 ) {
                     Text(
-                        style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp, fontWeight = FontWeight.Medium),
-                        text = stringResource(R.string.transaction_edit_save), color = MaterialTheme.colorScheme.onPrimary
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        text = stringResource(R.string.transaction_edit_save),
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -198,7 +208,10 @@ private inline fun LazyListScope.CurrencyCell(
                         .background(color = MaterialTheme.colorScheme.surface)
                 ) {
                     Text(
-                        style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp),
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontSize = 16.sp
+                        ),
                         text = title,
                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
                     )
@@ -245,19 +258,27 @@ private fun CurrencyItemCell(
     ) {
         Column {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(modifier = Modifier.weight(.75F)) {
                     Text(
-                        style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp),
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontSize = 16.sp
+                        ),
                         text = flag,
                         modifier = Modifier.padding(end = 8.dp)
                     )
 
                     Text(
-                        style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp),
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontSize = 16.sp
+                        ),
                         text = countryName,
                     )
                 }
@@ -268,23 +289,30 @@ private fun CurrencyItemCell(
                 ) {
                     Text(
                         style = MaterialTheme.typography.headlineMedium
-                            .copy(color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled), fontSize = 16.sp),
+                            .copy(
+                                color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
+                                fontSize = 16.sp
+                            ),
                         text = currencySymbol,
-                        modifier = Modifier.padding(end = 8.dp).align(alignment = Alignment.CenterVertically)
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .align(alignment = Alignment.CenterVertically)
                     )
 
                     if (selected) {
                         PgIcon(
                             imageVector = Icons.Rounded.Check,
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.align(alignment = Alignment.CenterVertically).size(20.dp)
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterVertically)
+                                .size(20.dp)
                         )
                     }
                 }
             }
 
             if (showDivider) {
-                Divider(
+                HorizontalDivider(
                     modifier = Modifier.padding(start = 16.dp),
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha)
                 )

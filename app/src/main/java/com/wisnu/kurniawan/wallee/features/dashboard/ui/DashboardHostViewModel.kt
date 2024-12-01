@@ -1,6 +1,7 @@
 package com.wisnu.kurniawan.wallee.features.dashboard.ui
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ReceiptLong
 import androidx.compose.material.icons.rounded.ReceiptLong
 import androidx.compose.material.icons.rounded.Wallet
 import androidx.lifecycle.viewModelScope
@@ -34,7 +35,7 @@ class DashboardHostViewModel @Inject constructor() : StatefulViewModel<Dashboard
             DashboardSection(
                 SectionType.TRANSACTION,
                 R.string.dashboard_transaction,
-                Icons.Rounded.ReceiptLong,
+                Icons.AutoMirrored.Rounded.ReceiptLong,
                 TransactionSummaryFlow.Root.route
             ),
             DashboardSection(

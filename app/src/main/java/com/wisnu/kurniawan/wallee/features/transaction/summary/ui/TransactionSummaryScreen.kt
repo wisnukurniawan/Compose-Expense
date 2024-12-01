@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -221,10 +222,11 @@ private fun CashFlowSection(
         SpacerHeadline2()
 
         Column(
-            modifier = Modifier.background(
-                color = MaterialTheme.colorScheme.secondary,
-                shape = MaterialTheme.shapes.medium
-            )
+            modifier = Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.secondary,
+                    shape = MaterialTheme.shapes.medium
+                )
                 .fillMaxWidth()
                 .paddingCell()
         ) {
@@ -387,7 +389,9 @@ private fun TransactionItemCell(
     ) {
         Column {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 8.dp, bottom = 2.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 8.dp, bottom = 2.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
             ) {
@@ -407,13 +411,17 @@ private fun TransactionItemCell(
                 amount = amount,
                 symbol = amountSymbol,
                 color = amountColor,
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
             )
 
             PgContentTitle(
                 text = account,
                 color = textColor.copy(AlphaDisabled),
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
             )
 
             PgContentTitle(
@@ -503,7 +511,8 @@ private fun TopExpenseItemCell(
         color = MaterialTheme.colorScheme.secondary,
     ) {
         Column(
-            Modifier.fillMaxWidth()
+            Modifier
+                .fillMaxWidth()
                 .paddingCell()
         ) {
             PgContentTitle(
@@ -515,12 +524,16 @@ private fun TopExpenseItemCell(
                 amount = amount,
                 symbol = amountSymbol,
                 color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 4.dp),
             )
 
             RoundedLinearProgressIndicator(
                 progress = progress,
-                modifier = Modifier.fillMaxWidth().height(24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(24.dp),
                 trackColor = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDisabled),
                 color = progressColor
             )
@@ -580,6 +593,6 @@ private fun PgDivider(
                     .background(color = MaterialTheme.colorScheme.secondary)
             )
         }
-        Divider(color = color)
+        HorizontalDivider(color = color)
     }
 }

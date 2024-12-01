@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -155,7 +156,9 @@ private fun TransactionItemCell(
     ) {
         Column {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 8.dp, bottom = 2.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 8.dp, bottom = 2.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
             ) {
@@ -173,13 +176,17 @@ private fun TransactionItemCell(
                 amount = amount,
                 symbol = amountSymbol,
                 color = amountColor,
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
             )
 
             PgContentTitle(
                 text = account,
                 color = MaterialTheme.colorScheme.onBackground.copy(AlphaDisabled),
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, bottom = 2.dp, end = 16.dp),
             )
 
             PgContentTitle(
@@ -190,7 +197,7 @@ private fun TransactionItemCell(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(start = 16.dp),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha)
             )

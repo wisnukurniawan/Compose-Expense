@@ -66,7 +66,9 @@ class PreferenceManager @Inject constructor(
     suspend fun setCredential(data: Credential) {
         withContext(dispatcher) {
             credentialDataStore.updateData {
-                CredentialPreference(data.token)
+                CredentialPreference.newBuilder()
+                    .setToken(data.token)
+                    .build()
             }
         }
     }
@@ -74,7 +76,9 @@ class PreferenceManager @Inject constructor(
     suspend fun setUser(data: User) {
         withContext(dispatcher) {
             userDataStore.updateData {
-                UserPreference(data.email)
+                UserPreference.newBuilder()
+                    .setEmail(data.email)
+                    .build()
             }
         }
     }
@@ -82,7 +86,10 @@ class PreferenceManager @Inject constructor(
     suspend fun setTheme(data: Theme) {
         withContext(dispatcher) {
             themeDataStore.updateData {
-                ThemePreference(data.value)
+                ThemePreference
+                    .newBuilder()
+                    .setValue(data.value)
+                    .build()
             }
         }
     }
@@ -90,7 +97,9 @@ class PreferenceManager @Inject constructor(
     suspend fun setLanguage(data: Language) {
         withContext(dispatcher) {
             languageDataStore.updateData {
-                LanguagePreference(data.code)
+                LanguagePreference.newBuilder()
+                    .setCode(data.code)
+                    .build()
             }
         }
     }
@@ -98,7 +107,9 @@ class PreferenceManager @Inject constructor(
     suspend fun setFinishOnboarding(finish: Boolean) {
         withContext(dispatcher) {
             onboardingDataStore.updateData {
-                OnboardingPreference(finish)
+                OnboardingPreference.newBuilder()
+                    .setFinishOnboarding(finish)
+                    .build()
             }
         }
     }

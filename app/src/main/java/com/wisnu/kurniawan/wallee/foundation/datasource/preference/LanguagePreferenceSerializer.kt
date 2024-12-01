@@ -10,20 +10,16 @@ import java.io.OutputStream
 
 object LanguagePreferenceSerializer : Serializer<LanguagePreference> {
 
-    override val defaultValue: LanguagePreference = LanguagePreference(Language.ENGLISH.code)
+    override val defaultValue: LanguagePreference = LanguagePreference.getDefaultInstance()
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun readFrom(input: InputStream): LanguagePreference {
         try {
-            return LanguagePreference.ADAPTER.decode(input)
+            return LanguagePreference.parseFrom(input)
         } catch (exception: IOException) {
             throw CorruptionException("Cannot read proto", exception)
         }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun writeTo(t: LanguagePreference, output: OutputStream) {
-        LanguagePreference.ADAPTER.encode(output, t)
-    }
+    override suspend fun writeTo(t: LanguagePreference, output: OutputStream) = t.writeTo(output)
 
 }

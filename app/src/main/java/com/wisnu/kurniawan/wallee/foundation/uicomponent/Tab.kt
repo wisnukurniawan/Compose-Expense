@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,8 +28,9 @@ fun PgTabRow(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onSurface,
         indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
+            SecondaryIndicator(
+                modifier = Modifier
+                    .tabIndicatorOffset(tabPositions[selectedTabIndex])
                     .padding(horizontal = 8.dp)
                     .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)),
                 height = 3.dp,

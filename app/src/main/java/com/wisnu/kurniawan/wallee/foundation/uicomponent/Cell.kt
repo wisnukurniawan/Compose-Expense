@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -164,7 +165,7 @@ fun ActionContentCell(
                             .height(1.dp)
                             .background(color = MaterialTheme.colorScheme.secondary)
                     )
-                    Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
+                    HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
                 }
             }
         }
@@ -228,7 +229,7 @@ fun ActionContentCell(
                             .height(1.dp)
                             .background(color = MaterialTheme.colorScheme.secondary)
                     )
-                    Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
+                    HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = DividerAlpha))
                 }
             }
         }

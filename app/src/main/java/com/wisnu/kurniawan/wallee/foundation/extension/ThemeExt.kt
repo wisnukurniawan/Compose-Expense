@@ -3,7 +3,7 @@ package com.wisnu.kurniawan.wallee.foundation.extension
 import com.wisnu.kurniawan.wallee.foundation.datasource.preference.model.ThemePreference
 import com.wisnu.kurniawan.wallee.model.Theme
 
-fun ThemePreference.toTheme() = when (this.value_) {
+fun ThemePreference.toTheme() = when (this.value) {
     Theme.LIGHT.value -> Theme.LIGHT
     Theme.TWILIGHT.value -> Theme.TWILIGHT
     Theme.NIGHT.value -> Theme.NIGHT
