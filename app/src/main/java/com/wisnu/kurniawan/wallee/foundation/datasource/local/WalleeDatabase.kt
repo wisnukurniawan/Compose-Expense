@@ -44,7 +44,7 @@ abstract class WalleeDatabase : RoomDatabase() {
                 WalleeDatabase::class.java,
                 DB_NAME
             )
-                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration(false)
 
             return db.build()
         }
